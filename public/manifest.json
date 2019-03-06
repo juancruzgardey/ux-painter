@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "UX-Painter React",
+  "description": "This extension is a starting point to create a real Chrome extension",
+  "version": "0.0.1",
+  "browser_action": {
+  },
+  "content_scripts" : [
+    {
+      "matches": [ "<all_urls>" ],
+      "css": ["/static/css/0.chunk.css","/static/css/1.chunk.css", "/andes-highlighting.css"],
+      "js": ["/static/js/0.chunk.js", "/static/js/1.chunk.js", "/static/js/content.js"]
+    }
+  ],
+  "web_accessible_resources":[
+    "/static/css/0.chunk.css", "/static/css/1.chunk.css"
+  ],
+  "background": {
+    "scripts": ["app/background.js"]
+  },
+  "permissions": [
+  ]
+}
