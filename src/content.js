@@ -2,6 +2,7 @@
 /* src/content.js */
 import React from 'react';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
+import "bootstrap/dist/css/bootstrap.css";
 import "./content.css";
 import RefactoringListView from './components/RefactoringListView';
 import Router from "route-lite";
@@ -10,14 +11,15 @@ class Main extends React.Component {
 
     render() {
         return (
-            <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/1.chunk.css")} ></link>]}>
+            <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/1.chunk.css")} ></link>,
+                <link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/0.chunk.css")} ></link>]}>
                 <FrameContextConsumer>
                     {
                         // Callback is invoked with iframe's window and document instances
                         ({document, window}) => {
                             // Render Children
                             return (
-                                <div className={'my-extension'}>
+                                <div className={'ux-painter container'}>
                                     <Router>
                                         <RefactoringListView/>
                                     </Router>

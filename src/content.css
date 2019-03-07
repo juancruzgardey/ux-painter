@@ -1,6 +1,25 @@
-.my-extension {
+.ux-painter {
     padding: 20px;
 }
-.my-extension h1 {
+.ux-painter h2 {
     color: #000;
+}
+
+.ux-painter ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.ux-painter ul li:hover {
+    background-color: #efefef;
+}
+
+.ux-painter li {
+    margin: 5px;
+}
+
+.ux-painter li a {
+    text-decoration: none;
+    color: #ffc107;
+    font-weight: bold;
 }

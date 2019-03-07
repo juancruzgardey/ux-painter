@@ -19,9 +19,9 @@ class RenameElementView extends React.Component {
     render () {
         return (
             <RefactoringOnElementView refactoring={this.refactoring}>
-                <div className={'ux-painter-form-group'}>
+                <div className={'form-group'}>
                     <label>Element Name</label>
-                    <input type={'text'} id={'uxpainter-element-name'} onChange={this.handleChange}/>
+                    <input type={'text'} className={'form-control'} id={'uxpainter-element-name'} onChange={this.handleChange}/>
                 </div>
             </RefactoringOnElementView>
         )

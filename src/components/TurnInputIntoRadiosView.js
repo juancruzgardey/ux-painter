@@ -31,15 +31,15 @@ class TurnInputIntoRadiosView extends React.Component {
     render () {
         return (
             <RefactoringOnElementView refactoring={this.refactoring}>
-                <div className={'ux-painter-form-group'}>
+                <div className={'form-group'}>
                     <label>Values</label>
-                    <input type={'text'} onChange={this.handleChange}/>
+                    <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
                 </div>
-                <div className={'ux-painter-form-group'}>
+                <div className={'form-group'}>
                     <p><label>Options Inline</label> <input type={'radio'} value={'inline-block'} name={'options_display'} onChange={this.handleOptionsDisplay}/></p>
                     <p><label>Options in Block</label> <input type={'radio'} checked={true} value={'block'} name={'options_display'} onChange={this.handleOptionsDisplay}/></p>
                 </div>
-                <div className={'ux-painter-form-group'}>
+                <div className={'form-group'}>
                     <p><label>Labels on the left</label> <input type={'radio'} value={'left'} name={'label_position'} onChange={this.handleLabelPosition}/></p>
                     <p><label>Labels on the right</label> <input type={'radio'} value={'right'} checked={true} name={'label_position'} onChange={this.handleLabelPosition}/></p>
                 </div>

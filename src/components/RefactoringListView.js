@@ -20,7 +20,7 @@ class RefactoringListView extends React.Component {
             return <li><Link component={ElementSelectionView} componentProps={{refactoring: refactoring}}>{refactoring.asString()}</Link></li>
         });
         return ([
-                <h1>Availables Refactorings</h1>,
+                <h2 className={'text-center'}>Refactorings</h2>,
                 <ul>
                     {listItems}
                 </ul>]

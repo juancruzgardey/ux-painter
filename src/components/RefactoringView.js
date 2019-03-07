@@ -19,13 +19,17 @@ class RefactoringView extends React.Component {
     render () {
         const refactoringUrl = document.location.href.replace(document.location.search, "");
         return (
-            <div id={"uxpainter-refactoring-form"}>
-                <h2>{this.refactoring.constructor.asString()}</h2>
-                <input type={'hidden'} id={'url_for_instance'} value={refactoringUrl}/>
-                {this.props.children}
-                <div className={'uxpainter-form-group'}>
-                    <Link onClick={this.handleSubmit} component={RefactoringListView}>Apply</Link>
-                    <Link onClick={() => goBack()}>Cancel</Link>
+            <div className={"row"}>
+                <div className={'col-md-12'}>
+                    <h2>{this.refactoring.constructor.asString()}</h2>
+                    <input type={'hidden'} id={'url_for_instance'} value={refactoringUrl}/>
+                    {this.props.children}
+                    <div className={'form-group'}>
+                        <Link className={'btn btn-warning'} onClick={this.handleSubmit} component={RefactoringListView}>Refactor</Link>
+                    </div>
+                    <div className={'form-group'}>
+                        <Link className={'btn btn-secondary'} onClick={() => goBack()}>Back</Link>
+                    </div>
                 </div>
             </div>
         )

@@ -10,7 +10,7 @@ class RefactoringOnElementView extends React.Component {
     render () {
         return (
             <RefactoringView refactoring={this.props.refactoring}>
-                <div className={'uxpainter-form-group'}>
+                <div className={'form-group'}>
                     <label>Target Element</label>
                     <p>{this.props.refactoring.getElementXpath()}</p>
                 </div>
