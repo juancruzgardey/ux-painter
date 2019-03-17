@@ -24,6 +24,11 @@
     font-weight: bold;
 }
 
-.target_element_image {
+.target_element_image, .preview-container {
     border: 1px solid #6c757d;
 }
+
+.inline-link {
+    margin: 5px;
+}
+

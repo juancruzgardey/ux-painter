@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, goBack } from 'route-lite';
+import RefactoringPreview from "./RefactoringPreview";
 import RefactoringListView from "./RefactoringListView";
 
 class RefactoringView extends React.Component {
@@ -18,6 +19,7 @@ class RefactoringView extends React.Component {
 
     render () {
         const refactoringUrl = document.location.href.replace(document.location.search, "");
+
         return (
             <div className={"row"}>
                 <div className={'col-md-12'}>
@@ -25,7 +27,8 @@ class RefactoringView extends React.Component {
                     <input type={'hidden'} id={'url_for_instance'} value={refactoringUrl}/>
                     {this.props.children}
                     <div className={'form-group'}>
-                        <Link className={'btn btn-warning'} onClick={this.handleSubmit} component={RefactoringListView}>Refactor</Link>
+                            <Link className={'btn btn-warning inline-link'} onClick={this.handleSubmit} component={RefactoringListView}>Refactor</Link>
+                            <Link className={'btn btn-dark inline-link'}  componentProps={{"refactoring": this.refactoring}} component={RefactoringPreview}>Preview</Link>
                     </div>
                     <div className={'form-group'}>
                         <Link className={'btn btn-secondary'} onClick={() => goBack()}>Back</Link>

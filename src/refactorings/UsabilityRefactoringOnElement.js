@@ -7,8 +7,12 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         super();
     }
 
-    setElement(elementXpath) {
+    setElementXpath(elementXpath) {
         this.elementXpath = elementXpath;
+    }
+
+    setElement(anElement) {
+        this.targetElement = anElement;
     }
 
     getElementXpath () {
@@ -16,11 +20,14 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     }
 
     getElement() {
-        return new XPathInterpreter().getSingleElementByXpath(this.elementXpath, document.body);
+        if (!this.targetElement) {
+            this.targetElement = new XPathInterpreter().getSingleElementByXpath(this.elementXpath, document.body);
+        }
+        return this.targetElement;
     }
 
     initialize () {
-        this.targetElement = this.getElement();
+
     }
 
     serialize () {

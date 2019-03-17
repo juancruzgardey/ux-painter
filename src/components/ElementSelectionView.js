@@ -28,7 +28,7 @@ class ElementSelectionView extends React.Component {
     onElementSelected(anElement) {
         const elementXpath = (new XPathInterpreter()).getPath(anElement, document.body)[0];
         this.setState({elementXpath: elementXpath});
-        this.refactoring.setElement(elementXpath);
+        this.refactoring.setElementXpath(elementXpath);
         const me = this;
         domtoimage.toPng(anElement, {width: 300, height: 200}).then(function (dataUrl) {
             me.targetElementImage.current.src = dataUrl;
