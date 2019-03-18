@@ -89,6 +89,7 @@ class StyleScrapper {
         });
         return allLeafElements;
     }
-    
 
 }
+
+export default StyleScrapper;

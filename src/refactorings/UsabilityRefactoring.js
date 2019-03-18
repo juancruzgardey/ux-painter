@@ -1,6 +1,10 @@
+import StyleScrapper from '../scrappers/StyleScrapper';
 
 class UsabilityRefactoring {
-    constructor () {}
+    constructor () {
+        this.styleScrapper = new StyleScrapper();
+    }
+
     initialize () {}
     transform () {}
     applyStyle () {}
@@ -22,6 +26,10 @@ class UsabilityRefactoring {
 
     createRefactoring(json) {
         return new window[json.refactoring](json);
+    }
+
+    getStyleScrapper() {
+        return this.styleScrapper;
     }
 }
 
