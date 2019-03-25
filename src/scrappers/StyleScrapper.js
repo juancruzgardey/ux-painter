@@ -1,5 +1,10 @@
 class StyleScrapper {
 
+    constructor() {
+        this.contrastRatioThreshold = 3;
+        this.elementsQtyThreshold = 10;
+    }
+
     /**
      * Return a list of dictionaries with leaf elements.
      */
@@ -7,13 +12,18 @@ class StyleScrapper {
         let elementsStyle = [];
         const allTextElements = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
         for (let i = 0; i < allTextElements.length; i++) {
-            let elementStyle = {
-                "element": allTextElements[i],
-                "color": window.getComputedStyle(allTextElements[i]).getPropertyValue("color"),
-                "fontFamily": window.getComputedStyle(allTextElements[i]).getPropertyValue("font=family"),
-                "backgroundColor": this.getElementBackGroundColor(allTextElements[i])
-            };
-            elementsStyle.push(elementStyle);
+            const color = window.getComputedStyle(allTextElements[i]).getPropertyValue("color");
+            const backgroundColor = this.getElementBackGroundColor(allTextElements[i]);
+
+            if (this.getContrastRatio(backgroundColor,color) > this.contrastRatioThreshold) {
+                let elementStyle = {
+                    "element": allTextElements[i],
+                    "color": color,
+                    "fontFamily": window.getComputedStyle(allTextElements[i]).getPropertyValue("font=family"),
+                    "backgroundColor": backgroundColor
+                };
+                elementsStyle.push(elementStyle);
+            }
         }
         return elementsStyle;
     }
@@ -31,10 +41,11 @@ class StyleScrapper {
 
     getElementBackGroundColor(element) {
         let currentElement = element;
-        while (window.getComputedStyle(currentElement).getPropertyValue("background-color") == "rgba(0, 0, 0, 0)") {
+        while (window.getComputedStyle(currentElement).getPropertyValue("background-color") == "rgba(0, 0, 0, 0)"
+            && currentElement != document.body) {
             currentElement = currentElement.parentNode;
         }
-        return window.getComputedStyle(currentElement).getPropertyValue("background-color");
+        return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(0, 0, 0)";
     }
 
     getColorLuminance(color) {
@@ -90,6 +101,11 @@ class StyleScrapper {
         return allLeafElements;
     }
 
+    getRandomStyle(element) {
+        var nearestElements = this.getLeafElementsByDistance(element).slice(0, this.elementsQtyThreshold);
+        return nearestElements[Math.floor(Math.random() * nearestElements.length)];
+    }
+
     getElementComputedStyle (anElement) {
         return Object.assign({}, window.getComputedStyle(anElement));
     }
@@ -99,6 +115,7 @@ class StyleScrapper {
             return targetElement.style.setProperty(key, computedStyle[key], targetElement.style.getPropertyPriority(key));
         });
     }
+
 
 }
 
