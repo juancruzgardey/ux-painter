@@ -47,8 +47,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     applyStyles() {
-        const basicStyle = this.getStyleScrapper().getLeafElementsByDistance(this.getElement())[1];
-        const highlightedItemStyle = this.getStyleScrapper().getLeafElementsByDistance(this.getElement())[0];
+        const allStyles = this.getStyleScrapper().getLeafElementsByDistance(this.getElement());
+
+        const basicStyle = allStyles[Math.floor(Math.random() * allStyles.length)];
+        const highlightedItemStyle = allStyles[Math.floor(Math.random() * allStyles.length)];
 
         this.getAutocompleteList().style.backgroundColor = basicStyle.backgroundColor;
 
