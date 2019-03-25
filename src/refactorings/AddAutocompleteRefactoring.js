@@ -10,8 +10,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         super();
     }
 
-    transform(){
+    transform() {
+        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement());
         new Awesomplete(this.getElement(), {list: this.values});
+        this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
         this.applyStyles();
     }
 
@@ -69,11 +71,6 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
             }
         });
     }
-
-
-
-
-
 };
 
 export default AddAutocompleteRefactoring;

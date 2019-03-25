@@ -90,6 +90,16 @@ class StyleScrapper {
         return allLeafElements;
     }
 
+    getElementComputedStyle (anElement) {
+        return Object.assign({}, window.getComputedStyle(anElement));
+    }
+
+    updateElementStyle (targetElement, computedStyle) {
+        Object.keys(computedStyle).forEach(function(key) {
+            return targetElement.style.setProperty(key, computedStyle[key], targetElement.style.getPropertyPriority(key));
+        });
+    }
+
 }
 
 export default StyleScrapper;
