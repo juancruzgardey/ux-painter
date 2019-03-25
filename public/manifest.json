@@ -12,7 +12,7 @@
       "js": ["/static/js/0.chunk.js", "/static/js/1.chunk.js", "/static/js/content.js"]
     }
   ],
-  "web_accessible_resources":["/static/css/1.chunk.css"],
+  "web_accessible_resources":["/static/css/1.chunk.css","/static/css/0.chunk.css"],
   "background": {
     "scripts": ["app/background.js"]
   },

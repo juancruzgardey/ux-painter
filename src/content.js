@@ -10,7 +10,9 @@ class Main extends React.Component {
 
     render() {
         return (
-            <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/1.chunk.css")} ></link>,
+            <div className={'uxpainter-frame'} style={{height: "100%"}}>
+            <Frame head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/0.chunk.css")} ></link>,
+                <link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/1.chunk.css")} ></link>,
                 <link type="text/css" rel="stylesheet" href={'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'} ></link>]}>
                 <FrameContextConsumer>
                     {
@@ -28,6 +30,7 @@ class Main extends React.Component {
                     }
                 </FrameContextConsumer>
             </Frame>
+            </div>
         )
     }
 }
