@@ -1,7 +1,7 @@
 class StyleScrapper {
 
     constructor() {
-        this.contrastRatioThreshold = 3;
+        this.contrastRatioThreshold = 2;
         this.elementsQtyThreshold = 10;
     }
 
@@ -15,7 +15,7 @@ class StyleScrapper {
             const color = window.getComputedStyle(allTextElements[i]).getPropertyValue("color");
             const backgroundColor = this.getElementBackGroundColor(allTextElements[i]);
 
-            if (this.getContrastRatio(backgroundColor,color) > this.contrastRatioThreshold) {
+            if (this.getContrastRatio(color, backgroundColor) > this.contrastRatioThreshold) {
                 let elementStyle = {
                     "element": allTextElements[i],
                     "color": color,
