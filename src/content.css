@@ -53,7 +53,7 @@
     margin: 10px;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 70%;
 }
 
 /* The Close Button */
@@ -71,6 +71,6 @@
     cursor: pointer;
 }
 
-ux-painter-modal-title {
+.ux-painter-modal-title {
     text-align: center;
 }

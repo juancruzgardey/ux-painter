@@ -29,6 +29,9 @@ class RefactoringView extends React.Component {
     }
 
     handlePreviewClick () {
+        this.modal.parentNode.removeChild(this.modal);
+        this.createModal();
+
         const clonedTargetElement = this.originalTargetElement.cloneNode(true);
         this.refactoring.setElement(clonedTargetElement);
 
