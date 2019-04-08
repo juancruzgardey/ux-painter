@@ -1,42 +1,51 @@
 class StyleScrapper {
 
     constructor() {
-        this.contrastRatioThreshold = 2;
-        this.elementsQtyThreshold = 10;
+        this.contrastRatioThreshold = 0;
+        this.elementsQtyThreshold = 5;
     }
 
     /**
      * Return a list of dictionaries with leaf elements.
      */
-    getLeafElements () {
+    getLeafElements (targetElement) {
         let elementsStyle = [];
         const allTextElements = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
         for (let i = 0; i < allTextElements.length; i++) {
             const color = window.getComputedStyle(allTextElements[i]).getPropertyValue("color");
             const backgroundColor = this.getElementBackGroundColor(allTextElements[i]);
 
-            if (this.getContrastRatio(color, backgroundColor) > this.contrastRatioThreshold) {
-                let elementStyle = {
-                    "element": allTextElements[i],
+            let elementStyle = this.getStyle({"backgroundColor": backgroundColor, "color": color}, elementsStyle);
+            if (elementStyle) {
+                elementStyle.weight += 1;
+                if (this.getDistanceBetweenElements(targetElement, allTextElements[i]) < elementStyle.minimalDistance) {
+                    elementStyle.minimalDistance = this.getDistanceBetweenElements(targetElement, allTextElements[i]);
+                }
+            }
+            else {
+                elementStyle = {
                     "color": color,
-                    "fontFamily": window.getComputedStyle(allTextElements[i]).getPropertyValue("font=family"),
-                    "backgroundColor": backgroundColor
+                    "background-color": backgroundColor,
+                    "weight": 1,
+                    "minimalDistance": this.getDistanceBetweenElements(targetElement, allTextElements[i])
                 };
                 elementsStyle.push(elementStyle);
             }
         }
+        elementsStyle.sort(function (a, b) {
+            return b.weight - a.weight;
+        });
         return elementsStyle;
     }
 
-    existsElementWithStyle(elementStyle, elementsCollection) {
-        let found = false;
-        for (let i = 0; (i < elementsCollection.length && !found); i++) {
-            if (elementsCollection[i].color == elementStyle.color &&
-                elementsCollection[i].backgroundColor == elementStyle.backgroundColor) {
-                found = true;
+    getStyle(style, elementsCollection) {
+        for (let i = 0; (i < elementsCollection.length); i++) {
+            if (elementsCollection[i].color == style.color &&
+                elementsCollection[i].backgroundColor == style.backgroundColor) {
+                return elementsCollection[i];
             }
         }
-        return found;
+        return null;
     }
 
     getElementBackGroundColor(element) {
@@ -45,7 +54,7 @@ class StyleScrapper {
             && currentElement != document.body) {
             currentElement = currentElement.parentNode;
         }
-        return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(0, 0, 0)";
+        return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(255, 255, 255)";
     }
 
     getColorLuminance(color) {
@@ -102,7 +111,7 @@ class StyleScrapper {
     }
 
     getRandomStyle(element) {
-        var nearestElements = this.getLeafElementsByDistance(element).slice(0, this.elementsQtyThreshold);
+        const nearestElements = this.getLeafElements(element).slice(0, this.elementsQtyThreshold);
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 

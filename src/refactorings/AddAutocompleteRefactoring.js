@@ -14,11 +14,19 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement());
         new Awesomplete(this.getElement(), {list: this.values});
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
-        this.applyStyles();
+        this.scrapStyles();
+        const me = this;
+        this.getElement().addEventListener("keyup", function () {
+          me.applyStyles();
+        });
     }
 
     setValues(aList) {
         this.values = aList;
+    }
+
+    getValues() {
+        return this.values;
     }
 
     getView() {
@@ -35,26 +43,30 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
 
     getAutocompleteList() {
-        return document.querySelector("#" + this.getElement().getAttribute("aria-owns"));
+        return document.querySelectorAll("#" + this.getElement().getAttribute("aria-owns"));
     }
 
     getAutocompleteListElements() {
-        return this.getAutocompleteList().querySelectorAll("li");
+        return this.getAutocompleteList()[0].querySelectorAll("li");
     }
 
-    getHighlightedElements(listElement) {
-        return listElement.querySelectorAll("mark");
+    getHighlightedElements() {
+        return this.getAutocompleteList()[0].querySelectorAll("mark");
     }
 
-    applyStyles() {
-        const allStyles = this.getStyleScrapper().getLeafElementsByDistance(this.getElement());
+    scrapStyles() {
+        this.styles = [];
 
-        const basicStyle = allStyles[Math.floor(Math.random() * allStyles.length)];
-        const highlightedItemStyle = allStyles[Math.floor(Math.random() * allStyles.length)];
+        const basicStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
+        const highlightedItemStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
 
-        this.getAutocompleteList().style.backgroundColor = basicStyle.backgroundColor;
+        this.styles.push({element: "getAutocompleteList", style: {"background-color": basicStyle.backgroundColor}});
 
-        const me = this;
+        //const me = this;
+
+        this.styles.push({element: "getAutocompleteListElements", style:{"color": basicStyle.color}});
+        this.styles.push({element: "getHighlightedElements", style: highlightedItemStyle});
+        /*
         this.getElement().addEventListener("keyup", function () {
             let listElements = me.getAutocompleteListElements();
             if (!listElements) {
@@ -72,6 +84,13 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
                 }
             }
         });
+        */
+    }
+
+    clone() {
+        let clonedRefactoring = super.clone();
+        clonedRefactoring.setValues(this.getValues());
+        return clonedRefactoring;
     }
 };
 
