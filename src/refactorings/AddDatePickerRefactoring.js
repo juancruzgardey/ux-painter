@@ -10,13 +10,28 @@ datepickerFactory($);
 
 class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
 
-    transform () {
-        $(this.getElement()).datepicker({ dateFormat: "d/m/y" });
+    transformElement(anElement) {
+        $(anElement).datepicker({ dateFormat: "d/m/y" });
+    }
 
+    previewOnElement(anElement) {
+        this.transformElement(anElement);
+        const me = this;
+    }
+
+    transform () {
+        this.transformElement(this.getElement());
+        this.styleScrapped = false;
         const me = this;
         this.getElement().addEventListener("focus", function () {
+            if (!this.styleScrapped) {
+                me.scrapStyles();
+                this.styleScrapped = true;
+            }
             me.applyStyles();
-        })
+        });
+
+
     }
 
     targetElements () {
@@ -32,7 +47,7 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getDatePickerTitle() {
-        return document.querySelector(".ui-datepicker-header");
+        return document.querySelectorAll(".ui-datepicker-header");
     }
 
     getHeaderElements() {
@@ -44,32 +59,24 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getDatePickerTable() {
-        return document.querySelector("table.ui-datepicker-calendar");
+        return document.querySelectorAll("table.ui-datepicker-calendar");
     }
 
-    applyStyles () {
+    scrapStyles () {
+        this.styles = [];
         const headerStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.getDatePickerTitle().style.color = headerStyle.color;
-        this.getDatePickerTitle().style.backgroundColor = headerStyle.backgroundColor;
+        this.styles.push({element: "getDatePickerTitle", style: headerStyle});
 
         // selectable elements style
         const selectableElementStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        const selectableElements = this.getSelectableElements();
-        for (let i = 0; i < selectableElements.length; i++) {
-            selectableElements[i].style.color = selectableElementStyle.color;
-            selectableElements[i].style.backgroundColor = selectableElementStyle.backgroundColor;
-        }
+        this.styles.push({element: "getSelectableElements", style: selectableElementStyle});
 
         // table style
         const tableStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.getDatePickerTable().style.backgroundColor = tableStyle.backgroundColor;
-        const headerElements = this.getHeaderElements();
-        for (let i = 0; i < headerElements.length; i++) {
-            headerElements[i].style.color = tableStyle.color;
-        }
+        this.styles.push({element: "getDatePickerTable", style: {"background-color": tableStyle["background-color"]}});
 
+        this.styles.push({element: "getHeaderElements", style: {"color": tableStyle.color}});
     }
-
 }
 
 export default AddDatePickerRefactoring;

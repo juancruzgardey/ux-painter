@@ -13,8 +13,14 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
         if (this.getElement() !== undefined) {
             this.getElement().className += " tip";
             this.getElement().setAttribute("data-tip", this.tooltipName);
+
             $(this.getElement()).tipr();
-            this.applyStyle();
+            this.scrapStyles();
+            const me = this;
+            this.getElement().addEventListener("mousemove", function () {
+                me.applyStyles();
+            });
+
         }
     }
 
@@ -35,18 +41,21 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getTooltipElement() {
-        return this.getElement().querySelector(".tipr_content");
+        return this.getElement().querySelectorAll(".tipr_content");
     }
 
-    applyStyle() {
+    scrapStyles() {
+        this.styles = [];
         const tooltipStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        const me = this;
-        this.getElement().addEventListener("mousemove", function () {
-            if (me.getTooltipElement()) {
-                me.getTooltipElement().style.color = tooltipStyle.color;
-                me.getTooltipElement().style.backgroundColor = tooltipStyle.backgroundColor;
-            }
-        });
+        this.styles.push({element: "getTooltipElement", style: tooltipStyle});
+
+
+    }
+
+    clone () {
+        let clonedRefactoring = super.clone();
+        clonedRefactoring.setTooltipName(this.tooltipName);
+        return clonedRefactoring;
     }
 
     static asString () {
