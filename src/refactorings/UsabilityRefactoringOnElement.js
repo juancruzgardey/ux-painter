@@ -63,6 +63,12 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         this.getStyleElement().setAttribute("style", newStyle);
     }
 
+    clone () {
+        let clonedRefactoring = new this.constructor();
+        clonedRefactoring.setElement(this.getElement().cloneNode(true));
+        return clonedRefactoring;
+    }
+
 }
 
 export default UsabilityRefactoringOnElement;

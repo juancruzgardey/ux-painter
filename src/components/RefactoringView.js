@@ -13,6 +13,7 @@ class RefactoringView extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePreviewClick = this.handlePreviewClick.bind(this);
         this.originalTargetElement = this.refactoring.getElement();
+        this.originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         this.createModal();
     }
 
@@ -24,24 +25,35 @@ class RefactoringView extends React.Component {
     }
 
     handleSubmit() {
-        this.refactoring.setElement(this.originalTargetElement);
+        //this.refactoring.setElement(this.originalTargetElement);
         this.refactoring.execute();
+    }
+
+    createPreviews() {
+        let previewElements = [];
+        for (let i = 0; i < 3; i++) {
+            const targetElementParent = this.originalTargetElement.parentNode.cloneNode(true);
+            // executes the refactoring on the cloned element
+            let targetElement = targetElementParent.querySelector("[data-uxpainter-id='" +  this.originalTargetElement.getAttribute("data-uxpainter-id") + "']");
+
+            let previewRefactoring = this.refactoring.clone();
+            previewRefactoring.setElement(targetElement);
+            previewRefactoring.execute();
+
+            previewElements.push(targetElementParent);
+        }
+        return previewElements;
     }
 
     handlePreviewClick () {
         this.modal.parentNode.removeChild(this.modal);
         this.createModal();
 
-        const clonedTargetElement = this.originalTargetElement.cloneNode(true);
-        this.refactoring.setElement(clonedTargetElement);
+        const previewElements = this.createPreviews();
 
-        // executes the refactoring on the cloned element
-        this.refactoring.execute();
-
-        ReactDOM.render(<PreviewModal targetElement={clonedTargetElement}/>, this.modal);
+        ReactDOM.render(<PreviewModal targetElements={previewElements}/>, this.modal);
         this.modal.style.display = "block";
     }
-
 
     render () {
         const refactoringUrl = document.location.href.replace(document.location.search, "");
