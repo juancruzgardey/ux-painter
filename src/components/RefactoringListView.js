@@ -7,17 +7,24 @@ import TurnInputIntoRadiosRefactoring from "../refactorings/TurnInputIntoRadiosR
 import AddDatePickerRefactoring from "../refactorings/AddDatePickerRefactoring";
 import DateInputIntoSelectsRefactoring from "../refactorings/DateInputIntoSelectsRefactoring";
 import AddAutocompleteRefactoring from "../refactorings/AddAutocompleteRefactoring";
+import ResizeInputRefactoring from "../refactorings/ResizeInputRefactoring";
+import LinkToTopRefactoring from "../refactorings/LinkToTopRefactoring";
+import RefactoringView from "./RefactoringView";
 
 class RefactoringListView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.refactorings = [RenameElementRefactoring, AddTooltipRefactoring, TurnInputIntoRadiosRefactoring, AddDatePickerRefactoring, DateInputIntoSelectsRefactoring, AddAutocompleteRefactoring];
+        this.refactorings = [RenameElementRefactoring, AddTooltipRefactoring, TurnInputIntoRadiosRefactoring, AddDatePickerRefactoring, DateInputIntoSelectsRefactoring, AddAutocompleteRefactoring,
+        ResizeInputRefactoring,LinkToTopRefactoring];
     }
 
     render () {
-        const listItems = this.refactorings.map((refactoring, i) => {
-            return <li><Link component={ElementSelectionView} componentProps={{refactoring: refactoring}}>{refactoring.asString()}</Link></li>
+        const me = this;
+        const listItems = this.refactorings.map((refactoringClass, i) => {
+            let nextComponent;
+            let refactoring = new refactoringClass();
+            return <li><Link component={me.nextComponent(refactoring)} componentProps={{refactoring: refactoring}}>{refactoringClass.asString()}</Link></li>
         });
         return ([
                 <h2 className={'text-center'}>Refactorings</h2>,
@@ -25,6 +32,15 @@ class RefactoringListView extends React.Component {
                     {listItems}
                 </ul>]
         )
+    }
+
+    nextComponent(aRefactoring) {
+        if (aRefactoring.getElement()) {
+            return RefactoringView;
+        }
+        else {
+            return ElementSelectionView;
+        }
     }
 }
 

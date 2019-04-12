@@ -9,7 +9,7 @@ class ElementSelectionView extends React.Component {
     constructor (props) {
         super(props);
         this.state = {elementXpath: ""};
-        this.refactoring = new this.props.refactoring();
+        this.refactoring = this.props.refactoring;
         this.pageSelector = new PageSelector (this);
         this.pageSelector.enableElementSelection({
             "scrapperClass": "QuerySelectorScrapper",

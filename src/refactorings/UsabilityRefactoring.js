@@ -1,4 +1,5 @@
 import StyleScrapper from '../scrappers/StyleScrapper';
+import RefactoringView from "../components/RefactoringView";
 
 class UsabilityRefactoring {
     constructor () {

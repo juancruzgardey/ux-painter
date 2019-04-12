@@ -1,5 +1,6 @@
 import XPathInterpreter from "./XPathInterpreter";
 import UsabilityRefactoring from "./UsabilityRefactoring";
+import ElementSelectionView from "../components/ElementSelectionView";
 
 class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
