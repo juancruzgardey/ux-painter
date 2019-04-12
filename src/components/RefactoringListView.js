@@ -10,19 +10,19 @@ import AddAutocompleteRefactoring from "../refactorings/AddAutocompleteRefactori
 import ResizeInputRefactoring from "../refactorings/ResizeInputRefactoring";
 import LinkToTopRefactoring from "../refactorings/LinkToTopRefactoring";
 import RefactoringView from "./RefactoringView";
+import TurnAttributeIntoLinkRefactoring from "../refactorings/TurnAttributeIntoLinkRefactoring";
 
 class RefactoringListView extends React.Component {
 
     constructor(props) {
         super(props);
         this.refactorings = [RenameElementRefactoring, AddTooltipRefactoring, TurnInputIntoRadiosRefactoring, AddDatePickerRefactoring, DateInputIntoSelectsRefactoring, AddAutocompleteRefactoring,
-        ResizeInputRefactoring,LinkToTopRefactoring];
+        ResizeInputRefactoring,LinkToTopRefactoring, TurnAttributeIntoLinkRefactoring];
     }
 
     render () {
         const me = this;
         const listItems = this.refactorings.map((refactoringClass, i) => {
-            let nextComponent;
             let refactoring = new refactoringClass();
             return <li><Link component={me.nextComponent(refactoring)} componentProps={{refactoring: refactoring}}>{refactoringClass.asString()}</Link></li>
         });
