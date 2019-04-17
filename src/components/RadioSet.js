@@ -13,24 +13,21 @@ class RadioSet extends React.Component {
         const me = this;
         const radios = this.props.values.map((value, i) => {
             return <p style={{display: me.props.display}}>
-                {me.renderRadio(value,radioName, me.props.labelPosition, this.handleChange)}
+                <input type={'radio'} value={value} name={radioName} onChange={me.handleChange}/>
+                <label style={{cursor:'pointer'}}>{value}</label>
             </p>
         });
 
         return (
             <div className={'uxpainter-radio-set'}>
                 {radios}
-                {this.renderRadio('Other', radioName, this.props.labelPosition, this.handleOtherRadio)}
+                <input type={'radio'} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>
+                <label style={{cursor:'pointer'}}>Other</label>
                 <input type={'text'} style={{display:"none"}} onChange={this.handleChange} ref={this.otherFreeInput}/>
             </div>
         )
     }
 
-    renderRadio(value, name, labelPosition, handler) {
-        const radioLabel = <label style={{cursor:'pointer'}}>{value}</label>
-        const radioInput = <input type={'radio'} value={value} name={name} onChange={handler}/>
-        return (labelPosition == "left")? [radioInput,radioLabel]:[radioLabel,radioInput]
-    }
 
     handleChange(event) {
         this.props.refactoring.getElement().value = event.target.value;

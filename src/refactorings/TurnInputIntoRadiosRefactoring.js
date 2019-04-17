@@ -18,19 +18,11 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         this.getElement().setAttribute("type", "hidden");
         const div = document.createElement("div");
         this.getElement().parentNode.appendChild(div);
-        ReactDOM.render(<RadioSet values={this.values} refactoring={this} display={this.optionDisplay} labelPosition={this.labelPosition}/>, div);
+        ReactDOM.render(<RadioSet values={this.values} refactoring={this}/>,div);
     }
 
     getView() {
         return TurnInputIntoRadiosView;
-    }
-
-    setLabelPosition(aString) {
-        this.labelPosition = aString;
-    }
-
-    setOptionDisplay(aString) {
-        this.optionDisplay = aString;
     }
 
     static asString () {
