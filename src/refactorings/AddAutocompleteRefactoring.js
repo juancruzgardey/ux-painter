@@ -14,7 +14,6 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement());
         new Awesomplete(this.getElement(), {list: this.values});
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
-        this.scrapStyles();
         const me = this;
         this.getElement().addEventListener("keyup", function () {
           me.applyStyles();
@@ -54,18 +53,18 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         return this.getAutocompleteList()[0].querySelectorAll("mark");
     }
 
-    scrapStyles() {
+    setStyles(styles) {
         this.styles = [];
 
         const basicStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
         const highlightedItemStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
 
-        this.styles.push({element: "getAutocompleteList", style: {"background-color": basicStyle.backgroundColor}});
+        this.styles.push({element: "getAutocompleteList", style: {"background-color": styles[0].backgroundColor}});
 
         //const me = this;
 
-        this.styles.push({element: "getAutocompleteListElements", style:{"color": basicStyle.color}});
-        this.styles.push({element: "getHighlightedElements", style: highlightedItemStyle});
+        this.styles.push({element: "getAutocompleteListElements", style:{"color": styles[0].color}});
+        this.styles.push({element: "getHighlightedElements", style: styles[1]});
         /*
         this.getElement().addEventListener("keyup", function () {
             let listElements = me.getAutocompleteListElements();

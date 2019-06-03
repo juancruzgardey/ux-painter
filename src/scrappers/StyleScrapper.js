@@ -1,14 +1,17 @@
+let Combinatorics = require('js-combinatorics');
+let Color = require('color');
+
 class StyleScrapper {
 
     constructor() {
         this.contrastRatioThreshold = 0;
-        this.elementsQtyThreshold = 5;
+        this.elementsQtyThreshold = 10;
     }
 
     /**
      * Return a list of dictionaries with leaf elements.
      */
-    getLeafElements (targetElement) {
+    getStyles (targetElement) {
         let elementsStyle = [];
         const allTextElements = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
         for (let i = 0; i < allTextElements.length; i++) {
@@ -40,8 +43,8 @@ class StyleScrapper {
 
     getStyle(style, elementsCollection) {
         for (let i = 0; (i < elementsCollection.length); i++) {
-            if (elementsCollection[i].color == style.color &&
-                elementsCollection[i].backgroundColor == style.backgroundColor) {
+            if (Math.abs(Color(elementsCollection[i].color).hue() - Color(style.color).hue()) <= 10 &&
+                Math.abs(Color(elementsCollection[i]["background-color"]).hue() - Color(style.backgroundColor).hue()) <= 10) {
                 return elementsCollection[i];
             }
         }
@@ -55,6 +58,15 @@ class StyleScrapper {
             currentElement = currentElement.parentNode;
         }
         return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(255, 255, 255)";
+    }
+
+    getStyleCombinations(targetElement, styleNumbers, limit) {
+        let combinations = Combinatorics.combination(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers);
+        let result = [];
+        for (let i = 0; i < limit; i++) {
+           result.push(combinations.next());
+        }
+        return result;
     }
 
     getColorLuminance(color) {
@@ -101,8 +113,8 @@ class StyleScrapper {
 
     }
     
-    getLeafElementsByDistance(element) {
-        let allLeafElements = this.getLeafElements();
+    getStylesByDistance(element) {
+        let allLeafElements = this.getStyles();
         const me = this;
         allLeafElements.sort(function (a, b) {
             return me.getDistanceBetweenElements(element, b.element) - me.getDistanceBetweenElements(element, a.element);
@@ -111,7 +123,7 @@ class StyleScrapper {
     }
 
     getRandomStyle(element) {
-        const nearestElements = this.getLeafElements(element).slice(0, this.elementsQtyThreshold);
+        const nearestElements = this.getStyles(element).slice(0, this.elementsQtyThreshold);
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { Link, goBack } from 'route-lite';
 import RefactoringListView from "./RefactoringListView";
 import PreviewModal from "./PreviewModal";
+import StyleScrapper from "../scrappers/StyleScrapper";
 
 class RefactoringView extends React.Component {
 
@@ -31,13 +32,17 @@ class RefactoringView extends React.Component {
 
     createPreviews() {
         let previewElements = [];
-        for (let i = 0; i < 3; i++) {
+        let styleScrapper = new StyleScrapper();
+        let styleCombinations = styleScrapper.getStyleCombinations(this.originalTargetElement,2,10);
+        console.log(styleCombinations);
+        for (let i = 0; i < 10; i++) {
             const targetElementParent = this.originalTargetElement.parentNode.cloneNode(true);
             // executes the refactoring on the cloned element
             let targetElement = targetElementParent.querySelector("[data-uxpainter-id='" +  this.originalTargetElement.getAttribute("data-uxpainter-id") + "']");
 
             let previewRefactoring = this.refactoring.clone();
             previewRefactoring.setElement(targetElement);
+            previewRefactoring.setStyles(styleCombinations[i]);
             previewRefactoring.execute();
 
             previewElements.push(targetElementParent);
