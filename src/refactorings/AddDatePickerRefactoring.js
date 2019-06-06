@@ -23,10 +23,10 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         this.transformElement(this.getElement());
         this.styleScrapped = false;
         const me = this;
+        this.getStyles();
         this.getElement().addEventListener("focus", function () {
             me.applyStyles();
         });
-
 
     }
 
@@ -58,6 +58,7 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         return document.querySelectorAll("table.ui-datepicker-calendar");
     }
 
+
     setStyles (styles) {
         this.styles = [];
         //const headerStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
@@ -72,6 +73,29 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         this.styles.push({element: "getDatePickerTable", style: {"background-color": styles[2]["background-color"]}});
 
         this.styles.push({element: "getHeaderElements", style: {"color": styles[2].color}});
+    }
+
+    getStylesFromExistingElement() {
+        let existingStyle = [];
+        let containerStyle = document.querySelector(".datepicker");
+        let dayElementStyle = document.querySelectorAll(".day, .selectDay");
+        if (containerStyle && dayElementStyle) {
+            existingStyle.push({"color": containerStyle.style.color, "backgroundColor": containerStyle.style.backgroundColor});
+            existingStyle.push({"color": dayElementStyle.style.color, "backgroundColor": dayElementStyle.style.backgroundColor});
+        }
+        return existingStyle;
+
+    }
+
+    getStyles () {
+        let styles = [];
+        if (this.getStyleScrapper().existsSimilarElement()) {
+            styles = this.getStylesFromExistingElement();
+        }
+        else {
+            styles = this.getStyleScrapper().styles.next();
+        }
+        this.setStyles(styles);
     }
 }
 

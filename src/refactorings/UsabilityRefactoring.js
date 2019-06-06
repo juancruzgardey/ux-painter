@@ -32,6 +32,10 @@ class UsabilityRefactoring {
     getStyleScrapper() {
         return this.styleScrapper;
     }
+
+    setStyleScrapper(aScrapper) {
+        this.styleScrapper = aScrapper;
+    }
 }
 
 export default UsabilityRefactoring;

@@ -6,6 +6,7 @@ class StyleScrapper {
     constructor() {
         this.contrastRatioThreshold = 0;
         this.elementsQtyThreshold = 10;
+        this.styles = null;
     }
 
     /**
@@ -60,13 +61,8 @@ class StyleScrapper {
         return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(255, 255, 255)";
     }
 
-    getStyleCombinations(targetElement, styleNumbers, limit) {
-        let combinations = Combinatorics.combination(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers);
-        let result = [];
-        for (let i = 0; i < limit; i++) {
-           result.push(combinations.next());
-        }
-        return result;
+    scrapStyles(targetElement, styleNumbers, limit) {
+        this.styles = Combinatorics.combination(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers);
     }
 
     getColorLuminance(color) {
@@ -135,6 +131,10 @@ class StyleScrapper {
         Object.keys(computedStyle).forEach(function(key) {
             return targetElement.style.setProperty(key, computedStyle[key], targetElement.style.getPropertyPriority(key));
         });
+    }
+
+    existsSimilarElement(anElement) {
+        return false;
     }
 
 
