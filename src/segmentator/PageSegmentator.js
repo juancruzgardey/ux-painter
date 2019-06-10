@@ -88,6 +88,9 @@ class PageSegmentator {
     }
 
     findPageSegmentsByDistance () {
+        if (this.segments) {
+            return this.segments;
+        }
         this.getInitialSegments();
         let merged = true;
         while (merged) {
@@ -105,7 +108,8 @@ class PageSegmentator {
             }
             let newSegments = [];
             for (var i = this.segments.length - 1; i >= 0; i--) {
-                var existingSegment = newSegments.filter(function (s) { return s.equals(this.segments[i])});
+                const me = this;
+                var existingSegment = newSegments.filter(function (s) { return s.equals(me.segments[i])});
                 if (existingSegment.length == 0) {
                     newSegments.push(this.segments[i]);
                 }
@@ -116,11 +120,16 @@ class PageSegmentator {
     }
 
     findPageSegmentOfElement(domElement) {
+        let elementWrapper = new DOMElementWrapper(domElement);
         const targetPageSegment = this.findPageSegmentsByDistance().filter(function (pageSegment) {
-            return pageSegment.findElement(new DOMElementWrapper(domElement));
+            return pageSegment.findElement(elementWrapper);
         });
-        return targetPageSegment?targetPageSegment[0]:null;
-
+        targetPageSegment.sort(function (a, b) {
+            return (elementWrapper.getNumberOfHops(a) - elementWrapper.getNumberOfHops(b)) < 0;
+        });
+        return targetPageSegment?targetPageSegment[0].domElement:null;
     }
 }
+
+export default PageSegmentator;
 

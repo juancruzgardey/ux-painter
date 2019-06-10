@@ -1,5 +1,7 @@
+import PageSegmentator from "../segmentator/PageSegmentator";
 let Combinatorics = require('js-combinatorics');
 let Color = require('color');
+
 
 class StyleScrapper {
 
@@ -7,6 +9,11 @@ class StyleScrapper {
         this.contrastRatioThreshold = 0;
         this.elementsQtyThreshold = 10;
         this.styles = null;
+        this.pageSegmentator = new PageSegmentator();
+    }
+
+    getPageSegmentator() {
+        return this.pageSegmentator;
     }
 
     /**
@@ -57,8 +64,11 @@ class StyleScrapper {
         return  currentElement != document.body ? window.getComputedStyle(currentElement).getPropertyValue("background-color"):"rgb(255, 255, 255)";
     }
 
-    scrapStyles(targetElement, styleNumbers, limit) {
+    scrapStyles(refactoredElement, styleNumbers, limit) {
+        let targetElement = this.getPageSegmentator().findPageSegmentOfElement(refactoredElement);
+        console.log("scrapping from element ", targetElement);
         this.styles = Combinatorics.combination(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers);
+        console.log(this.styles);
     }
 
     getColorLuminance(color) {
