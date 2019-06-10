@@ -10,11 +10,11 @@ class StyleScrapper {
     }
 
     /**
-     * Return a list of dictionaries with leaf elements.
+     * scrap style of each text element of the page whose ancestor is targetElement
      */
     getStyles (targetElement) {
         let elementsStyle = [];
-        const allTextElements = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
+        const allTextElements = targetElement.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
         for (let i = 0; i < allTextElements.length; i++) {
             const color = window.getComputedStyle(allTextElements[i]).getPropertyValue("color");
             const backgroundColor = this.getElementBackGroundColor(allTextElements[i]);
@@ -22,16 +22,12 @@ class StyleScrapper {
             let elementStyle = this.getStyle({"backgroundColor": backgroundColor, "color": color}, elementsStyle);
             if (elementStyle) {
                 elementStyle.weight += 1;
-                if (this.getDistanceBetweenElements(targetElement, allTextElements[i]) < elementStyle.minimalDistance) {
-                    elementStyle.minimalDistance = this.getDistanceBetweenElements(targetElement, allTextElements[i]);
-                }
             }
             else {
                 elementStyle = {
                     "color": color,
                     "background-color": backgroundColor,
-                    "weight": 1,
-                    "minimalDistance": this.getDistanceBetweenElements(targetElement, allTextElements[i])
+                    "weight": 1
                 };
                 elementsStyle.push(elementStyle);
             }
