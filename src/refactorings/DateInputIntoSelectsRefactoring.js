@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import 'jquery-datepicker/date-dropdowns';
+import 'jquery-dropdown-datepicker/dist/jquery-dropdown-datepicker';
 import UsabilityRefactoringOnElement from './UsabilityRefactoringOnElement';
 import RefactoringOnElementView from "../components/RefactoringOnElementView";
 
