@@ -29,6 +29,12 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         return "Turn Input into Radios";
     }
 
+    clone() {
+        let refactoring = super.clone();
+        refactoring.setValues(this.values);
+        return refactoring;
+    }
+
 }
 
 export default TurnInputIntoRadiosRefactoring;
