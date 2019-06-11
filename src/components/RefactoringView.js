@@ -16,6 +16,7 @@ class RefactoringView extends React.Component {
         this.originalTargetElement = this.refactoring.getElement();
         this.originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         this.createModal();
+        this.previewsQty = 5;
     }
 
     createModal() {
@@ -33,14 +34,14 @@ class RefactoringView extends React.Component {
     createPreviews() {
         let previewElements = [];
         let styleScrapper = new StyleScrapper();
-        styleScrapper.scrapStyles(this.originalTargetElement,3,10);
-        for (let i = 0; i < 10; i++) {
+        let stylesScrapped = styleScrapper.scrapStyles(this.originalTargetElement,this.refactoring.getStyledElementsQty(),this.previewsQty);
+        for (let i = 0; i < stylesScrapped.length; i++) {
             const targetElementParent = this.originalTargetElement.parentNode.cloneNode(true);
             // executes the refactoring on the cloned element
             let targetElement = targetElementParent.querySelector("[data-uxpainter-id='" +  this.originalTargetElement.getAttribute("data-uxpainter-id") + "']");
             let previewRefactoring = this.refactoring.clone();
             previewRefactoring.setElement(targetElement);
-            previewRefactoring.setStyleScrapper(styleScrapper);
+            previewRefactoring.setStyles(stylesScrapped[i]);
             previewRefactoring.execute();
             previewElements.push(targetElementParent);
         }

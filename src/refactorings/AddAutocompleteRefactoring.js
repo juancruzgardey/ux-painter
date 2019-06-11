@@ -53,6 +53,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         return this.getAutocompleteList()[0].querySelectorAll("mark");
     }
 
+    getStyledElementsQty () {
+        return 2;
+    }
+
     setStyles(styles) {
         this.styles = [];
 

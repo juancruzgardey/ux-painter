@@ -8,7 +8,7 @@ class StyleScrapper {
     constructor() {
         this.contrastRatioThreshold = 0;
         this.elementsQtyThreshold = 10;
-        this.styles = null;
+        this.styles = [];
         this.pageSegmentator = new PageSegmentator();
     }
 
@@ -67,8 +67,9 @@ class StyleScrapper {
     scrapStyles(refactoredElement, styleNumbers, limit) {
         let targetElement = this.getPageSegmentator().findPageSegmentOfElement(refactoredElement);
         console.log("scrapping from element ", targetElement);
-        this.styles = Combinatorics.combination(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers);
-        console.log(this.styles);
+        this.styles = Combinatorics.baseN(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers).toArray();
+        console.log("all styles scrapped ", this.styles);
+        return this.styles.slice(0, limit);
     }
 
     getColorLuminance(color) {
