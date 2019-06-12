@@ -1,4 +1,10 @@
+import PageSegmentator from "../segmentator/PageSegmentator";
+
 class Previewer {
+
+    constructor() {
+        this.pageSegmentator = new PageSegmentator();
+    }
 
     generatePreviews(aRefactoring) {}
 
@@ -7,8 +13,11 @@ class Previewer {
         if (!originalTargetElement.getAttribute("data-uxpainter-id")) {
             originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         }
-        const targetElementContainer = originalTargetElement.parentNode.cloneNode(true);
-        return targetElementContainer.querySelector("[data-uxpainter-id='" +  originalTargetElement.getAttribute("data-uxpainter-id") + "']");
+        const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(originalTargetElement);
+        const clonedTargetElementContainer = targetElementContainer.cloneNode(true);
+        return {
+            "targetElement": clonedTargetElementContainer.querySelector("[data-uxpainter-id='" + originalTargetElement.getAttribute("data-uxpainter-id") + "']"),
+        "targetElementContainer": clonedTargetElementContainer};
     }
 }
 
