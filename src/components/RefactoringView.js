@@ -33,17 +33,10 @@ class RefactoringView extends React.Component {
 
     createPreviews() {
         let previewElements = [];
-        let styleScrapper = new StyleScrapper();
-        let stylesScrapped = styleScrapper.scrapStyles(this.originalTargetElement,this.refactoring.getStyledElementsQty(),this.previewsQty);
-        for (let i = 0; i < stylesScrapped.length; i++) {
-            const targetElementParent = this.originalTargetElement.parentNode.cloneNode(true);
-            // executes the refactoring on the cloned element
-            let targetElement = targetElementParent.querySelector("[data-uxpainter-id='" +  this.originalTargetElement.getAttribute("data-uxpainter-id") + "']");
-            let previewRefactoring = this.refactoring.clone();
-            previewRefactoring.setElement(targetElement);
-            previewRefactoring.setStyles(stylesScrapped[i]);
-            previewRefactoring.execute();
-            previewElements.push(targetElementParent);
+        const previewRefactorings = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
+        for (let i = 0; i < previewRefactorings.length; i++) {
+            previewRefactorings[i].execute();
+            previewElements.push(previewRefactorings[i].getElement().parentNode);
         }
         return previewElements;
     }
