@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import React from 'react';
 import RadioSet from "../components/RadioSet";
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
+import TurnInputIntoRadiosPreviewer from "../previewers/TurnInputIntoRadiosPreviewer";
 
 class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
 
@@ -27,6 +28,26 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
 
     static asString () {
         return "Turn Input into Radios";
+    }
+
+    static getPreviewer() {
+        return new TurnInputIntoRadiosPreviewer();
+    }
+
+    setDisplayStyle(aString) {
+        this.displayStyle = aString;
+    }
+
+    getDisplayStyle() {
+        return this.displayStyle;
+    }
+
+    setLabelsPosition(aString) {
+        this.labelsPosition = aString;
+    }
+
+    getLabelsPosition() {
+        return this.labelsPosition;
     }
 
     clone() {

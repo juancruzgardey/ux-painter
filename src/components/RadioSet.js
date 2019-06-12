@@ -12,20 +12,29 @@ class RadioSet extends React.Component {
         const radioName = this.getRandomID();
         const me = this;
         const radios = this.props.values.map((value, i) => {
-            return <p style={{display: me.props.display}}>
-                <input type={'radio'} value={value} name={radioName} onChange={me.handleChange}/>
-                <label style={{cursor:'pointer'}}>{value}</label>
+            let input = <input type={'radio'} value={value} name={radioName} onChange={me.handleChange}/>;
+            let label = <label style={{cursor:'pointer'}}>{value}</label>;
+            return <p style={{display: me.props.refactoring.getDisplayStyle()}}>
+                {this.renderRadioItem(input,label)}
             </p>
         });
+
+        const otherInput = <input type={'radio'} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>;
+        const otherLabel = <label style={{cursor:'pointer'}}>Other</label>;
 
         return (
             <div className={'uxpainter-radio-set'}>
                 {radios}
-                <input type={'radio'} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>
-                <label style={{cursor:'pointer'}}>Other</label>
-                <input type={'text'} style={{display:"none"}} onChange={this.handleChange} ref={this.otherFreeInput}/>
+                <p style={{display: me.props.refactoring.getDisplayStyle()}}>
+                    {this.renderRadioItem(otherInput,otherLabel)}
+                    <input type={'text'} style={{display:"none"}} onChange={this.handleChange} ref={this.otherFreeInput}/>
+                </p>
             </div>
         )
+    }
+
+    renderRadioItem(input, label) {
+        return this.props.refactoring.getLabelsPosition() == "left"?[label,input]:[input,label];
     }
 
 
