@@ -57,8 +57,8 @@
     margin: 10px;
     padding: 20px;
 
-    width: 700px;
-    height: 400px;
+    max-width: 700px;
+    max-height: 400px;
     overflow: scroll;
 }
 .ux-painter-modal-container {
@@ -92,4 +92,23 @@
 .uxpainter-preview-item {
     margin: 20px 0px;
     border-bottom: 1px solid black;
+}
+
+.ux-painter-option-list {
+    margin: 10px;
+}
+
+
+.ux-painter-list-element {
+    list-style-type: none;
+    display: inline-block;
+    margin: 5px;
+}
+.ux-painter-list-element a {
+    color: #343a40;
+    font-weight: bold;
+}
+
+.ux-painter-list-element a.active {
+    color: #ffc107;
 }
