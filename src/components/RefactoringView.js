@@ -27,16 +27,17 @@ class RefactoringView extends React.Component {
     }
 
     handleSubmit() {
-        //this.refactoring.setElement(this.originalTargetElement);
-        this.refactoring.execute();
+        this.modal.parentNode.removeChild(this.modal);
+        this.selectedRefactoring.setElement(this.originalTargetElement);
+        this.selectedRefactoring.execute();
     }
 
     createPreviews() {
         let previewElements = [];
-        const previewRefactorings = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
-        for (let i = 0; i < previewRefactorings.length; i++) {
-            previewRefactorings[i].execute();
-            previewElements.push(previewRefactorings[i].targetElementContainer);
+        this.previewRefactorings = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
+        for (let i = 0; i < this.previewRefactorings.length; i++) {
+            this.previewRefactorings[i].execute();
+            previewElements.push(this.previewRefactorings[i].targetElementContainer);
         }
         return previewElements;
     }
@@ -47,7 +48,7 @@ class RefactoringView extends React.Component {
 
         const previewElements = this.createPreviews();
 
-        ReactDOM.render(<PreviewModal targetElements={previewElements}/>, this.modal);
+        ReactDOM.render(<PreviewModal targetElements={previewElements} view={this}/>, this.modal);
         this.modal.style.display = "block";
     }
 
@@ -69,6 +70,10 @@ class RefactoringView extends React.Component {
                 </div>
             </div>
         )
+    }
+
+    setSelectedRefactoring(anIndex) {
+        this.selectedRefactoring = this.previewRefactorings[anIndex];
     }
 
 }

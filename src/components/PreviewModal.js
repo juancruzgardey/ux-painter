@@ -14,22 +14,13 @@ class PreviewModal extends React.Component {
     }
 
     componentDidMount() {
-        /**for (let i = 0; i < this.elementRefs.length; i++) {
-            this.elementRefs[i].current.appendChild(this.props.targetElements[i]);
-        }*/
+
         this.targetElementContainer.current.appendChild(this.props.targetElements[0]);
         this.activeOption = document.querySelector(".ux-painter-option-list li a");
         this.activeOption.setAttribute("class", "active");
     }
 
     render() {
-        this.elementRefs = [];
-        /**const previewElements = this.props.targetElements.map(element => {
-           const elementReference = React.createRef();
-           this.elementRefs.push(elementReference);
-           return <div className={'uxpainter-preview-item'} ref={elementReference}></div>
-        });*/
-
         return (
             <div className={"ux-painter-modal-container"}>
                 <span className={"close"} onClick={this.closeModal}>&times;</span>
@@ -55,6 +46,7 @@ class PreviewModal extends React.Component {
 
     optionChange(event) {
         const optionIndex = event.target.getAttribute("option-index");
+        this.props.view.setSelectedRefactoring(optionIndex);
         this.activeOption.setAttribute("class", "");
         this.activeOption = event.target;
         this.activeOption.setAttribute("class", "active");
