@@ -27,11 +27,17 @@ class PreviewModal extends React.Component {
         });
 
         return (
-                <div className={"ux-painter-modal-content"} ref={this.targetElementContainer}>
-                    <span className={"close"} onClick={this.closeModal}>&times;</span>
+            <div className={"ux-painter-modal-container"}>
+                <span className={"close"} onClick={this.closeModal}>&times;</span>
+                <div className={"ux-painter-modal-header"}>
                     <h3 className={'ux-painter-modal-title'}>Refactoring Preview</h3>
-                    {previewElements}
                 </div>
+                <div className={"ux-painter-modal-body"}>
+                    <div className={"ux-painter-modal-previews"} ref={this.targetElementContainer}>
+                        {previewElements}
+                    </div>
+                </div>
+            </div>
         );
     }
 }
