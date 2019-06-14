@@ -14,7 +14,7 @@ class PreviewModal extends React.Component {
     }
 
     componentDidMount() {
-
+        this.props.view.setSelectedRefactoring(0);
         this.targetElementContainer.current.appendChild(this.props.targetElements[0]);
         this.activeOption = document.querySelector(".ux-painter-option-list li a");
         this.activeOption.setAttribute("class", "active");
