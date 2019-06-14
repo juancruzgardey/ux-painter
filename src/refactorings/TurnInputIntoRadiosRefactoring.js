@@ -17,9 +17,9 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
 
     transform () {
         this.getElement().setAttribute("type", "hidden");
-        const div = document.createElement("div");
-        this.getElement().parentNode.appendChild(div);
-        ReactDOM.render(<RadioSet values={this.values} refactoring={this}/>,div);
+        const radioSetContainer = document.createElement("div");
+        this.getElement().parentNode.insertBefore(radioSetContainer, this.getElement());
+        ReactDOM.render(<RadioSet values={this.values} refactoring={this}/>,radioSetContainer);
     }
 
     getView() {
