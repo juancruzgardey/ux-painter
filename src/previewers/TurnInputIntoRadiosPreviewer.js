@@ -6,11 +6,13 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
         let previews = [];
         const existingStyle = this.findRadioSetStyle();
         if (existingStyle) {
+            this.findTextInput(existingStyle);
             previews.push(this.createPreviewRefactoring(aRefactoring,existingStyle));
         }
         else {
-            const options = [{display: "inline", labelsPosition:"right"}, {display: "block", labelsPosition:"left"},{display:"block", labelsPosition:"right"}];
+            const options = [{radioSetItem: {display: "inline"}, labelsPosition:"right"}, {radioSetItem: {display: "block"}, labelsPosition:"left"},{radioSetItem: {display:"block"}, labelsPosition:"right"}];
             for (let i = 0; i < options.length; i++) {
+                this.findTextInput(options[i]);
                 previews.push(this.createPreviewRefactoring(aRefactoring, options[i]));
             }
         }
@@ -24,10 +26,11 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
         let previewRefactoring = aRefactoring.clone();
 
         previewRefactoring.setElement(preview.targetElement);
-        previewRefactoring.setDisplayStyle(style.display);
+        previewRefactoring.setItemStyle(style.radioSetItem);
         previewRefactoring.setLabelsPosition(style.labelsPosition);
 
         previewRefactoring.setLabelsStyle(style.labelsStyle);
+        previewRefactoring.setOtherInputStyle(style.otherInputStyle);
 
         previewRefactoring.targetElementContainer = preview.targetElementContainer;
         return previewRefactoring;
@@ -60,9 +63,11 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
             let currentContainer = radio;
             while (currentContainer.parentElement.querySelectorAll("input[name='" + radio.name + "']").length == 1) {
                 currentContainer = currentContainer.parentElement;
-                console.log(currentContainer);
             }
-            style.display = window.getComputedStyle(currentContainer).getPropertyValue("display");
+            style.radioSetItem = {};
+            style.radioSetItem.display = window.getComputedStyle(currentContainer).getPropertyValue("display");
+            style.radioSetItem.margin = window.getComputedStyle(currentContainer).getPropertyValue("margin");
+            style.radioSetItem.padding = window.getComputedStyle(currentContainer).getPropertyValue("padding");
         }
 
         if (radioLabel.nodeType == 1) {
@@ -80,14 +85,25 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
 
         let nextElement = position == "left" ? inputRadio.previousSibling:inputRadio.nextSibling;
         let radioLabel;
+        console.log(inputRadio);
         while (nextElement && !radioLabel) {
-            if (nextElement.textContent && nextElement.textContent != " ") {
+            //check that text content contains not only spaces
+            if (nextElement.textContent && nextElement.textContent.replace(/\s/g, '').length != 0) {
                 return nextElement;
-                //style.labelsPosition = position;
             }
-            nextElement = position == "left" ? inputRadio.previousSibling:inputRadio.nextSibling;
+            nextElement = position == "left" ? nextElement.previousSibling:nextElement.nextSibling;
         }
 
+    }
+
+    findTextInput(style) {
+        const textInput = document.querySelector("input[type='text']");
+        if (textInput) {
+            style.otherInputStyle = {};
+            style.otherInputStyle.border = window.getComputedStyle(textInput).getPropertyValue("border");
+            style.otherInputStyle.margin = window.getComputedStyle(textInput).getPropertyValue("margin");
+            style.otherInputStyle.padding = window.getComputedStyle(textInput).getPropertyValue("padding");
+        }
     }
 
 }

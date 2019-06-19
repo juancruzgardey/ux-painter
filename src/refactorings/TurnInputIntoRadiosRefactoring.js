@@ -34,11 +34,11 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         return new TurnInputIntoRadiosPreviewer();
     }
 
-    setDisplayStyle(aString) {
+    setItemStyle(aString) {
         this.displayStyle = aString;
     }
 
-    getDisplayStyle() {
+    getItemStyle() {
         return this.displayStyle;
     }
 
@@ -59,6 +59,17 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
             return {};
         }
         return this.labelsStyle;
+    }
+
+    getOtherInputStyle() {
+        if (!this.otherInputStyle) {
+            return {};
+        }
+        return this.otherInputStyle;
+    }
+
+    setOtherInputStyle(style) {
+        this.otherInputStyle = style;
     }
 
 

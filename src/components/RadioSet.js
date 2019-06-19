@@ -19,7 +19,7 @@ class RadioSet extends React.Component {
         const radios = this.props.values.map((value, i) => {
             let input = <input type={'radio'} value={value} name={radioName} onChange={me.handleChange}/>;
             let label = <label style={labelsStyle}>{value}</label>;
-            return <p style={{display: me.props.refactoring.getDisplayStyle()}}>
+            return <p style={me.props.refactoring.getItemStyle()}>
                 {this.renderRadioItem(input,label)}
             </p>
         });
@@ -27,12 +27,14 @@ class RadioSet extends React.Component {
         const otherInput = <input type={'radio'} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>;
         const otherLabel = <label style={labelsStyle}>Other</label>;
 
+        let otherInputStyle = this.props.refactoring.getOtherInputStyle();
+        otherInputStyle.display = "none";
         return (
             <div className={'uxpainter-radio-set'}>
                 {radios}
-                <p style={{display: me.props.refactoring.getDisplayStyle()}}>
+                <p style={me.props.refactoring.getItemStyle()}>
                     {this.renderRadioItem(otherInput,otherLabel)}
-                    <input type={'text'} style={{display:"none"}} onChange={this.handleChange} ref={this.otherFreeInput}/>
+                    <input type={'text'} style={otherInputStyle} onChange={this.handleChange} ref={this.otherFreeInput}/>
                 </p>
             </div>
         )
