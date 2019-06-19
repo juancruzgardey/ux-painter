@@ -65,13 +65,14 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
             style.display = window.getComputedStyle(currentContainer).getPropertyValue("display");
         }
 
-        style.labelsStyle = {};
-        style.labelsStyle["font-family"] = window.getComputedStyle(radioLabel).getPropertyValue("font-family");
-        style.labelsStyle["font-weight"] = window.getComputedStyle(radioLabel).getPropertyValue("font-weight");
-        style.labelsStyle["font-size"] = window.getComputedStyle(radioLabel).getPropertyValue("font-size");
-        style.labelsStyle["margin"] = window.getComputedStyle(radioLabel).getPropertyValue("margin");
-        style.labelsStyle["padding"] = window.getComputedStyle(radioLabel).getPropertyValue("padding");
-
+        if (radioLabel.nodeType == 1) {
+            style.labelsStyle = {};
+            style.labelsStyle["font-family"] = window.getComputedStyle(radioLabel).getPropertyValue("font-family");
+            style.labelsStyle["font-weight"] = window.getComputedStyle(radioLabel).getPropertyValue("font-weight");
+            style.labelsStyle["font-size"] = window.getComputedStyle(radioLabel).getPropertyValue("font-size");
+            style.labelsStyle["margin"] = window.getComputedStyle(radioLabel).getPropertyValue("margin");
+            style.labelsStyle["padding"] = window.getComputedStyle(radioLabel).getPropertyValue("padding");
+        }
         return style;
     }
 
