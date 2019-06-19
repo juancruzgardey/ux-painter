@@ -50,6 +50,18 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         return this.labelsPosition;
     }
 
+    setLabelsStyle(aStyle) {
+        this.labelsStyle = aStyle;
+    }
+
+    getLabelsStyle() {
+        if (!this.labelsStyle) {
+            return {};
+        }
+        return this.labelsStyle;
+    }
+
+
     clone() {
         let refactoring = super.clone();
         refactoring.setValues(this.values);
