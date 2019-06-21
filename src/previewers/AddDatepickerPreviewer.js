@@ -13,12 +13,8 @@ class AddDatepickerPreviewer extends Previewer {
         let styleScrapper = new StyleScrapper();
         let stylesScrapped = styleScrapper.scrapStyles(aRefactoring.getElement(),aRefactoring.getStyledElementsQty(),this.previewsQty);
         for (let i = 0; i < stylesScrapped.length; i++) {
-            const previewRefactoring = aRefactoring.clone();
-            const preview = this.cloneTargetElement(aRefactoring);
-            previewRefactoring.setElement(preview.targetElement);
+            const previewRefactoring = this.cloneRefactoring(aRefactoring);
             previewRefactoring.setStyles(stylesScrapped[i]);
-
-            previewRefactoring.targetElementContainer = preview.targetElementContainer;
             previews.push(previewRefactoring);
         }
         return previews;

@@ -21,18 +21,14 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
 
     createPreviewRefactoring(aRefactoring, style) {
         // clone refactoring target element and its container
-        let preview = this.cloneTargetElement(aRefactoring);
+        let previewRefactoring = this.cloneRefactoring(aRefactoring);
 
-        let previewRefactoring = aRefactoring.clone();
-
-        previewRefactoring.setElement(preview.targetElement);
         previewRefactoring.setItemStyle(style.radioSetItem);
         previewRefactoring.setLabelsPosition(style.labelsPosition);
 
         previewRefactoring.setLabelsStyle(style.labelsStyle);
         previewRefactoring.setOtherInputStyle(style.otherInputStyle);
 
-        previewRefactoring.targetElementContainer = preview.targetElementContainer;
         return previewRefactoring;
 
     }

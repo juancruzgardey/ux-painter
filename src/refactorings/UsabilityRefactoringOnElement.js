@@ -1,6 +1,7 @@
 import XPathInterpreter from "./XPathInterpreter";
 import UsabilityRefactoring from "./UsabilityRefactoring";
 import ElementSelectionView from "../components/ElementSelectionView";
+import Previewer from "../previewers/Previewer";
 
 class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
@@ -79,6 +80,10 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
                 }
             })
         }
+    }
+
+    static getPreviewer() {
+        return new Previewer();
     }
 
 }

@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import { Link, goBack } from 'route-lite';
 import RefactoringListView from "./RefactoringListView";
 import PreviewModal from "./PreviewModal";
-import StyleScrapper from "../scrappers/StyleScrapper";
 
 class RefactoringView extends React.Component {
 
@@ -16,7 +15,6 @@ class RefactoringView extends React.Component {
         this.originalTargetElement = this.refactoring.getElement();
         this.originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         this.createModal();
-        this.previewsQty = 5;
         this.selectedRefactoring = this.refactoring;
     }
 

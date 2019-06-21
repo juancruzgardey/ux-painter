@@ -57,6 +57,12 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         return "Turn Input into Select";
     }
 
+    clone() {
+        let clonedRefactoring = super.clone();
+        clonedRefactoring.setValues(this.values);
+        return clonedRefactoring;
+    }
+
 }
 
 export default TurnInputIntoSelectRefactoring;
