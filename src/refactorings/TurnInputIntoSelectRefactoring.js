@@ -1,5 +1,6 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
+import TurnInputIntoSelectPreviewer from "../previewers/TurnInputIntoSelectPreviewer";
 
 class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
 
@@ -17,32 +18,35 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
             otherElement.setAttribute("type", "text");
             otherElement.style.display = "none";
 
-            let selectElement = document.createElement("select");
+            this.selectElement = document.createElement("select");
 
             this.values.push("Other");
             for (let i = 0; i < this.values.length; i++) {
                 let optionElement = document.createElement("option");
                 optionElement.textContent = this.values[i];
-                selectElement.appendChild(optionElement);
+                this.selectElement.appendChild(optionElement);
             }
 
             anElement.parentNode.insertBefore(otherElement, anElement.nextSibling);
-            anElement.parentNode.insertBefore(selectElement, anElement.nextSibling);
+            anElement.parentNode.insertBefore(this.selectElement, anElement.nextSibling);
 
-            selectElement.addEventListener("change", function () {
-                if (selectElement.value == "Other") {
+            const me = this;
+            this.selectElement.addEventListener("change", function () {
+                if (me.selectElement.value == "Other") {
                     otherElement.value = "";
                     otherElement.style.display = "inline";
                     anElement.value = "";
                 }
                 else {
                     otherElement.style.display = "none";
-                    anElement.value = selectElement.value;
+                    anElement.value = me.selectElement.value;
                 }
             });
             otherElement.addEventListener("keyup", function () {
                 anElement.value = otherElement.value;
             });
+
+            this.applyStyle();
     }
 
     targetElements () {
@@ -53,6 +57,24 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         return TurnInputIntoRadiosView;
     }
 
+    applyStyle() {
+        const me = this;
+        Object.keys(me.getStyle()).forEach(function (cssProperty) {
+            me.selectElement.style[cssProperty] = me.getStyle()[cssProperty];
+        });
+    }
+
+    setStyle(style) {
+        this.style = style;
+    }
+
+    getStyle() {
+        if (!this.style) {
+            return {};
+        }
+        return this.style;
+    }
+
     static asString() {
         return "Turn Input into Select";
     }
@@ -61,6 +83,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         let clonedRefactoring = super.clone();
         clonedRefactoring.setValues(this.values);
         return clonedRefactoring;
+    }
+
+    static getPreviewer() {
+        return new TurnInputIntoSelectPreviewer();
     }
 
 }
