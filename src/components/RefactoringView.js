@@ -17,6 +17,7 @@ class RefactoringView extends React.Component {
         this.originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         this.createModal();
         this.previewsQty = 5;
+        this.selectedRefactoring = this.refactoring;
     }
 
     createModal() {
