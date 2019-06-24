@@ -6,12 +6,13 @@ class TurnInputIntoSelectPreviewer extends Previewer {
         let existingStyle = [];
 
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
-        let existingSelect = targetElementContainer.querySelector("select");
+        let existingSelect = document.querySelector("select");
         if (existingSelect) {
             existingStyle.border = window.getComputedStyle(existingSelect).getPropertyValue("border");
             existingStyle.color = window.getComputedStyle(existingSelect).getPropertyValue("color");
             existingStyle["background-color"] = window.getComputedStyle(existingSelect).getPropertyValue("background-color");
             existingStyle.width = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("width");
+            existingStyle.height = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("height");
         }
 
         let previewRefactoring = this.cloneRefactoring(aRefactoring);
