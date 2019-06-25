@@ -20,12 +20,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
 
             this.selectElement = document.createElement("select");
 
-            this.values.push("Other");
             for (let i = 0; i < this.values.length; i++) {
-                let optionElement = document.createElement("option");
-                optionElement.textContent = this.values[i];
-                this.selectElement.appendChild(optionElement);
+                this.createOption(this.values[i]);
             }
+            this.createOption("Other");
 
             anElement.parentNode.insertBefore(otherElement, anElement.nextSibling);
             anElement.parentNode.insertBefore(this.selectElement, anElement.nextSibling);
@@ -47,6 +45,12 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
             });
 
             this.applyStyle();
+    }
+
+    createOption(value) {
+        let optionElement = document.createElement("option");
+        optionElement.textContent = value;
+        this.selectElement.appendChild(optionElement);
     }
 
     targetElements () {
