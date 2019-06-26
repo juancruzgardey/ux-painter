@@ -14,9 +14,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
                 return
             }
             anElement.setAttribute("type", "hidden");
-            let otherElement = document.createElement("input");
-            otherElement.setAttribute("type", "text");
-            otherElement.style.display = "none";
+            this.otherElement = document.createElement("input");
+            this.otherElement.setAttribute("type", "text");
+            this.otherElement.setAttribute("placeholder", "Enter new value");
+            this.otherElement.style.display = "none";
 
             this.selectElement = document.createElement("select");
 
@@ -25,23 +26,23 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
             }
             this.createOption("Other");
 
-            anElement.parentNode.insertBefore(otherElement, anElement.nextSibling);
+            anElement.parentNode.insertBefore(this.otherElement, anElement.nextSibling);
             anElement.parentNode.insertBefore(this.selectElement, anElement.nextSibling);
 
             const me = this;
             this.selectElement.addEventListener("change", function () {
                 if (me.selectElement.value == "Other") {
-                    otherElement.value = "";
-                    otherElement.style.display = "inline";
+                    me.otherElement.value = "";
+                    me.otherElement.style.display = "inline";
                     anElement.value = "";
                 }
                 else {
-                    otherElement.style.display = "none";
+                    me.otherElement.style.display = "none";
                     anElement.value = me.selectElement.value;
                 }
             });
-            otherElement.addEventListener("keyup", function () {
-                anElement.value = otherElement.value;
+            me.otherElement.addEventListener("keyup", function () {
+                anElement.value = me.otherElement.value;
             });
 
             this.applyStyle();
@@ -63,20 +64,41 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
 
     applyStyle() {
         const me = this;
-        Object.keys(me.getStyle()).forEach(function (cssProperty) {
-            me.selectElement.style[cssProperty] = me.getStyle()[cssProperty];
+        Object.keys(me.getSelectStyle()).forEach(function (cssProperty) {
+            me.selectElement.style[cssProperty] = me.getSelectStyle()[cssProperty];
         });
+
+        Object.keys(me.getOtherInputStyle()).forEach(function (cssProperty) {
+            me.otherElement.style[cssProperty] = me.getOtherInputStyle()[cssProperty];
+        });
+
+        // set a default margin to other text input
+        if (window.getComputedStyle(me.otherElement).getPropertyValue("margin-top") == "0px") {
+            me.otherElement.style["margin-top"] = "5px";
+        }
+
     }
 
-    setStyle(style) {
-        this.style = style;
+    setSelectStyle(style) {
+        this.selectStyle = style;
     }
 
-    getStyle() {
-        if (!this.style) {
+    getSelectStyle() {
+        if (!this.selectStyle) {
             return {};
         }
-        return this.style;
+        return this.selectStyle;
+    }
+
+    setOtherInputStyle(aStyle) {
+        this.otherInputStyle = aStyle;
+    }
+
+    getOtherInputStyle() {
+        if (!this.otherInputStyle) {
+            return {};
+        }
+        return this.otherInputStyle;
     }
 
     static asString() {

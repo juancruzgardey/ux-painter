@@ -29,12 +29,13 @@ class RadioSet extends React.Component {
 
         let otherInputStyle = this.props.refactoring.getOtherInputStyle();
         otherInputStyle.display = "none";
+        otherInputStyle["margin-left"] = "5px";
         return (
             <div className={'uxpainter-radio-set'}>
                 {radios}
                 <p style={me.props.refactoring.getItemStyle()}>
                     {this.renderRadioItem(otherInput,otherLabel)}
-                    <input type={'text'} style={otherInputStyle} onChange={this.handleChange} ref={this.otherFreeInput}/>
+                    <input type={'text'} style={otherInputStyle} placeholder={'Enter new value'} onChange={this.handleChange} ref={this.otherFreeInput}/>
                 </p>
             </div>
         )
