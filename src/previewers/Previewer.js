@@ -26,6 +26,19 @@ class Previewer {
         previewRefactoring.targetElementContainer = clonedTargetElementContainer;
         return previewRefactoring;
     }
+
+    getTextInputStyle() {
+        const textInput = document.querySelector("input[type='text']");
+        let style = {};
+        if (textInput) {
+            style.border = window.getComputedStyle(textInput).getPropertyValue("border");
+            style["border-radius"] = window.getComputedStyle(textInput).getPropertyValue("border-radius");
+            style.margin = window.getComputedStyle(textInput).getPropertyValue("margin");
+            style.padding = window.getComputedStyle(textInput).getPropertyValue("padding");
+        }
+        return style;
+    }
+
 }
 
 export default Previewer;

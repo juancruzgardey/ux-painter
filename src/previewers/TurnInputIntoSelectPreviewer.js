@@ -29,7 +29,8 @@ class TurnInputIntoSelectPreviewer extends Previewer {
         existingStyle.height = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("height");
 
         let previewRefactoring = this.cloneRefactoring(aRefactoring);
-        previewRefactoring.setStyle(existingStyle);
+        previewRefactoring.setSelectStyle(existingStyle);
+        previewRefactoring.setOtherInputStyle(this.getTextInputStyle());
         let previews = [];
         previews.push(previewRefactoring);
         return previews;

@@ -6,13 +6,11 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
         let previews = [];
         const existingStyle = this.findRadioSetStyle();
         if (existingStyle) {
-            this.findTextInput(existingStyle);
             previews.push(this.createPreviewRefactoring(aRefactoring,existingStyle));
         }
         else {
             const options = [{radioSetItem: {display: "inline"}, labelsPosition:"right"}, {radioSetItem: {display: "block"}, labelsPosition:"left"},{radioSetItem: {display:"block"}, labelsPosition:"right"}];
             for (let i = 0; i < options.length; i++) {
-                this.findTextInput(options[i]);
                 previews.push(this.createPreviewRefactoring(aRefactoring, options[i]));
             }
         }
@@ -27,7 +25,7 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
         previewRefactoring.setLabelsPosition(style.labelsPosition);
 
         previewRefactoring.setLabelsStyle(style.labelsStyle);
-        previewRefactoring.setOtherInputStyle(style.otherInputStyle);
+        previewRefactoring.setOtherInputStyle(this.getTextInputStyle());
 
         return previewRefactoring;
 
@@ -90,16 +88,6 @@ class TurnInputIntoRadiosPreviewer extends Previewer {
             nextElement = position == "left" ? nextElement.previousSibling:nextElement.nextSibling;
         }
 
-    }
-
-    findTextInput(style) {
-        const textInput = document.querySelector("input[type='text']");
-        if (textInput) {
-            style.otherInputStyle = {};
-            style.otherInputStyle.border = window.getComputedStyle(textInput).getPropertyValue("border");
-            style.otherInputStyle.margin = window.getComputedStyle(textInput).getPropertyValue("margin");
-            style.otherInputStyle.padding = window.getComputedStyle(textInput).getPropertyValue("padding");
-        }
     }
 
 }
