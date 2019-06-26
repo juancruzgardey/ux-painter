@@ -1,14 +1,17 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import TurnAttributeIntoLinkView from "../components/TurnAttributeIntoLinkView";
+import TurnAttributeIntoLinkPreviewer from "../previewers/TurnAttributeIntoLinkPreviewer";
 
 class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
 
     transform() {
-        let newElement = document.createElement("a");
-        newElement.href = this.getTargetURL();
-        newElement.innerHTML = this.getElement().outerHTML;
-        this.getElement().parentNode.replaceChild(newElement, this.getElement());
-        this.styleElement = newElement;
+        this.linkElement = document.createElement("a");
+        this.linkElement.href = this.getTargetURL();
+        this.linkElement.innerHTML = this.getElement().outerHTML;
+        this.getElement().parentNode.replaceChild(this.linkElement, this.getElement());
+        this.styleElement = this.linkElement;
+        console.log(this.getStyle());
+        this.applyStyle();
     }
 
     getTargetURL() {
@@ -20,15 +23,33 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
     }
 
     targetElements() {
-        return "p, span, h1, h2, h3, h4, h5, h6, img";
+        return "p, span, h1, h2, h3, h4, h5, h6, img, div, li";
     }
 
     getView() {
         return TurnAttributeIntoLinkView;
     }
 
+    clone() {
+        let refactoring = super.clone();
+        refactoring.setTargetURL(this.getTargetURL());
+        return refactoring;
+    }
+
+
+    applyStyle() {
+        const me = this;
+        Object.keys(me.getStyle()).forEach(function (cssProperty) {
+            me.linkElement.style[cssProperty] = me.getStyle()[cssProperty];
+        });
+    }
+
     static asString() {
         return "Turn Attribute into Link";
+    }
+
+    static getPreviewer() {
+        return new TurnAttributeIntoLinkPreviewer();
     }
 
 }

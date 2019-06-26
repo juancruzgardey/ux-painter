@@ -47,6 +47,14 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         this.style = style;
     }
 
+    getStyle() {
+        if (!this.style) {
+            return {};
+        }
+        return this.style;
+    }
+
+
     getStyleElement () {
         return this.targetElement;
     }
