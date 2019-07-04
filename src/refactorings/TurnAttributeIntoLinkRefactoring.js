@@ -7,10 +7,10 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
     transform() {
         this.linkElement = document.createElement("a");
         this.linkElement.href = this.getTargetURL();
-        this.linkElement.innerHTML = this.getElement().outerHTML;
-        this.getElement().parentNode.replaceChild(this.linkElement, this.getElement());
+        this.linkElement.innerHTML = this.getElement().innerHTML;
+        this.getElement().innerHTML = "";
+        this.getElement().appendChild(this.linkElement);
         this.styleElement = this.linkElement;
-        console.log(this.getStyle());
         this.applyStyle();
     }
 
