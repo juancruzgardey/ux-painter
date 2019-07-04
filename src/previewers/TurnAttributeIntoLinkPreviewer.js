@@ -4,7 +4,7 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
 
     constructor() {
         super();
-        this.previewsQty = 4;
+        this.previewsQty = 10;
     }
 
 
@@ -23,7 +23,7 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
 
     getExistingLinkStyles() {
         this.styles = [];
-        let existingLinks = document.querySelectorAll("a");
+        let existingLinks = document.querySelectorAll("a", "input[type='button']");
         for (let i = 0; i < existingLinks.length; i++) {
             let linkStyle = {};
             linkStyle.color = window.getComputedStyle(existingLinks[i]).getPropertyValue("color");
@@ -33,6 +33,7 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
             linkStyle.margin = window.getComputedStyle(existingLinks[i]).getPropertyValue("margin");
             linkStyle.padding = window.getComputedStyle(existingLinks[i]).getPropertyValue("padding");
             linkStyle["text-decoration"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("text-decoration");
+            linkStyle["text-align"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("text-align");
             if (!this.findStyle(linkStyle)) {
                 this.styles.push(linkStyle);
                 console.log(linkStyle);
