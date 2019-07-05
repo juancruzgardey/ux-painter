@@ -20,6 +20,9 @@ class Previewer {
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(originalTargetElement);
         const clonedTargetElementContainer = targetElementContainer.cloneNode(true);
 
+        clonedTargetElementContainer.style.width = window.getComputedStyle(targetElementContainer).getPropertyValue("width");
+        clonedTargetElementContainer.style.height = window.getComputedStyle(targetElementContainer).getPropertyValue("height");
+
         let previewRefactoring = aRefactoring.clone();
         previewRefactoring.setElement(clonedTargetElementContainer.querySelector("[data-uxpainter-id='" +
             originalTargetElement.getAttribute("data-uxpainter-id") + "']"));
