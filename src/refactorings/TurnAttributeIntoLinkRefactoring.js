@@ -23,7 +23,7 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
     }
 
     targetElements() {
-        return "p, span, h1, h2, h3, h4, h5, h6, img, div, li";
+        return "p, span, h1, h2, h3, h4, h5, h6, img, li";
     }
 
     getView() {

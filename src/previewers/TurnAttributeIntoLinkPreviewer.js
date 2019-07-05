@@ -9,7 +9,10 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
 
 
     generatePreviews(aRefactoring) {
-        let existingStyles = this.getExistingLinkStyles();
+        const elementSegment = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
+        console.log("segment ..", elementSegment);
+        let existingLinks = elementSegment.querySelectorAll("a,input[type='button'],button");
+        let existingStyles = this.getExistingLinkStyles(existingLinks);
         let previews = [];
         const maxPreviews = existingStyles.length <= this.previewsQty?existingStyles.length:this.previewsQty;
         for (let i = 0; i < maxPreviews; i++) {
@@ -21,9 +24,8 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
     }
 
 
-    getExistingLinkStyles() {
+    getExistingLinkStyles(existingLinks) {
         this.styles = [];
-        let existingLinks = document.querySelectorAll("a", "input[type='button']");
         for (let i = 0; i < existingLinks.length; i++) {
             let linkStyle = {};
             linkStyle.color = window.getComputedStyle(existingLinks[i]).getPropertyValue("color");
@@ -34,9 +36,10 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
             linkStyle.padding = window.getComputedStyle(existingLinks[i]).getPropertyValue("padding");
             linkStyle["text-decoration"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("text-decoration");
             linkStyle["text-align"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("text-align");
+            linkStyle["border"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("border");
+            linkStyle["border-radius"] = window.getComputedStyle(existingLinks[i]).getPropertyValue("border-radius");
             if (!this.findStyle(linkStyle)) {
                 this.styles.push(linkStyle);
-                console.log(linkStyle);
             }
         }
         return this.styles;

@@ -18,6 +18,7 @@ class Previewer {
             originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         }
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(originalTargetElement);
+        console.log(targetElementContainer);
         const clonedTargetElementContainer = targetElementContainer.cloneNode(true);
 
         clonedTargetElementContainer.style.width = window.getComputedStyle(targetElementContainer).getPropertyValue("width");
