@@ -41,30 +41,53 @@ class DOMElementWrapper {
         let ancestor = this.ancestor(anotherElement);
         return this.getNumberOfHops(ancestor) + anotherElement.getNumberOfHops(ancestor);
     }
-}
-
-class PageSegment {
-    constructor(domElement) {
-        this.domElement = domElement;
-    }
 
     getCenter() {
         const rectangle = this.domElement.getBoundingClientRect();
         return {"x": (rectangle.left + rectangle.width) / 2, "y": (rectangle.top + rectangle.height) / 2};
     }
 
-    getDistance (anotherSegment) {
+    getDistance (anotherElement) {
         const centerA = this.getCenter();
-        const centerB = anotherSegment.getCenter();
+        const centerB = anotherElement.getCenter();
         return Math.sqrt(Math.pow(centerA.x - centerB.x, 2) + Math.pow(centerA.y - centerB.y, 2));
     }
 
-    equals(anotherSegment) {
-        return this.domElement == anotherSegment.domElement;
+    equals(anotherElement) {
+        return this.domElement == anotherElement.domElement;
     }
 
-    findElement(aDOMElementWrapper) {
-        return new DOMElementWrapper(this.domElement).findElement(aDOMElementWrapper);
+}
+
+class PageSegment {
+
+    constructor(domElement) {
+        if (domElement) {
+            this.domElement = new DOMElementWrapper(domElement);
+        }
+    }
+
+    getDistance (anotherSegment) {
+        return this.domElement.getDistance(anotherSegment.domElement);
+    }
+
+    equals(anotherSegment) {
+        return this.domElement.equals(anotherSegment.domElement);
+    }
+
+    findElement(aDOMElement) {
+        return this.domElement.findElement(aDOMElement);
+    }
+
+    contains(anotherSegment) {
+        return this.domElement.findElement(anotherSegment.domElement);
+    }
+
+    merge (anotherSegment) {
+        let ancestor = this.domElement.ancestor(anotherSegment.domElement);
+        let mergedSegment = new PageSegment();
+        mergedSegment.domElement = ancestor;
+        return mergedSegment;
     }
 
 }
@@ -98,8 +121,7 @@ class PageSegmentator {
             for (var j = 0; j < this.segments.length; j++) {
                 for (var i = 0;i < this.segments.length;i++) {
                     if ( !this.segments[i].equals(this.segments[j]) && this.segments[i].getDistance(this.segments[j]) <= this.distanceThreshold) {
-                        let ancestor = new DOMElementWrapper (this.segments[i].domElement).ancestor(new DOMElementWrapper (this.segments[j].domElement));
-                        let mergedSegment = new PageSegment (ancestor.domElement);
+                        let mergedSegment = this.segments[i].merge(this.segments[j]);
                         this.segments[i] = mergedSegment;
                         this.segments[j] = mergedSegment;
                         merged = true;
@@ -124,12 +146,19 @@ class PageSegmentator {
         const targetPageSegment = this.findPageSegmentsByDistance().filter(function (pageSegment) {
             return pageSegment.findElement(elementWrapper);
         });
+        console.log(targetPageSegment);
         targetPageSegment.sort(function (a, b) {
-            return (elementWrapper.getNumberOfHops(a) - elementWrapper.getNumberOfHops(b)) < 0;
+            return (elementWrapper.getNumberOfHops(a.domElement) - elementWrapper.getNumberOfHops(b.domElement)) < 0;
         });
-        return targetPageSegment?targetPageSegment[0].domElement:null;
+        return targetPageSegment?targetPageSegment[0].domElement.domElement:null;
+    }
+
+    printSegments() {
+        for (let i = 0; i < this.segments.length; i++) {
+            this.segments[i].domElement.domElement.style.border = "1px solid black";
+        }
     }
 }
 
+export {PageSegmentator, DOMElementWrapper};
 export default PageSegmentator;
-
