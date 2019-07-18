@@ -7,14 +7,15 @@ class AddLinkView extends React.Component {
         super(props);
         this.handleName = this.handleName.bind(this);
         this.handleURL = this.handleURL.bind(this);
+        this.refactoring = this.props.refactoring;
     }
 
     handleName(event) {
-
+        this.refactoring.setLinkName(event.target.value);
     }
 
     handleURL(event) {
-
+        this.refactoring.setTargetURL(event.target.value);
     }
 
 
@@ -33,3 +34,5 @@ class AddLinkView extends React.Component {
         )
     }
 }
+
+export default AddLinkView;

@@ -1,5 +1,6 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
-import TurnAttributeIntoLinkView from "../components/TurnAttributeIntoLinkView";
+import AddLinkView from "../components/AddLinkView";
+import TurnAttributeIntoLinkPreviewer from "../previewers/TurnAttributeIntoLinkPreviewer";
 
 class AddLinkRefactoring extends UsabilityRefactoringOnElement {
 
@@ -12,6 +13,7 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         this.linkElement.textContent = this.getLinkName();
         this.linkElement.href = this.getTargetURL();
         this.getElement().appendChild(this.linkElement);
+        this.applyStyle();
     }
 
     getTargetURL() {
@@ -35,17 +37,29 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getView() {
-        return TurnAttributeIntoLinkView;
+        return AddLinkView;
+    }
+
+    applyStyle() {
+        const me = this;
+        Object.keys(me.getStyle()).forEach(function (cssProperty) {
+            me.linkElement.style[cssProperty] = me.getStyle()[cssProperty];
+        });
     }
 
     clone() {
         let refactoring = super.clone();
         refactoring.setTargetURL(this.getTargetURL());
+        refactoring.setLinkName(this.getLinkName());
         return refactoring;
     }
 
     static asString() {
         return "Add Link";
+    }
+
+    static getPreviewer() {
+        return new TurnAttributeIntoLinkPreviewer();
     }
 
 }
