@@ -1,4 +1,5 @@
 import Previewer from "./Previewer";
+import {DOMElementWrapper} from "../segmentator/PageSegmentator";
 
 class TurnAttributeIntoLinkPreviewer extends Previewer {
 
@@ -10,8 +11,11 @@ class TurnAttributeIntoLinkPreviewer extends Previewer {
 
     generatePreviews(aRefactoring) {
         const elementSegment = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
-        console.log("segment ..", elementSegment);
-        let existingLinks = elementSegment.querySelectorAll("a,input[type='button'],button");
+        let existingLinks = Array.from(elementSegment.querySelectorAll("a,input[type='button'],button"));
+        existingLinks.sort(function (a, b) {
+            let targetElement = new DOMElementWrapper(aRefactoring.getElement());
+            return targetElement.getDistance(new DOMElementWrapper(b)) - targetElement.getDistance(new DOMElementWrapper(a));
+        });
         let existingStyles = this.getExistingLinkStyles(existingLinks);
         let previews = [];
         const maxPreviews = existingStyles.length <= this.previewsQty?existingStyles.length:this.previewsQty;

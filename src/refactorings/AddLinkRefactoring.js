@@ -33,7 +33,7 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
     }
 
     targetElements() {
-        return "div, ul";
+        return "div, ul, nav, section, header";
     }
 
     getView() {
