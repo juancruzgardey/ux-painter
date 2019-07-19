@@ -23,7 +23,7 @@ class PreviewModal extends React.Component {
     render() {
         return (
             <div className={"ux-painter-modal-container"}>
-                <span className={"close"} onClick={this.closeModal}>&times;</span>
+                <span className={"ux-painter-modal-close"} onClick={this.closeModal}>&times;</span>
                 <div className={"ux-painter-modal-header"}>
                     <h3 className={'ux-painter-modal-title'}>Refactoring Preview</h3>
                     <ul className={'ux-painter-option-list'}>

@@ -66,20 +66,20 @@
 }
 
 .ux-painter-modal-previews {
-    width:1500px;
-    height: 1500px;
+    max-width:1500px;
+    max-height: 1500px;
 }
 
 /* The Close Button */
-.close {
+.ux-painter-modal-close {
     color: #aaaaaa;
     float: right;
     font-size: 24px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.ux-painter-modal-close:hover,
+.ux-painter-modal-close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -107,6 +107,7 @@
 .ux-painter-list-element a {
     color: #343a40;
     font-weight: bold;
+    cursor:pointer;
 }
 
 .ux-painter-list-element a.active {
