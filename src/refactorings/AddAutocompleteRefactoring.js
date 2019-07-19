@@ -3,6 +3,7 @@ import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import Awesomplete from 'awesomplete/awesomplete';
 import 'awesomplete/awesomplete.css';
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
+import AddDatepickerPreviewer from "../previewers/AddDatepickerPreviewer";
 
 class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
@@ -54,46 +55,22 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getStyledElementsQty () {
-        return 2;
+        return  1;
     }
 
     setStyles(styles) {
         this.styles = [];
-
-        const basicStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        const highlightedItemStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-
-        this.styles.push({element: "getAutocompleteList", style: {"background-color": styles[0].backgroundColor}});
-
-        //const me = this;
-
-        this.styles.push({element: "getAutocompleteListElements", style:{"color": styles[0].color}});
-        this.styles.push({element: "getHighlightedElements", style: styles[1]});
-        /*
-        this.getElement().addEventListener("keyup", function () {
-            let listElements = me.getAutocompleteListElements();
-            if (!listElements) {
-                return
-            }
-            for (let i = 0; i < listElements.length; i++) {
-                // font color of list item
-                listElements[i].style.color = basicStyle.color;
-
-                //highlighted strings styles
-                const highlightedElements = me.getHighlightedElements(listElements[i]);
-                for (let j = 0; j < highlightedElements.length; j++) {
-                    highlightedElements[j].style.backgroundColor = highlightedItemStyle.backgroundColor;
-                    highlightedElements[j].style.color = highlightedItemStyle.color;
-                }
-            }
-        });
-        */
+        this.styles.push({element: "getHighlightedElements", style: styles[0]});
     }
 
     clone() {
         let clonedRefactoring = super.clone();
         clonedRefactoring.setValues(this.getValues());
         return clonedRefactoring;
+    }
+
+    static getPreviewer() {
+        return new AddDatepickerPreviewer();
     }
 };
 
