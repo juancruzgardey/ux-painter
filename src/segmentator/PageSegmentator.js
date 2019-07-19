@@ -12,7 +12,7 @@ class DOMElementWrapper {
     }
 
     findElement (anElement) {
-        return  this.domElement == anElement.domElement || this.domElement.querySelector("[data-uxpainter-id='" + anElement.id + "']");
+        return this.domElement.querySelector("[data-uxpainter-id='" + anElement.id + "']");
     }
 
     getParent() {
@@ -80,7 +80,7 @@ class PageSegment {
     }
 
     contains(anotherSegment) {
-        return this.domElement.findElement(anotherSegment.domElement);
+        return this.findElement(anotherSegment.domElement);
     }
 
     merge (anotherSegment) {
@@ -95,7 +95,7 @@ class PageSegment {
 class PageSegmentator {
 
     constructor () {
-        this.distanceThreshold = 160;
+        this.distanceThreshold = 80;
     }
 
     getInitialSegments() {
@@ -116,27 +116,38 @@ class PageSegmentator {
         }
         this.getInitialSegments();
         let merged = true;
-        while (merged) {
+        let indexSegmentA;
+        let indexSegmentB;
+        let minimalDistance = 0;
+        while (minimalDistance < this.distanceThreshold) {
             merged = false;
+            minimalDistance = this.distanceThreshold;
             for (var j = 0; j < this.segments.length; j++) {
                 for (var i = 0;i < this.segments.length;i++) {
-                    if ( !this.segments[i].equals(this.segments[j]) && this.segments[i].getDistance(this.segments[j]) <= this.distanceThreshold) {
-                        let mergedSegment = this.segments[i].merge(this.segments[j]);
-                        this.segments[i] = mergedSegment;
-                        this.segments[j] = mergedSegment;
-                        merged = true;
+                    if ( !this.segments[i].equals(this.segments[j])
+                        && this.segments[i].getDistance(this.segments[j]) < minimalDistance && this.isValidMerge(this.segments[i], this.segments[j])) {
+                        minimalDistance = this.segments[i].getDistance(this.segments[j]);
+                        indexSegmentA = i;
+                        indexSegmentB = j;
                     }
                 }
             }
-            let newSegments = [];
-            for (var i = this.segments.length - 1; i >= 0; i--) {
-                const me = this;
-                var existingSegment = newSegments.filter(function (s) { return s.equals(me.segments[i])});
-                if (existingSegment.length == 0) {
-                    newSegments.push(this.segments[i]);
+            if (minimalDistance < this.distanceThreshold) {
+                let mergedSegment = this.segments[indexSegmentA].merge(this.segments[indexSegmentB]);
+                this.segments[indexSegmentA] = mergedSegment;
+                this.segments[indexSegmentB] = mergedSegment;
+                merged = true;
+
+                let newSegments = [];
+                for (var i = this.segments.length - 1; i >= 0; i--) {
+                    const me = this;
+                    var existingSegment = newSegments.filter(function (s) { return s.equals(me.segments[i])});
+                    if (existingSegment.length == 0 && !mergedSegment.contains(this.segments[i])) {
+                        newSegments.push(this.segments[i]);
+                    }
                 }
+                this.segments = newSegments;
             }
-            this.segments = newSegments;
         }
         return this.segments;
     }
@@ -146,17 +157,24 @@ class PageSegmentator {
         const targetPageSegment = this.findPageSegmentsByDistance().filter(function (pageSegment) {
             return pageSegment.findElement(elementWrapper);
         });
-        console.log(targetPageSegment);
-        targetPageSegment.sort(function (a, b) {
-            return (elementWrapper.getNumberOfHops(a.domElement) - elementWrapper.getNumberOfHops(b.domElement)) < 0;
-        });
         return targetPageSegment?targetPageSegment[0].domElement.domElement:null;
     }
 
     printSegments() {
         for (let i = 0; i < this.segments.length; i++) {
-            this.segments[i].domElement.domElement.style.border = "1px solid black";
+            this.segments[i].domElement.domElement.style.border = "1px solid red";
         }
+    }
+
+    isValidMerge(aSegment, anotherSegment) {
+        let ancestor = aSegment.domElement.ancestor(anotherSegment.domElement);
+        let found = true;
+        for (let i=0; i < this.segments.length && found; i++) {
+            if (!ancestor.findElement(this.segments[i].domElement)) {
+                found = false;
+            }
+        }
+        return !found;
     }
 }
 
