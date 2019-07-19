@@ -3,7 +3,7 @@ import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import Awesomplete from 'awesomplete/awesomplete';
 import 'awesomplete/awesomplete.css';
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
-import AddDatepickerPreviewer from "../previewers/AddDatepickerPreviewer";
+import ColorPreviewer from "../previewers/ColorPreviewer";
 
 class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
@@ -70,7 +70,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     static getPreviewer() {
-        return new AddDatepickerPreviewer();
+        return new ColorPreviewer();
     }
 };
 

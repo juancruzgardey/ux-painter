@@ -5,7 +5,7 @@ import RefactoringOnElementView from "../components/RefactoringOnElementView";
 import $ from 'jquery';
 import datepickerFactory from 'jquery-datepicker';
 import 'jquery-ui-bundle/jquery-ui.css';
-import AddDatepickerPreviewer from "../previewers/AddDatepickerPreviewer";
+import ColorPreviewer from "../previewers/ColorPreviewer";
 
 datepickerFactory($);
 
@@ -44,7 +44,7 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
     }
 
     static getPreviewer() {
-        return new AddDatepickerPreviewer();
+        return new ColorPreviewer();
     }
 
     getDatePickerTitle() {

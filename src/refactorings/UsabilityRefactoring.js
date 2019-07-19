@@ -1,9 +1,9 @@
-import StyleScrapper from '../scrappers/StyleScrapper';
+import ColorScrapper from '../scrappers/ColorScrapper';
 import RefactoringView from "../components/RefactoringView";
 
 class UsabilityRefactoring {
     constructor () {
-        this.styleScrapper = new StyleScrapper();
+        this.styleScrapper = new ColorScrapper();
     }
 
     initialize () {}

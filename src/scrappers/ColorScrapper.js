@@ -3,7 +3,7 @@ let Combinatorics = require('js-combinatorics');
 let Color = require('color');
 
 
-class StyleScrapper {
+class ColorScrapper {
 
     constructor() {
         this.contrastRatioThreshold = 0;
@@ -147,4 +147,4 @@ class StyleScrapper {
 
 }
 
-export default StyleScrapper;
+export default ColorScrapper;

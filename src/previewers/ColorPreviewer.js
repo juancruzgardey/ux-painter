@@ -1,7 +1,7 @@
 import Previewer from "./Previewer";
-import StyleScrapper from "../scrappers/StyleScrapper";
+import ColorScrapper from "../scrappers/ColorScrapper";
 
-class AddDatepickerPreviewer extends Previewer {
+class ColorPreviewer extends Previewer {
 
     constructor () {
         super();
@@ -10,7 +10,7 @@ class AddDatepickerPreviewer extends Previewer {
 
     generatePreviews(aRefactoring) {
         let previews = [];
-        let styleScrapper = new StyleScrapper();
+        let styleScrapper = new ColorScrapper();
         let stylesScrapped = styleScrapper.scrapStyles(aRefactoring.getElement(),aRefactoring.getStyledElementsQty(),this.previewsQty);
         for (let i = 0; i < stylesScrapped.length; i++) {
             const previewRefactoring = this.cloneRefactoring(aRefactoring);
@@ -23,4 +23,4 @@ class AddDatepickerPreviewer extends Previewer {
 
 }
 
-export default AddDatepickerPreviewer;
+export default ColorPreviewer;
