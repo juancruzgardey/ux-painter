@@ -12,7 +12,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     transform() {
-        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement());
+        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement().getAttribute("data-uxpainter-id"));
         new Awesomplete(this.getElement(), {list: this.values});
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
         const me = this;

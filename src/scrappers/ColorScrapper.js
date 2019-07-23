@@ -130,8 +130,8 @@ class ColorScrapper {
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 
-    getElementComputedStyle (anElement) {
-        return Object.assign({}, window.getComputedStyle(anElement));
+    getElementComputedStyle (elementID) {
+        return Object.assign({}, window.getComputedStyle(document.querySelector("[data-uxpainter-id='" + elementID + "']")));
     }
 
     updateElementStyle (targetElement, computedStyle) {
