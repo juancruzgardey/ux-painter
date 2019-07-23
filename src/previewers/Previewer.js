@@ -25,10 +25,18 @@ class Previewer {
         clonedTargetElementContainer.style.height = window.getComputedStyle(targetElementContainer).getPropertyValue("height");
 
         let previewRefactoring = aRefactoring.clone();
-        previewRefactoring.setElement(clonedTargetElementContainer.querySelector("[data-uxpainter-id='" +
-            originalTargetElement.getAttribute("data-uxpainter-id") + "']"));
+        previewRefactoring.setElement(this.findTargetElement(clonedTargetElementContainer,originalTargetElement.getAttribute("data-uxpainter-id")));
         previewRefactoring.targetElementContainer = clonedTargetElementContainer;
         return previewRefactoring;
+    }
+
+    findTargetElement(targetElementContainer, targetElementID) {
+        if (targetElementContainer.getAttribute("data-uxpainter-id") == targetElementID) {
+            return targetElementContainer;
+        }
+        else {
+            return targetElementContainer.querySelector("[data-uxpainter-id='" + targetElementID + "']");
+        }
     }
 
     getTextInputStyle() {

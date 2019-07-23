@@ -12,7 +12,7 @@ class DOMElementWrapper {
     }
 
     findElement (anElement) {
-        return this.domElement.querySelector("[data-uxpainter-id='" + anElement.id + "']");
+        return this.equals(anElement) || this.domElement.querySelector("[data-uxpainter-id='" + anElement.id + "']");
     }
 
     getParent() {
@@ -139,6 +139,7 @@ class PageSegmentator {
                 merged = true;
 
                 let newSegments = [];
+                newSegments.push(mergedSegment);
                 for (var i = this.segments.length - 1; i >= 0; i--) {
                     const me = this;
                     var existingSegment = newSegments.filter(function (s) { return s.equals(me.segments[i])});
