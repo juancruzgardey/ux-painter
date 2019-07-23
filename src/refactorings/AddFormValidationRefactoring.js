@@ -34,13 +34,20 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
     }
 
     getRequiredInputs() {
+        const me = this;
         return this.getRequiredInputXpaths().map(function (inputXpath) {
-            return new XPathInterpreter().getSingleElementByXpath(inputXpath, document.body);
+            return new XPathInterpreter().getSingleElementByXpath(inputXpath, me.getElement());
         });
     }
 
     targetElements () {
         return "form";
+    }
+
+    clone() {
+        let clonedRefactoring = super.clone();
+        clonedRefactoring.setRequiredInputXpaths(this.getRequiredInputXpaths());
+        return clonedRefactoring;
     }
 
     static asString() {
@@ -50,6 +57,7 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
     getView() {
         return AddFormValidationView;
     }
+
     
 }
 

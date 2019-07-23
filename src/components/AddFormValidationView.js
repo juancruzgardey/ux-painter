@@ -25,7 +25,7 @@ class AddFormValidationView extends React.Component {
     }
 
     onElementSelected(anElement) {
-        const elementXpath = (new XPathInterpreter()).getPath(anElement, document.body)[0];
+        const elementXpath = (new XPathInterpreter()).getPath(anElement, this.refactoring.getElement())[0];
         this.state.requiredInputs.push(elementXpath);
         this.setState({requiredInputs: this.state.requiredInputs});
         this.refactoring.setRequiredInputXpaths(this.state.requiredInputs);
@@ -57,9 +57,8 @@ class AddFormValidationView extends React.Component {
     }
 
     getElementLabel(elementXpath) {
-        const element = new XPathInterpreter().getSingleElementByXpath(elementXpath,document.body);
+        const element = new XPathInterpreter().getSingleElementByXpath(elementXpath,this.refactoring.getElement());
         let labels = document.querySelectorAll("label[for='" + element.id + "'], label[for='" + element.getAttribute("name") + "']");
-        console.log(labels);
         return labels.length > 0?labels[0].innerText: elementXpath;
     }
 
