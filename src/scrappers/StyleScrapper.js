@@ -3,7 +3,7 @@ let Combinatorics = require('js-combinatorics');
 let Color = require('color');
 
 
-class ColorScrapper {
+class StyleScrapper {
 
     constructor() {
         this.contrastRatioThreshold = 0;
@@ -16,17 +16,30 @@ class ColorScrapper {
         return this.pageSegmentator;
     }
 
+    getStyles(selector,elementContainer, properties) {
+        let styles = [];
+        const allElements = elementContainer.querySelectorAll(selector);
+        for (let i = 0; i < allElements.length; i++) {
+            let elementStyle = {};
+            for (let j = 0; j < properties.length; j++) {
+                elementStyle[properties[j]] = window.getComputedStyle(allElements[i]).getPropertyValue(properties[j]);
+            }
+            styles.push(elementStyle);
+        }
+        return styles;
+    }
+
     /**
      * scrap style of each text element of the page whose ancestor is targetElement
      */
-    getStyles (targetElement) {
+    getColorStyles (targetElement) {
         let elementsStyle = [];
         const allTextElements = targetElement.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']");
         for (let i = 0; i < allTextElements.length; i++) {
             const color = window.getComputedStyle(allTextElements[i]).getPropertyValue("color");
             const backgroundColor = this.getElementBackGroundColor(allTextElements[i]);
 
-            let elementStyle = this.getStyle({"backgroundColor": backgroundColor, "color": color}, elementsStyle);
+            let elementStyle = this.getColorStyle({"backgroundColor": backgroundColor, "color": color}, elementsStyle);
             if (elementStyle) {
                 elementStyle.weight += 1;
             }
@@ -45,7 +58,7 @@ class ColorScrapper {
         return elementsStyle;
     }
 
-    getStyle(style, elementsCollection) {
+    getColorStyle(style, elementsCollection) {
         for (let i = 0; (i < elementsCollection.length); i++) {
             if (Math.abs(Color(elementsCollection[i].color).hue() - Color(style.color).hue()) <= 10 &&
                 Math.abs(Color(elementsCollection[i]["background-color"]).hue() - Color(style.backgroundColor).hue()) <= 10) {
@@ -67,7 +80,7 @@ class ColorScrapper {
     scrapStyles(refactoredElement, styleNumbers, limit) {
         let targetElement = this.getPageSegmentator().findPageSegmentOfElement(refactoredElement);
         console.log("scrapping from element ", targetElement);
-        this.styles = Combinatorics.baseN(this.getStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers).toArray();
+        this.styles = Combinatorics.baseN(this.getColorStyles(targetElement).slice(0, this.elementsQtyThreshold), styleNumbers).toArray();
         console.log("all styles scrapped ", this.styles);
         return this.styles.slice(0, limit);
     }
@@ -117,7 +130,7 @@ class ColorScrapper {
     }
     
     getStylesByDistance(element) {
-        let allLeafElements = this.getStyles();
+        let allLeafElements = this.getColorStyles();
         const me = this;
         allLeafElements.sort(function (a, b) {
             return me.getDistanceBetweenElements(element, b.element) - me.getDistanceBetweenElements(element, a.element);
@@ -126,7 +139,7 @@ class ColorScrapper {
     }
 
     getRandomStyle(element) {
-        const nearestElements = this.getStyles(element).slice(0, this.elementsQtyThreshold);
+        const nearestElements = this.getColorStyles(element).slice(0, this.elementsQtyThreshold);
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 
@@ -147,4 +160,4 @@ class ColorScrapper {
 
 }
 
-export default ColorScrapper;
+export default StyleScrapper;

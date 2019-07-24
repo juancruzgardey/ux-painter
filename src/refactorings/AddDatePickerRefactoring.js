@@ -24,7 +24,7 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         this.transformElement(this.getElement());
         this.styleScrapped = false;
         const me = this;
-        //this.getStyles();
+        //this.getColorStyles();
         this.getElement().addEventListener("focus", function () {
             me.applyStyles();
         });
