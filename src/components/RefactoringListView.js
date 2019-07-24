@@ -19,8 +19,10 @@ class RefactoringListView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.refactorings = [RenameElementRefactoring, AddTooltipRefactoring, TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring, AddDatePickerRefactoring, DateInputIntoSelectsRefactoring, AddAutocompleteRefactoring,
-        ResizeInputRefactoring,LinkToTopRefactoring, TurnAttributeIntoLinkRefactoring,AddFormValidationRefactoring, AddLinkRefactoring];
+        this.refactorings = [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddLinkRefactoring,
+            AddTooltipRefactoring, DateInputIntoSelectsRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
+            ResizeInputRefactoring, TurnAttributeIntoLinkRefactoring,
+            TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring];
     }
 
     render () {
