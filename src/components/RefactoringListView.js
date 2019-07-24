@@ -14,13 +14,14 @@ import TurnAttributeIntoLinkRefactoring from "../refactorings/TurnAttributeIntoL
 import AddFormValidationRefactoring from "../refactorings/AddFormValidationRefactoring";
 import TurnInputIntoSelectRefactoring from "../refactorings/TurnInputIntoSelectRefactoring";
 import AddLinkRefactoring from "../refactorings/AddLinkRefactoring";
+import FormatInputRefactoring from "../refactorings/FormatInputRefactoring";
 
 class RefactoringListView extends React.Component {
 
     constructor(props) {
         super(props);
         this.refactorings = [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddLinkRefactoring,
-            AddTooltipRefactoring, DateInputIntoSelectsRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
+            AddTooltipRefactoring, DateInputIntoSelectsRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
             ResizeInputRefactoring, TurnAttributeIntoLinkRefactoring,
             TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring];
     }
