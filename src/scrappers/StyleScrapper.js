@@ -20,13 +20,29 @@ class StyleScrapper {
         let styles = [];
         const allElements = elementContainer.querySelectorAll(selector);
         for (let i = 0; i < allElements.length; i++) {
-            let elementStyle = {};
+            let newStyle = {};
             for (let j = 0; j < properties.length; j++) {
-                elementStyle[properties[j]] = window.getComputedStyle(allElements[i]).getPropertyValue(properties[j]);
+                newStyle[properties[j]] = window.getComputedStyle(allElements[i]).getPropertyValue(properties[j]);
             }
-            styles.push(elementStyle);
+            const me = this;
+            let exists = styles.filter(function (style) {
+                return me.compareStyles(style, newStyle);
+            });
+            if (exists.length == 0) {
+                styles.push(newStyle);
+            }
         }
         return styles;
+    }
+
+    compareStyles (aStyle, anotherStyle) {
+        let equals = true;
+        Object.keys(aStyle).forEach(function (key) {
+            if (anotherStyle[key] && aStyle[key] != anotherStyle[key]) {
+                equals = false;
+            }
+        })
+        return equals;
     }
 
     /**
