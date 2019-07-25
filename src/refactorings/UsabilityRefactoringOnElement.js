@@ -49,7 +49,7 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
     getStyle() {
         if (!this.style) {
-            return {};
+            this.style = {};
         }
         return this.style;
     }
@@ -79,14 +79,11 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return clonedRefactoring;
     }
 
-    applyStyles() {
-        const me = this;
-        for (let i = 0; i < this.styles.length; i++) {
-            Object.keys(this.styles[i].style).forEach(function (cssProperty) {
-                for (let j = 0; j < me[me.styles[i].element]().length; j++) {
-                    me[me.styles[i].element]()[j].style.setProperty(cssProperty, me.styles[i].style[cssProperty]);
-                }
-            })
+    applyStyles(targetElements,styles) {
+        for (let i = 0; i < targetElements.length; i++) {
+            Object.keys(styles).forEach(function (cssProperty) {
+               targetElements[i].style[cssProperty] = styles[cssProperty];
+            });
         }
     }
 

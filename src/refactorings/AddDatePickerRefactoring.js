@@ -22,11 +22,12 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
 
     transform () {
         this.transformElement(this.getElement());
-        this.styleScrapped = false;
         const me = this;
-        //this.getColorStyles();
         this.getElement().addEventListener("focus", function () {
-            me.applyStyles();
+            me.applyStyles(me.getDatePickerTitle(), me.getStyle().title);
+            me.applyStyles(me.getSelectableElements(), me.getStyle().selectableElements);
+            me.applyStyles(me.getDatePickerTable(), me.getStyle().table);
+            me.applyStyles(me.getHeaderElements(), me.getStyle().header);
         });
 
     }
@@ -67,20 +68,18 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         return 3;
     }
 
-    setStyles (styles) {
-        this.styles = [];
+    setStyle (styles) {
         //const headerStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.styles.push({element: "getDatePickerTitle", style: styles[0]});
+        this.getStyle()["title"] = styles[0];
 
         // selectable elements style
-        const selectableElementStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.styles.push({element: "getSelectableElements", style: styles[1]});
+        //const selectableElementStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
+        this.getStyle()["selectableElements"] = styles[1];
 
         // table style
-        const tableStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.styles.push({element: "getDatePickerTable", style: {"background-color": styles[2]["background-color"]}});
+        this.getStyle()["table"] = {"background-color": styles[2]["background-color"]};
 
-        this.styles.push({element: "getHeaderElements", style: {"color": styles[2].color}});
+        this.getStyle()["header"] = {"color": styles[2].color};
     }
 
     getStylesFromExistingElement() {
@@ -93,17 +92,6 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         }
         return existingStyle;
 
-    }
-
-    getStyles () {
-        let styles = [];
-        if (this.getStyleScrapper().existsSimilarElement()) {
-            styles = this.getStylesFromExistingElement();
-        }
-        else {
-            styles = this.getStyleScrapper().styles.next();
-        }
-        this.setStyles(styles);
     }
 }
 

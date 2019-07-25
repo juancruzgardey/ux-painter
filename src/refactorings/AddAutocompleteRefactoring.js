@@ -17,7 +17,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
         const me = this;
         this.getElement().addEventListener("keyup", function () {
-          me.applyStyles();
+          me.applyStyles(me.getHighlightedElements(), me.getStyle().highlightedElements);
         });
     }
 
@@ -58,9 +58,8 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         return  1;
     }
 
-    setStyles(styles) {
-        this.styles = [];
-        this.styles.push({element: "getHighlightedElements", style: styles[0]});
+    setStyle(styles) {
+        this.getStyle()["highlightedElements"] = styles[0];
     }
 
     clone() {
