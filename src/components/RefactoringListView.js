@@ -15,6 +15,7 @@ import AddFormValidationRefactoring from "../refactorings/AddFormValidationRefac
 import TurnInputIntoSelectRefactoring from "../refactorings/TurnInputIntoSelectRefactoring";
 import AddLinkRefactoring from "../refactorings/AddLinkRefactoring";
 import FormatInputRefactoring from "../refactorings/FormatInputRefactoring";
+import TurnInputIntoTextareaRefactoring from "../refactorings/TurnInputIntoTextareaRefactoring";
 
 class RefactoringListView extends React.Component {
 
@@ -23,7 +24,7 @@ class RefactoringListView extends React.Component {
         this.refactorings = [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddLinkRefactoring,
             AddTooltipRefactoring, DateInputIntoSelectsRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
             ResizeInputRefactoring, TurnAttributeIntoLinkRefactoring,
-            TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring];
+            TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring, TurnInputIntoTextareaRefactoring];
     }
 
     render () {
