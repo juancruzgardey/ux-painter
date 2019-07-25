@@ -63,42 +63,21 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
     }
 
     applyStyle() {
-        const me = this;
-        Object.keys(me.getSelectStyle()).forEach(function (cssProperty) {
-            me.selectElement.style[cssProperty] = me.getSelectStyle()[cssProperty];
-        });
-
-        Object.keys(me.getOtherInputStyle()).forEach(function (cssProperty) {
-            me.otherElement.style[cssProperty] = me.getOtherInputStyle()[cssProperty];
-        });
+        this.applyStyles([this.selectElement], this.getStyle().targetElement);
+        this.applyStyles([this.otherElement], this.getStyle().otherInput);
 
         // set a default margin to other text input
-        if (window.getComputedStyle(me.otherElement).getPropertyValue("margin-top") == "0px") {
-            me.otherElement.style["margin-top"] = "5px";
+        if (window.getComputedStyle(this.otherElement).getPropertyValue("margin-top") == "0px") {
+            this.otherElement.style["margin-top"] = "5px";
         }
-
     }
 
     setSelectStyle(style) {
-        this.selectStyle = style;
-    }
-
-    getSelectStyle() {
-        if (!this.selectStyle) {
-            return {};
-        }
-        return this.selectStyle;
+        this.getStyle()["targetElement"] = style;
     }
 
     setOtherInputStyle(aStyle) {
-        this.otherInputStyle = aStyle;
-    }
-
-    getOtherInputStyle() {
-        if (!this.otherInputStyle) {
-            return {};
-        }
-        return this.otherInputStyle;
+        this.getStyle()["otherInput"] = aStyle;
     }
 
     static asString() {

@@ -3,36 +3,24 @@ import Previewer from "./Previewer";
 class TurnInputIntoSelectPreviewer extends Previewer {
 
     generatePreviews(aRefactoring) {
-        let existingStyle = [];
+        let previews = [];
 
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
-        let existingSelect = document.querySelector("select");
-        let widget;
-        // if a select input already exists, border and colors properties are fetched from that input
-        if (existingSelect) {
-            widget = existingSelect;
-            // copy arrow appearance from the other select
-            existingStyle["background"] = window.getComputedStyle(widget).getPropertyValue("background");
-            existingStyle["-webkit-appearance"] = window.getComputedStyle(widget).getPropertyValue("-webkit-appearance");
-        }
-        else {
-            widget = document.querySelector("input[type='text']");
-        }
-        existingStyle.border = window.getComputedStyle(widget).getPropertyValue("border");
-        existingStyle["border-radius"] = window.getComputedStyle(widget).getPropertyValue("border-radius");
-        existingStyle.padding = window.getComputedStyle(widget).getPropertyValue("padding");
-        existingStyle.margin = window.getComputedStyle(widget).getPropertyValue("margin");
-        existingStyle.color = window.getComputedStyle(widget).getPropertyValue("color");
+        let existingSelects = this.styleScrapper.getStyles("select", targetElementContainer, ["background","-webkit-appearance",
+        "border", "border-radius", "padding", "margin", "color"]);
 
-        // keep the original size of the free input
-        existingStyle.width = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("width");
-        existingStyle.height = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("height");
+        let existingInputs = this.styleScrapper.getStyles("input", targetElementContainer, ["border", "border-radius",
+            "padding", "margin", "color"]);
 
-        let previewRefactoring = this.cloneRefactoring(aRefactoring);
-        previewRefactoring.setSelectStyle(existingStyle);
-        previewRefactoring.setOtherInputStyle(this.getTextInputStyle());
-        let previews = [];
-        previews.push(previewRefactoring);
+        let existingStyles = existingSelects.concat(existingInputs);
+        for (let i = 0; i < existingStyles.length; i++) {
+            existingStyles[i].width = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("width");
+            existingStyles[i].height = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("height");
+            let previewRefactoring = this.cloneRefactoring(aRefactoring);
+            previewRefactoring.setSelectStyle(existingStyles[i]);
+            previewRefactoring.setOtherInputStyle(this.getTextInputStyle());
+            previews.push(previewRefactoring);
+        }
         return previews;
     }
 
