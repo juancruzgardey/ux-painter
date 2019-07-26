@@ -58,6 +58,12 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return AddFormValidationView;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.requiredInputXpaths = this.getRequiredInputXpaths();
+        return json;
+    }
+
     
 }
 

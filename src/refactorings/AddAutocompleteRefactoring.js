@@ -68,6 +68,12 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         return clonedRefactoring;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.values = this.getValues();
+        return json;
+    }
+
     static getPreviewer() {
         return new ColorPreviewer();
     }

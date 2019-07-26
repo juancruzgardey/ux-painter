@@ -22,7 +22,7 @@ class UsabilityRefactoring {
     }
 
     serialize () {
-        return {"refactoring": this.constructor.name}
+        return {"refactoring": this.constructor.name, "url": this.getURL()};
     }
 
     createRefactoring(json) {
@@ -35,6 +35,14 @@ class UsabilityRefactoring {
 
     setStyleScrapper(aScrapper) {
         this.styleScrapper = aScrapper;
+    }
+
+    setURL(url) {
+        this.url = url;
+    }
+
+    getURL() {
+        return this.url;
     }
 }
 

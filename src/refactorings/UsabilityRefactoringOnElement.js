@@ -34,8 +34,8 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
     serialize () {
         let json = super.serialize();
-        json.elementXpath = this.elementXpath;
-        json.style = this.style;
+        json.elementXpath = this.getElementXpath();
+        json.style = this.getStyle();
         return json;
     }
 
@@ -76,6 +76,7 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     clone () {
         let clonedRefactoring = new this.constructor();
         clonedRefactoring.setElement(this.getElement().cloneNode(true));
+        clonedRefactoring.setElementXpath(this.getElementXpath());
         return clonedRefactoring;
     }
 
