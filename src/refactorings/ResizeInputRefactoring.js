@@ -28,6 +28,12 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
         return clonedRefactoring;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.inputWidth = this.getInputWidth();
+        return json;
+    }
+
     static asString() {
         return "Resize Input";
     }

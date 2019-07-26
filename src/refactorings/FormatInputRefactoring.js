@@ -51,6 +51,12 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return clonedRefactoring;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.formatString = this.getFormatString();
+        return json;
+    }
+
     static asString() {
         return "Format Input";
     }

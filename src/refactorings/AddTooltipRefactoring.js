@@ -28,12 +28,18 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
         this.tooltipName = aTooltipName;
     }
 
+    getTooltipName() {
+        return this.tooltipName;
+    }
+
     targetElements () {
         return "a, div, img, input, span, p, button";
     }
 
     serialize () {
-
+        let json = super.serialize();
+        json.tooltipName = this.getTooltipName();
+        return json;
     }
 
     getView () {
