@@ -17,7 +17,7 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
                 daySuffixes: false,
                 monthSuffixes: false
             }, ...this.getLanguageOptions()["es"]});
-            this.applyStyles();
+            this.applyStyles(this.getSelects(), this.getStyle().selectElement);
         }
     }
 
@@ -27,6 +27,10 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
 
     targetElements() {
         return "input[type='text']";
+    }
+
+    getSelects() {
+        return this.getElement().parentNode.querySelectorAll("select");
     }
 
     getLanguageOptions() {
@@ -47,17 +51,6 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
                 monthShortValues: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 initialDayMonthYearValues: ['Day', 'Month', 'Year']
             }
-        }
-    }
-
-    applyStyles () {
-        const dateSelects = this.getElement().parentNode.querySelectorAll("select");
-        const me = this;
-        for (let i = 0; i < dateSelects.length; i++) {
-            Object.keys(me.getStyle()).forEach( function (cssProperty) {
-                dateSelects[i].style[cssProperty] = me.getStyle()[cssProperty];
-            });
-            dateSelects[i].style["margin-right"] = "10px";
         }
     }
 

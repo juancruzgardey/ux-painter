@@ -13,7 +13,7 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         this.linkElement.textContent = this.getLinkName();
         this.linkElement.href = this.getTargetURL();
         this.getElement().appendChild(this.linkElement);
-        this.applyStyle();
+        this.applyStyles([this.linkElement], this.getStyle().targetElement);
     }
 
     getTargetURL() {
@@ -40,18 +40,18 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         return AddLinkView;
     }
 
-    applyStyle() {
-        const me = this;
-        Object.keys(me.getStyle()).forEach(function (cssProperty) {
-            me.linkElement.style[cssProperty] = me.getStyle()[cssProperty];
-        });
-    }
-
     clone() {
         let refactoring = super.clone();
         refactoring.setTargetURL(this.getTargetURL());
         refactoring.setLinkName(this.getLinkName());
         return refactoring;
+    }
+
+    serialize() {
+        let json = super.serialize();
+        json.linkName = this.getLinkName();
+        json.targetURL = this.getTargetURL();
+        return json;
     }
 
     static asString() {

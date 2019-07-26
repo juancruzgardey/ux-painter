@@ -10,8 +10,7 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         this.linkElement.innerHTML = this.getElement().innerHTML;
         this.getElement().innerHTML = "";
         this.getElement().appendChild(this.linkElement);
-        this.styleElement = this.linkElement;
-        this.applyStyle();
+        this.applyStyles([this.linkElement], this.getStyle().targetElement);
     }
 
     getTargetURL() {
@@ -36,12 +35,10 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         return refactoring;
     }
 
-
-    applyStyle() {
-        const me = this;
-        Object.keys(me.getStyle()).forEach(function (cssProperty) {
-            me.linkElement.style[cssProperty] = me.getStyle()[cssProperty];
-        });
+    serialize() {
+        let json = super.serialize();
+        json.targetURL = this.getTargetURL();
+        return json;
     }
 
     static asString() {

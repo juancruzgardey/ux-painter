@@ -17,7 +17,10 @@ class DateInputIntoSelectsPreviewer extends Previewer {
         }
         for (let i = 0; i < existingStyles.length; i++) {
             let previewRefactoring = this.cloneRefactoring(aRefactoring);
-            previewRefactoring.setStyle(existingStyles[i]);
+            if (!existingStyles[i]["margin-right"]) {
+                existingStyles[i]["margin-right"] = "10px";
+            }
+            previewRefactoring.setStyle("selectElement",existingStyles[i]);
             previews.push(previewRefactoring);
         }
         return previews;
