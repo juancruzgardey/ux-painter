@@ -11,6 +11,10 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         this.values = values;
     }
 
+    getValues() {
+        return this.values;
+    }
+
     targetElements = function () {
         return "input[type='text']";
     };
@@ -19,7 +23,7 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         this.getElement().setAttribute("type", "hidden");
         const radioSetContainer = document.createElement("div");
         this.getElement().parentNode.insertBefore(radioSetContainer, this.getElement());
-        ReactDOM.render(<RadioSet values={this.values} refactoring={this}/>,radioSetContainer);
+        ReactDOM.render(<RadioSet values={this.getValues()} refactoring={this}/>,radioSetContainer);
     }
 
     getView() {
@@ -35,48 +39,53 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
     }
 
     setItemStyle(aString) {
-        this.displayStyle = aString;
+        this.getStyle().item = aString;
     }
 
     getItemStyle() {
-        return this.displayStyle;
+        return this.getStyle().item;
     }
 
     setLabelsPosition(aString) {
-        this.labelsPosition = aString;
+        this.getStyle().labelsPosition = aString;
     }
 
     getLabelsPosition() {
-        return this.labelsPosition;
+        return this.getStyle().labelsPosition;
     }
 
     setLabelsStyle(aStyle) {
-        this.labelsStyle = aStyle;
+        this.getStyle().labels = aStyle;
     }
 
     getLabelsStyle() {
-        if (!this.labelsStyle) {
+        if (!this.getStyle().labels) {
             return {};
         }
-        return this.labelsStyle;
+        return this.getStyle().labels;
     }
 
     getOtherInputStyle() {
-        if (!this.otherInputStyle) {
+        if (!this.getStyle().otherInput) {
             return {};
         }
-        return this.otherInputStyle;
+        return this.getStyle().otherInput;
     }
 
     setOtherInputStyle(style) {
-        this.otherInputStyle = style;
+        this.getStyle().otherInput = style;
     }
-
 
     clone() {
         let refactoring = super.clone();
-        refactoring.setValues(this.values);
+        refactoring.setValues(this.getValues());
         return refactoring;
+    }
+
+    serialize() {
+        let json = super.serialize();
+        json.values = this.getValues();
+        return json;
     }
 
 }

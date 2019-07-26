@@ -8,6 +8,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         this.values = valuesList;
     }
 
+    getValues() {
+        return this.values;
+    }
+
     transform() {
             let anElement = this.getElement();
             if (typeof (anElement) === "undefined" ) {
@@ -80,14 +84,20 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle()["otherInput"] = aStyle;
     }
 
-    static asString() {
-        return "Turn Input into Select";
-    }
-
     clone() {
         let clonedRefactoring = super.clone();
         clonedRefactoring.setValues(this.values);
         return clonedRefactoring;
+    }
+
+    serialize() {
+        let json = super.serialize();
+        json.values = this.getValues();
+        return json;
+    }
+
+    static asString() {
+        return "Turn Input into Select";
     }
 
     static getPreviewer() {
