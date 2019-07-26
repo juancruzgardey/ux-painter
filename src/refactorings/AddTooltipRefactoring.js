@@ -1,6 +1,7 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import AddTooltipView from "../components/AddTooltipView";
 import 'tipr/tipr/tipr.css';
+import ColorPreviewer from "../previewers/ColorPreviewer";
 const $ = require('jquery');
 window.jQuery = $;
 global.jQuery = $;
@@ -15,10 +16,9 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
             this.getElement().setAttribute("data-tip", this.tooltipName);
 
             $(this.getElement()).tipr();
-            this.scrapStyles();
             const me = this;
             this.getElement().addEventListener("mousemove", function () {
-                me.applyStyles();
+                me.applyStyles(me.getTooltipElement(), me.getStyle().tooltip);
             });
 
         }
@@ -44,12 +44,12 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
         return this.getElement().querySelectorAll(".tipr_content");
     }
 
-    scrapStyles() {
-        this.styles = [];
-        const tooltipStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
-        this.styles.push({element: "getTooltipElement", style: tooltipStyle});
+    getStyledElementsQty() {
+        return 1;
+    }
 
-
+    setStyle(aStyle) {
+        this.getStyle()["tooltip"] = aStyle[0];
     }
 
     clone () {
@@ -61,17 +61,12 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
     static asString () {
         return "Add Tooltip";
     }
+
+    static getPreviewer() {
+        return new ColorPreviewer();
+    }
 }
 
 export default AddTooltipRefactoring;
-
-
-/**AddTooltipRefactoring.prototype.serialize = function () {
-    var json = UsabilityRefactoringOnElement.prototype.serialize.call(this);
-    json.tooltip = this.tooltipName;
-    return json;
-}
-
-*/
 
 
