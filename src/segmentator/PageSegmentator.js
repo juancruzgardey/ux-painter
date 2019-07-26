@@ -99,7 +99,7 @@ class PageSegmentator {
     }
 
     getInitialSegments() {
-        let allCandidateLeaves = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,span,a,input,i,label,strong");
+        let allCandidateLeaves = document.querySelectorAll("*");
         this.segments = [];
         for (let i=0; i < allCandidateLeaves.length; i++) {
             if (allCandidateLeaves[i].children.length == 0) {
