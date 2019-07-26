@@ -9,7 +9,7 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
     transform () {
         const anElement = this.getElement();
         if (anElement !== "undefined") {
-            anElement.innerHTML = this.newName;
+            anElement.innerHTML = this.getNewName();
         }
     }
 
@@ -17,10 +17,8 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         this.newName = newName;
     }
 
-    serialize () {
-        let json = super.serialize();
-        json.newName = this.newName;
-        return json;
+    getNewName() {
+        return this.newName;
     }
 
     targetElements () {
@@ -29,6 +27,18 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
 
     getView () {
         return RenameElementView;
+    }
+
+    clone() {
+        let refactoring = super.clone();
+        refactoring.setNewName(this.getNewName());
+        return refactoring;
+    }
+
+    serialize() {
+        let json = super.serialize();
+        json.newName = this.getNewName();
+        return json;
     }
 
     static asString () {

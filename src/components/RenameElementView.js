@@ -12,7 +12,7 @@ class RenameElementView extends React.Component {
 
     handleChange(event) {
         this.setState({elementName: event.target.value});
-        this.refactoring.setNewName(this.state.elementName);
+        this.refactoring.setNewName(event.target.value);
     }
 
 
