@@ -22,7 +22,7 @@ class UsabilityRefactoring {
     }
 
     serialize () {
-        return {"refactoring": this.constructor.name, "url": this.getURL()};
+        return {"refactoring": this.constructor.getClassName(), "url": this.getURL()};
     }
 
     createRefactoring(json) {
@@ -43,6 +43,18 @@ class UsabilityRefactoring {
 
     getURL() {
         return this.url;
+    }
+
+    static fromJSON(json) {
+        let refactoring = new (window.refactoringManager.getRefactoringClass(json.refactoring));
+        Object.keys(json).map(function (key) {
+           refactoring[key] = json[key];
+        });
+        return refactoring;
+    }
+
+    static getClassName() {
+        return "";
     }
 }
 

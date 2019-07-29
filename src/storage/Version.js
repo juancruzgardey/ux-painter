@@ -54,7 +54,7 @@ class Version {
     static fromJSON(json) {
         let version = new Version();
         version.setName(json.name);
-        for (let i = 0; i < json.refactorings; i++) {
+        for (let i = 0; i < json.refactorings.length; i++) {
             version.addRefactoring(UsabilityRefactoring.fromJSON(json.refactorings[i]));
         }
         return version;
