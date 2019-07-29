@@ -1,5 +1,6 @@
 import {Link} from "route-lite";
 import ElementSelectionView from "./ElementSelectionView";
+import VersionView from "./VersionView";
 import RenameElementRefactoring from "../refactorings/RenameElementRefactoring";
 import React from "react";
 import AddTooltipRefactoring from "../refactorings/AddTooltipRefactoring";
@@ -35,10 +36,27 @@ class RefactoringListView extends React.Component {
         });
         return ([
                 <h2 className={'text-center'}>Refactorings</h2>,
-                <ul>
-                    {listItems}
-                </ul>]
-        )
+                <div className={'row'}>
+                    <div className={'col-md-12'}>
+                    <ul>
+                        {listItems}
+                    </ul>
+                    </div>
+                </div>,
+                <div className={'row'}>
+                    <p>Current version: {this.getCurrentVersion()}</p>
+                </div>,
+                <div className={'row'}>
+                    <div className={'col-md-12'}>
+                        <Link className={'btn btn-warning'} component={VersionView}
+                              componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save</Link>
+                    </div>
+                </div>
+        ])
+    }
+
+    getCurrentVersion() {
+        return window.refactoringManager.getCurrentVersion().getName()?window.refactoringManager.getCurrentVersion().getName():'Original';
     }
 
     nextComponent(aRefactoring) {

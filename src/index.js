@@ -4,10 +4,12 @@ import ReactDOM from "react-dom";
 import React from "react";
 import Main from './content'
 import "./index.css"
+import RefactoringManager from "./storage/RefactoringManager";
 
 const app = document.createElement('div');
 app.id = "refactoring-extension-root";
 document.body.appendChild(app);
+window.refactoringManager = new RefactoringManager();
 ReactDOM.render(<Main />, app);
 
 app.style.display = "none";

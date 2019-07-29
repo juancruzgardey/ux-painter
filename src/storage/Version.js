@@ -14,6 +14,14 @@ class Version {
         return this.name;
     }
 
+    getRefactorings() {
+        return this.refactorings;
+    }
+
+    setRefactorings(refactorings) {
+        this.refactorings = refactorings;
+    }
+
     addRefactoring(aRefactoring) {
         this.refactorings.push(aRefactoring);
     }
@@ -34,6 +42,13 @@ class Version {
                refactoring.execute();
            }
         });
+    }
+
+    clone() {
+        let version = new Version();
+        version.setName(this.getName());
+        version.setRefactorings(this.getRefactorings().slice());
+        return version;
     }
 
     static fromJSON(json) {

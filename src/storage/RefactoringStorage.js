@@ -15,6 +15,10 @@ class RefactoringStorage {
         return this.currentVersion;
     }
 
+    setCurrentVersion(aVersion) {
+        this.currentVersion = aVersion;
+    }
+
     getVersions() {
         if (!this.versions) {
             this.versions = [];
@@ -31,7 +35,7 @@ class RefactoringStorage {
     addVersion(aVersion) {
         let found = false;
         for (let i = 0; i < this.getVersions().length && !found; i++) {
-            if (aVersion.getName() == this.getVersions().getName()) {
+            if (aVersion.getName() == this.getVersions()[i].getName()) {
                 this.getVersions()[i] = aVersion;
                 found = true;
             }

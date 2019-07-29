@@ -30,6 +30,7 @@ class RefactoringView extends React.Component {
         this.selectedRefactoring.setElement(this.originalTargetElement);
         this.selectedRefactoring.setURL(document.location.href.replace(document.location.search, ""));
         this.selectedRefactoring.execute();
+        window.refactoringManager.getCurrentVersion().addRefactoring(this.selectedRefactoring);
     }
 
     createPreviews() {

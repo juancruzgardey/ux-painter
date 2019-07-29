@@ -10,6 +10,10 @@ class RefactoringManager {
          return this.refactoringStorage.getCurrentVersion();
     }
 
+    setCurrentVersion(aVersion) {
+        this.refactoringStorage.setCurrentVersion(aVersion);
+    }
+
     addVersion(aVersion) {
         this.refactoringStorage.addVersion(aVersion);
     }
