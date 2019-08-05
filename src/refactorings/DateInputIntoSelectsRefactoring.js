@@ -62,7 +62,9 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
         return new DateInputIntoSelectsPreviewer();
     }
 
-
+    static getClassName() {
+        return "DateInputIntoSelectsRefactoring";
+    }
 
 }
 

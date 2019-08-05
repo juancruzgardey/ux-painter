@@ -71,6 +71,10 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
     static getPreviewer() {
         return new ColorPreviewer();
     }
+
+    static getClassName() {
+        return "AddTooltipRefactoring";
+    }
 }
 
 export default AddTooltipRefactoring;

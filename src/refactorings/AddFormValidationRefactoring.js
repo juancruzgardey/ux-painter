@@ -64,6 +64,10 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return json;
     }
 
+    static getClassName() {
+        return "AddFormValidationRefactoring";
+    }
+
     
 }
 

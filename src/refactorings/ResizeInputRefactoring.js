@@ -2,8 +2,14 @@ import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import ResizeInputRefactoringView from "../components/ResizeInputRefactoringView";
 
 class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
+
+    constructor() {
+        super();
+    }
+
     transform() {
         this.getElement().style.width = this.getInputWidth() + "px";
+        console.log(this.getElement().style);
     }
 
     setInputWidth(inputWidth) {
@@ -36,6 +42,10 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
 
     static asString() {
         return "Resize Input";
+    }
+
+    static getClassName() {
+        return "ResizeInputRefactoring";
     }
 
 }

@@ -61,6 +61,10 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return "Format Input";
     }
 
+    static getClassName() {
+        return "FormatInputRefactoring";
+    }
+
 
 }
 

@@ -48,6 +48,10 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         return new ColorPreviewer();
     }
 
+    static getClassName() {
+        return "AddDatePickerRefactoring";
+    }
+
     getDatePickerTitle() {
         return document.querySelectorAll(".ui-datepicker-header");
     }

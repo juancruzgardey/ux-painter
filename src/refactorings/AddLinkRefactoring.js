@@ -62,6 +62,10 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         return new TurnAttributeIntoLinkPreviewer();
     }
 
+    static getClassName() {
+        return "AddLinkRefactoring";
+    }
+
 }
 
 export default AddLinkRefactoring;

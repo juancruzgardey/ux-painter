@@ -49,6 +49,10 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         return new TurnAttributeIntoLinkPreviewer();
     }
 
+    static getClassName() {
+        return "TurnAttributeIntoLinkRefactoring";
+    }
+
 }
 
 export default TurnAttributeIntoLinkRefactoring;

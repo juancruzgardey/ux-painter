@@ -1,4 +1,5 @@
 import PageSegmentator from "../segmentator/PageSegmentator";
+import XPathInterpreter from "../refactorings/XPathInterpreter";
 let Combinatorics = require('js-combinatorics');
 let Color = require('color');
 
@@ -159,8 +160,8 @@ class StyleScrapper {
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 
-    getElementComputedStyle (elementID) {
-        return Object.assign({}, window.getComputedStyle(document.querySelector("[data-uxpainter-id='" + elementID + "']")));
+    getElementComputedStyle (elementXpath) {
+        return Object.assign({}, window.getComputedStyle(new XPathInterpreter().getElementByXPath(elementXpath,document.body)));
     }
 
     updateElementStyle (targetElement, computedStyle) {

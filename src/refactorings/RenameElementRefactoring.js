@@ -45,6 +45,10 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         return "Rename Element";
     }
 
+    static getClassName() {
+        return "RenameElementRefactoring";
+    }
+
 }
 
 export default RenameElementRefactoring;

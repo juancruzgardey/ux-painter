@@ -1,5 +1,5 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
-
+import XPathInterpreter from './XPathInterpreter';
 import Awesomplete from 'awesomplete/awesomplete';
 import 'awesomplete/awesomplete.css';
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
@@ -12,7 +12,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     transform() {
-        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElement().getAttribute("data-uxpainter-id"));
+        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElementXpath());
         new Awesomplete(this.getElement(), {list: this.values});
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
         const me = this;
@@ -76,6 +76,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
     static getPreviewer() {
         return new ColorPreviewer();
+    }
+
+    static getClassName() {
+        return "AddAutocompleteRefactoring";
     }
 };
 
