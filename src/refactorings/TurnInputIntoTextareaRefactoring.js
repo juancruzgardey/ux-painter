@@ -32,6 +32,10 @@ class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
     static getPreviewer() {
         return new TurnInputIntoTextareaPreviewer();
     }
+
+    static getClassName() {
+        return "TurnInputIntoTextareaRefactoring";
+    }
 }
 
 export default TurnInputIntoTextareaRefactoring;

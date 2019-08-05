@@ -88,6 +88,10 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         return json;
     }
 
+    static getClassName() {
+        return "TurnInputIntoRadiosRefactoring";
+    }
+
 }
 
 export default TurnInputIntoRadiosRefactoring;

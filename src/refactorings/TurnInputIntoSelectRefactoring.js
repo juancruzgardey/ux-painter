@@ -104,6 +104,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         return new TurnInputIntoSelectPreviewer();
     }
 
+    static getClassName() {
+        return "TurnInputIntoSelectRefactoring";
+    }
+
 }
 
 export default TurnInputIntoSelectRefactoring;
