@@ -9,7 +9,7 @@ class RefactoringStorage {
                 this.currentVersion = Version.fromJSON(serializedVersion);
             }
             else {
-                this.currentVersion = new Version();
+                this.currentVersion = this.getOriginalVersion();
             }
         }
         return this.currentVersion;
@@ -17,6 +17,10 @@ class RefactoringStorage {
 
     setCurrentVersion(aVersion) {
         this.currentVersion = aVersion;
+    }
+
+    getOriginalVersion() {
+        return new Version("Original");
     }
 
     getVersions() {
@@ -30,6 +34,10 @@ class RefactoringStorage {
             }
         }
         return this.versions;
+    }
+
+    getAllVersions() {
+        return [this.getOriginalVersion()].concat(this.getVersions());
     }
 
     addVersion(aVersion) {

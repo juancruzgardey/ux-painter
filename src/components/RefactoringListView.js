@@ -1,4 +1,4 @@
-import {Link} from "route-lite";
+import {Link, goBack} from "route-lite";
 import ElementSelectionView from "./ElementSelectionView";
 import VersionView from "./VersionView";
 import React from "react";
@@ -26,19 +26,13 @@ class RefactoringListView extends React.Component {
                     </div>
                 </div>,
                 <div className={'row'}>
-                    <p>Current version: {this.getCurrentVersion()}</p>
-                </div>,
-                <div className={'row'}>
                     <div className={'col-md-12'}>
-                        <Link className={'btn btn-warning'} component={VersionView}
+                        <Link className={'btn btn-warning inline-link'} component={VersionView}
                               componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save</Link>
+                        <Link className={'btn btn-secondary inline-link'} onClick={() => { goBack()}}>Back</Link>
                     </div>
                 </div>
         ])
-    }
-
-    getCurrentVersion() {
-        return window.refactoringManager.getCurrentVersion().getName()?window.refactoringManager.getCurrentVersion().getName():'Original';
     }
 
     nextComponent(aRefactoring) {

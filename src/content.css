@@ -113,3 +113,7 @@
 .ux-painter-list-element a.active {
     color: #ffc107;
 }
+
+a {
+    cursor: pointer;
+}

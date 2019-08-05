@@ -40,6 +40,14 @@ class RefactoringManager {
         this.refactoringStorage.save();
     }
 
+    getVersions() {
+        return this.refactoringStorage.getVersions();
+    }
+
+    getAllVersions() {
+        return this.refactoringStorage.getAllVersions();
+    }
+
     getRefactoringCatalogue() {
         return [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddLinkRefactoring,
             AddTooltipRefactoring, DateInputIntoSelectsRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,

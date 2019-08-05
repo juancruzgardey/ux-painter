@@ -2,8 +2,11 @@ import UsabilityRefactoring from "../refactorings/UsabilityRefactoring";
 
 class Version {
 
-    constructor() {
+    constructor(aName) {
         this.refactorings = [];
+        if (aName) {
+            this.name = aName;
+        }
     }
 
     setName(aString) {

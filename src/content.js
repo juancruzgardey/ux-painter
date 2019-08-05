@@ -3,7 +3,7 @@
 import React from 'react';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 import "./content.css";
-import RefactoringListView from './components/RefactoringListView';
+import VersionListView from './components/VersionListView';
 import Router from "route-lite";
 
 class Main extends React.Component {
@@ -22,7 +22,7 @@ class Main extends React.Component {
                             return (
                                 <div className={'ux-painter container'}>
                                     <Router>
-                                        <RefactoringListView/>
+                                        <VersionListView/>
                                     </Router>
                                 </div>
                             )
