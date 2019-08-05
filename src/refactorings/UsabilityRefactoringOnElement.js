@@ -59,19 +59,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return this.targetElement;
     }
 
-    applyStyle () {
-        if (!this.style) {
-            return
-        }
-        let newStyle = "";
-        if (!this.getStyleElement().getAttribute("style")) {
-            newStyle = this.style;
-        }
-        else {
-            newStyle = ";" + this.style;
-        }
-        this.getStyleElement().setAttribute("style", newStyle);
-    }
 
     clone () {
         let clonedRefactoring = new this.constructor();

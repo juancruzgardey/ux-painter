@@ -8,13 +8,12 @@ class UsabilityRefactoring {
 
     initialize () {}
     transform () {}
-    applyStyle () {}
+
     static asString () {}
 
     execute () {
         this.initialize();
         this.transform();
-        this.applyStyle();
     }
 
     isOnElement () {
