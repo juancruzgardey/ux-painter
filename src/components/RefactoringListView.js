@@ -36,12 +36,7 @@ class RefactoringListView extends React.Component {
     }
 
     nextComponent(aRefactoring) {
-        if (aRefactoring.getElement()) {
-            return RefactoringView;
-        }
-        else {
-            return ElementSelectionView;
-        }
+        return aRefactoring.getSelectionView();
     }
 }
 

@@ -1,5 +1,6 @@
 import StyleScrapper from '../scrappers/StyleScrapper';
 import RefactoringView from "../components/RefactoringView";
+import ElementSelectionView from "../components/ElementSelectionView";
 
 class UsabilityRefactoring {
     constructor () {
@@ -42,6 +43,10 @@ class UsabilityRefactoring {
 
     getURL() {
         return this.url;
+    }
+
+    getSelectionView() {
+        return ElementSelectionView;
     }
 
     static fromJSON(json) {
