@@ -54,7 +54,7 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
         return 1;
     }
 
-    setStyle(aStyle) {
+    assignStyle(aStyle) {
         this.getStyle()["tooltip"] = aStyle[0];
     }
 

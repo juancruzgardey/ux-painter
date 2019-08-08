@@ -58,7 +58,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         return  1;
     }
 
-    setStyle(styles) {
+    assignStyle(styles) {
         this.getStyle()["highlightedElements"] = styles[0];
     }
 

@@ -72,7 +72,7 @@ class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
         return 3;
     }
 
-    setStyle (styles) {
+    assignStyle (styles) {
         //const headerStyle = this.getStyleScrapper().getRandomStyle(this.getElement());
         this.getStyle()["title"] = styles[0];
 

@@ -14,7 +14,7 @@ class ColorPreviewer extends RefactoringOnElementPreviewer {
         let stylesScrapped = styleScrapper.scrapStyles(aRefactoring.getElement(),aRefactoring.getStyledElementsQty(),this.previewsQty);
         for (let i = 0; i < stylesScrapped.length; i++) {
             const previewRefactoring = this.cloneRefactoring(aRefactoring);
-            previewRefactoring.setStyle(stylesScrapped[i]);
+            previewRefactoring.assignStyle(stylesScrapped[i]);
             previews.push(previewRefactoring);
         }
         return previews;
