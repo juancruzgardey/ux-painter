@@ -1,6 +1,6 @@
-import Previewer from "./Previewer";
+import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 
-class DateInputIntoSelectsPreviewer extends Previewer {
+class DateInputIntoSelectsPreviewer extends RefactoringOnElementPreviewer {
 
     generatePreviews(aRefactoring) {
         let previews = [];

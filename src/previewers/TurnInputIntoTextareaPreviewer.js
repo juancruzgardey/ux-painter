@@ -1,6 +1,6 @@
-import Previewer from "./Previewer";
+import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 
-class TurnInputIntoTextareaPreviewer extends Previewer {
+class TurnInputIntoTextareaPreviewer extends RefactoringOnElementPreviewer {
 
     generatePreviews(aRefactoring) {
         let previews = [];

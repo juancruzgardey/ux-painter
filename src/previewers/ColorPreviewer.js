@@ -1,7 +1,7 @@
-import Previewer from "./Previewer";
+import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 import StyleScrapper from "../scrappers/StyleScrapper";
 
-class ColorPreviewer extends Previewer {
+class ColorPreviewer extends RefactoringOnElementPreviewer {
 
     constructor () {
         super();

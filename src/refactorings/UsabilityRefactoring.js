@@ -29,6 +29,17 @@ class UsabilityRefactoring {
         return new window[json.refactoring](json);
     }
 
+    setStyle (style) {
+        this.style = style;
+    }
+
+    getStyle() {
+        if (!this.style) {
+            this.style = {};
+        }
+        return this.style;
+    }
+
     getStyleScrapper() {
         return this.styleScrapper;
     }

@@ -1,7 +1,7 @@
-import Previewer from "./Previewer";
+import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 import {DOMElementWrapper} from "../segmentator/PageSegmentator";
 
-class TurnAttributeIntoLinkPreviewer extends Previewer {
+class TurnAttributeIntoLinkPreviewer extends RefactoringOnElementPreviewer {
 
     constructor() {
         super();

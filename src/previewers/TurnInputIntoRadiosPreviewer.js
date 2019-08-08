@@ -1,6 +1,6 @@
-import Previewer from "./Previewer";
+import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 
-class TurnInputIntoRadiosPreviewer extends Previewer {
+class TurnInputIntoRadiosPreviewer extends RefactoringOnElementPreviewer {
 
     generatePreviews(aRefactoring) {
         let previews = [];

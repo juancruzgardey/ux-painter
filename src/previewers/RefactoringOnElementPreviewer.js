@@ -1,7 +1,7 @@
 import PageSegmentator from "../segmentator/PageSegmentator";
 import StyleScrapper from "../scrappers/StyleScrapper";
 
-class Previewer {
+class RefactoringOnElementPreviewer {
 
     constructor() {
         this.pageSegmentator = new PageSegmentator();
@@ -54,4 +54,4 @@ class Previewer {
 
 }
 
-export default Previewer;
+export default RefactoringOnElementPreviewer;

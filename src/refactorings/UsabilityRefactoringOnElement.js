@@ -1,7 +1,7 @@
 import XPathInterpreter from "./XPathInterpreter";
 import UsabilityRefactoring from "./UsabilityRefactoring";
 import ElementSelectionView from "../components/ElementSelectionView";
-import Previewer from "../previewers/Previewer";
+import RefactoringOnElementPreviewer from "../previewers/RefactoringOnElementPreviewer";
 
 class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
@@ -43,18 +43,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return true;
     }
 
-    setStyle (style) {
-        this.style = style;
-    }
-
-    getStyle() {
-        if (!this.style) {
-            this.style = {};
-        }
-        return this.style;
-    }
-
-
     getStyleElement () {
         return this.targetElement;
     }
@@ -83,7 +71,7 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     }
 
     static getPreviewer() {
-        return new Previewer();
+        return new RefactoringOnElementPreviewer();
     }
 
 }
