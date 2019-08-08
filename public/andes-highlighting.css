@@ -14,20 +14,21 @@
 
 .andes-highlighted-on-hover{
     cursor: pointer;
-    border: 1px solid orange !important;
+    /*border: 1px solid orange !important;
     border-radius: 5px !important;
-    box-shadow: 0px 0px 2px 1px orange !important;
+    box-shadow: 0px 0px 2px 1px orange !important;*/
+    background: rgb(89, 89, 89);
 }
 * > .andes-selectable, 
 * > .andes-clear-background { 
-    background: white !important; 
+    /*background: white !important; */
     border-radius: 5px !important;
 }
 
 .andes-blurred{
-	background: rgba(129, 129, 129, 0.5) !important;
+	/*background: rgba(129, 129, 129, 0.5) !important;
 	color: rgba(30, 30, 30, 0.75) !important;
-	border: none !important;
+	border: none !important;*/
 }
 .andes-blurred img{
     filter: grayscale(100%) !important;

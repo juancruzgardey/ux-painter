@@ -12,7 +12,7 @@ class TurnInputIntoTextareaPreviewer extends RefactoringOnElementPreviewer {
         let existingStyles = existingTextareas.concat(existingTextinputs);
         for (let i = 0; i < existingStyles.length; i++) {
             let previewRefactoring = this.cloneRefactoring(aRefactoring);
-            previewRefactoring.setStyle("targetElement", existingStyles[i]);
+            previewRefactoring.setStyleProperty("targetElement", existingStyles[i]);
             previews.push(previewRefactoring);
         }
         return previews;

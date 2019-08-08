@@ -56,6 +56,14 @@ class UsabilityRefactoring {
         return this.url;
     }
 
+    setPreviewElement(anElement) {
+        this.previewElement = anElement;
+    }
+
+    getPreviewElement() {
+        return this.previewElement;
+    }
+
     getSelectionView() {
         return ElementSelectionView;
     }

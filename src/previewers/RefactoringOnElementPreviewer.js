@@ -1,17 +1,13 @@
 import PageSegmentator from "../segmentator/PageSegmentator";
 import StyleScrapper from "../scrappers/StyleScrapper";
+import RefactoringPreviewer from "./RefactoringPreviewer";
 
-class RefactoringOnElementPreviewer {
+class RefactoringOnElementPreviewer extends RefactoringPreviewer {
 
     constructor() {
+        super();
         this.pageSegmentator = new PageSegmentator();
         this.styleScrapper = new StyleScrapper();
-    }
-
-    generatePreviews(aRefactoring) {
-        let previewList = [];
-        previewList.push(this.cloneRefactoring(aRefactoring));
-        return previewList;
     }
 
     cloneRefactoring(aRefactoring) {
@@ -27,7 +23,7 @@ class RefactoringOnElementPreviewer {
 
         let previewRefactoring = aRefactoring.clone();
         previewRefactoring.setElement(this.findTargetElement(clonedTargetElementContainer,originalTargetElement.getAttribute("data-uxpainter-id")));
-        previewRefactoring.targetElementContainer = clonedTargetElementContainer;
+        previewRefactoring.setPreviewElement(clonedTargetElementContainer);
         return previewRefactoring;
     }
 

@@ -20,7 +20,7 @@ class DateInputIntoSelectsPreviewer extends RefactoringOnElementPreviewer {
             if (!existingStyles[i]["margin-right"]) {
                 existingStyles[i]["margin-right"] = "10px";
             }
-            previewRefactoring.setStyle("selectElement",existingStyles[i]);
+            previewRefactoring.setStyleProperty("selectElement",existingStyles[i]);
             previews.push(previewRefactoring);
         }
         return previews;

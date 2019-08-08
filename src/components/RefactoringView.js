@@ -12,8 +12,6 @@ class RefactoringView extends React.Component {
         this.refactoring = this.props.refactoring;
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePreviewClick = this.handlePreviewClick.bind(this);
-        this.originalTargetElement = this.refactoring.getElement();
-        this.originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
         this.createModal();
         this.selectedRefactoring = this.refactoring;
     }
@@ -27,10 +25,10 @@ class RefactoringView extends React.Component {
 
     handleSubmit() {
         this.modal.parentNode.removeChild(this.modal);
-        this.selectedRefactoring.setElement(this.originalTargetElement);
-        this.selectedRefactoring.setURL(document.location.href.replace(document.location.search, ""));
-        this.selectedRefactoring.execute();
-        window.refactoringManager.getCurrentVersion().addRefactoring(this.selectedRefactoring);
+        this.refactoring.setStyle(this.selectedRefactoring.getStyle());
+        this.refactoring.setURL(document.location.href.replace(document.location.search, ""));
+        this.refactoring.execute();
+        window.refactoringManager.getCurrentVersion().addRefactoring(this.refactoring);
     }
 
     createPreviews() {
@@ -38,7 +36,7 @@ class RefactoringView extends React.Component {
         this.previewRefactorings = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
         for (let i = 0; i < this.previewRefactorings.length; i++) {
             this.previewRefactorings[i].execute();
-            previewElements.push(this.previewRefactorings[i].targetElementContainer);
+            previewElements.push(this.previewRefactorings[i].getPreviewElement());
         }
         return previewElements;
     }

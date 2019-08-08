@@ -55,7 +55,7 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return clonedRefactoring;
     }
 
-    setStyle(elementName, style) {
+    setStyleProperty(elementName, style) {
         this.getStyle()[elementName] = style;
     }
 
