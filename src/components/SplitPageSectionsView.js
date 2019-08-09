@@ -21,6 +21,8 @@ class SplitPageSectionsView extends React.Component {
 
         this.refactor = this.refactor.bind(this);
         this.pageSelector = new PageSelector(this);
+
+        this.props.refactoring.setSectionsXpath(this.state.sections);
     }
 
     enableElementSelection() {
@@ -48,7 +50,7 @@ class SplitPageSectionsView extends React.Component {
     }
 
     onElementSelected(element) {
-        const elementXpath = (new XPathInterpreter()).getPath(element, document.body)[0];
+        const elementXpath = (new XPathInterpreter()).getPath(element, this.props.refactoring.getContext())[0];
         const me = this;
         this.setState(state => {
             if (state.addSection) {
@@ -56,6 +58,7 @@ class SplitPageSectionsView extends React.Component {
             }
             else {
                 state.sectionListContainerXpath = elementXpath;
+                this.props.refactoring.setSectionListContainerXpath(elementXpath);
                 me.disableElementSelection();
             }
             return state;
@@ -90,12 +93,7 @@ class SplitPageSectionsView extends React.Component {
 
     render() {
         return (
-            <div className={'container'}>
-                <div className={'row'}>
-                    <div className={'col-md-12'}>
-                        <h2>Split Refactoring</h2>
-                    </div>
-                </div>
+            <RefactoringView refactoring={this.props.refactoring}>
                 {!this.state.addSection && (<div className={'row'}>
                     <div className={'col-md-12'}>
                         <a className={'btn btn-secondary'} onClick={this.addSection}>Add Section</a>
@@ -134,12 +132,7 @@ class SplitPageSectionsView extends React.Component {
                         <a className={'btn btn-link'} onClick={this.enableElementSelection}>Change</a>
                     </div>
                 </div>
-                <div className={'row'}>
-                    <div className={'col-sm'}>
-                        <a className={'btn btn-warning'} onClick={this.refactor}>Refactor</a>
-                    </div>
-                </div>
-            </div>
+            </RefactoringView>
         )
     }
 }

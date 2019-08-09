@@ -49,7 +49,7 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
 
 
     clone () {
-        let clonedRefactoring = new this.constructor();
+        let clonedRefactoring = super.clone();
         clonedRefactoring.setElement(this.getElement().cloneNode(true));
         clonedRefactoring.setElementXpath(this.getElementXpath());
         return clonedRefactoring;

@@ -36,7 +36,7 @@ class RefactoringView extends React.Component {
         this.previewRefactorings = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
         for (let i = 0; i < this.previewRefactorings.length; i++) {
             this.previewRefactorings[i].execute();
-            previewElements.push(this.previewRefactorings[i].getPreviewElement());
+            previewElements.push(this.previewRefactorings[i].getContext());
         }
         return previewElements;
     }

@@ -23,7 +23,7 @@ class RefactoringOnElementPreviewer extends RefactoringPreviewer {
 
         let previewRefactoring = aRefactoring.clone();
         previewRefactoring.setElement(this.findTargetElement(clonedTargetElementContainer,originalTargetElement.getAttribute("data-uxpainter-id")));
-        previewRefactoring.setPreviewElement(clonedTargetElementContainer);
+        previewRefactoring.setContext(clonedTargetElementContainer);
         return previewRefactoring;
     }
 

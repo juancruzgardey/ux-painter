@@ -1,6 +1,7 @@
 import UsabilityRefactoring from "./UsabilityRefactoring";
 import XPathInterpreter from "./XPathInterpreter";
 import SplitPageSectionsView from "../components/SplitPageSectionsView";
+import RefactoringPreviewer from "../previewers/RefactoringPreviewer";
 
 class SplitPageRefactoring extends UsabilityRefactoring {
 
@@ -44,7 +45,8 @@ class SplitPageRefactoring extends UsabilityRefactoring {
     getSections() {
         const me = this;
         return this.sections.map(function (section) {
-           return {name: section.name, element: me.xpathInterpreter.getElementByXPath(section.xpath, document.body)}
+           let sectionElement =  me.xpathInterpreter.getSingleElementByXpath(section.xpath, me.getContext());
+           return {name: section.name, element: sectionElement}
         });
     }
 
@@ -65,11 +67,23 @@ class SplitPageRefactoring extends UsabilityRefactoring {
     }
 
     getSectionListContainer() {
-        return this.xpathInterpreter.getElementByXPath(this.sectionListContainerXpath, document.body);
+        let listContainer = this.xpathInterpreter.getSingleElementByXpath(this.sectionListContainerXpath, this.getContext());
+        return listContainer;
     }
 
     getSelectionView() {
         return SplitPageSectionsView;
+    }
+
+    clone(aContext) {
+       let clonedRefactoring = super.clone(aContext);
+       const me = this;
+       let sectionsXpath = this.getSections().map(section => {
+          return {name: section.name, xpath: me.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(section.element), clonedRefactoring.getContext())};
+       });
+       clonedRefactoring.setSectionsXpath(sectionsXpath);
+       clonedRefactoring.setSectionListContainerXpath(me.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(this.getSectionListContainer()),clonedRefactoring.getContext()));
+       return clonedRefactoring;
     }
 
     static asString() {
@@ -78,6 +92,10 @@ class SplitPageRefactoring extends UsabilityRefactoring {
 
     static getClassName() {
         return "SplitPageRefactoring";
+    }
+
+    static getPreviewer() {
+        return new RefactoringPreviewer();
     }
 
 }

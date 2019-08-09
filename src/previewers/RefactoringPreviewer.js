@@ -8,8 +8,7 @@ class RefactoringPreviewer {
     }
 
     cloneRefactoring(aRefactoring) {
-        let clonedRefactoring = aRefactoring.clone();
-        clonedRefactoring.setPreviewElement(document.body.cloneNode(true));
+        let clonedRefactoring = aRefactoring.clone(aRefactoring.getContext().cloneNode(true));
         return clonedRefactoring;
     }
 

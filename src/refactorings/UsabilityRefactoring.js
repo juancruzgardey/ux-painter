@@ -56,16 +56,35 @@ class UsabilityRefactoring {
         return this.url;
     }
 
-    setPreviewElement(anElement) {
-        this.previewElement = anElement;
+    setContext(anElement) {
+        this.context = anElement;
     }
 
-    getPreviewElement() {
-        return this.previewElement;
+    getContext() {
+        if (!this.context) {
+            this.context = document.body;
+        }
+        return this.context;
     }
 
     getSelectionView() {
         return ElementSelectionView;
+    }
+
+    clone(aContext) {
+        let clone = new this.constructor();
+        clone.setContext(aContext);
+        return clone;
+    }
+
+    getElementInContext(anElement) {
+        let id = anElement.getAttribute("data-uxpainter-id");
+        if (this.getContext().getAttribute("data-uxpainter-id") == id) {
+            return this.getContext();
+        }
+        else {
+            return this.getContext().querySelector("[data-uxpainter-id='" + id + "']");
+        }
     }
 
     static fromJSON(json) {
