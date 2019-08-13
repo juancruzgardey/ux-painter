@@ -42,6 +42,7 @@ class RefactoringView extends React.Component {
     }
 
     handlePreviewClick () {
+        this.refactoring.removeHighlighting();
         this.modal.parentNode.removeChild(this.modal);
         this.createModal();
 

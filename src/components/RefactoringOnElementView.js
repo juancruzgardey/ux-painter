@@ -1,6 +1,5 @@
 import React from 'react';
 import RefactoringView from './RefactoringView';
-import domtoimage from "dom-to-image";
 
 class RefactoringOnElementView extends React.Component {
 
@@ -8,11 +7,6 @@ class RefactoringOnElementView extends React.Component {
         super(props);
         this.targetElementImage = React.createRef();
         const me = this;
-        domtoimage.toPng(this.props.refactoring.getElement(), {width: 300, height: 200}).then(function (dataUrl) {
-            me.targetElementImage.current.src = dataUrl;
-        }).catch(function (error) {
-            console.error('oops, something went wrong!', error);
-        });
     }
 
 
@@ -20,8 +14,7 @@ class RefactoringOnElementView extends React.Component {
         return (
             <RefactoringView refactoring={this.props.refactoring}>
                 <div className={'form-group'}>
-                    <p>Target Element</p>
-                    <img className={'target_element_image'} ref={this.targetElementImage}/>
+                    <p style={{color: "#dbbf70", fontWeight:"bold"}}>Target Element</p>
                 </div>
                 {this.props.children}
             </RefactoringView>

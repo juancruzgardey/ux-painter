@@ -111,7 +111,7 @@
 }
 
 .ux-painter-list-element a.active {
-    color: #ffc107;
+    color: #dbbf70;
 }
 
 a {
@@ -121,4 +121,8 @@ a {
 .uxpainter-message {
     font-style: italic;
     color: #6c757d;
+}
+
+.uxpainter-element-selected {
+    background: #dbbf70 !important;
 }

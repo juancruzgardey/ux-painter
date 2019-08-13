@@ -17,7 +17,7 @@
     /*border: 1px solid orange !important;
     border-radius: 5px !important;
     box-shadow: 0px 0px 2px 1px orange !important;*/
-    background: rgb(89, 89, 89);
+    background: rgb(89, 89, 89) !important;
 }
 * > .andes-selectable, 
 * > .andes-clear-background { 
@@ -37,10 +37,10 @@
 
 .andes-selected {
     background: orange !important;
-    border: 1px solid orange !important;
+    /**border: 1px solid orange !important;
     border-radius: 5px !important;
     box-shadow: 0px 0px 2px 1px orange !important;
-    /*animation-name: fadeinout;
+    animation-name: fadeinout;
     animation-duration: 3s;*/
 }
 /*
