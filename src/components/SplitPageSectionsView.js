@@ -28,7 +28,7 @@ class SplitPageSectionsView extends React.Component {
     enableElementSelection() {
         this.pageSelector.enableElementSelection({
             "scrapperClass": "QuerySelectorScrapper",
-            "targetElementSelector": "div,section,nav,footer,aside",
+            "targetElementSelector": "div,section,nav,footer,aside, header, ul",
             "onElementSelection": "onElementSelection",
             "justFullPath": true
         });
@@ -126,10 +126,10 @@ class SplitPageSectionsView extends React.Component {
                 </div>
                 <div className={'row'}>
                     <div className={'col-sm'}>
-                        <p>Section List Container: {this.state.sectionListContainerXpath}</p>
+                        <p>Section Links Container: <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.enableElementSelection}>Change</a></p>
                     </div>
                     <div className={'col-sm'}>
-                        <a className={'btn btn-link'} onClick={this.enableElementSelection}>Change</a>
+                        <p>Current element: {this.state.sectionListContainerXpath}</p>
                     </div>
                 </div>
             </RefactoringView>

@@ -1,13 +1,9 @@
-import PageSegmentator from "../segmentator/PageSegmentator";
-import StyleScrapper from "../scrappers/StyleScrapper";
 import RefactoringPreviewer from "./RefactoringPreviewer";
 
 class RefactoringOnElementPreviewer extends RefactoringPreviewer {
 
     constructor() {
         super();
-        this.pageSegmentator = new PageSegmentator();
-        this.styleScrapper = new StyleScrapper();
     }
 
     cloneRefactoring(aRefactoring) {

@@ -1,7 +1,7 @@
 import UsabilityRefactoring from "./UsabilityRefactoring";
 import XPathInterpreter from "./XPathInterpreter";
 import SplitPageSectionsView from "../components/SplitPageSectionsView";
-import RefactoringPreviewer from "../previewers/RefactoringPreviewer";
+import SplitPagePreviewer from "../previewers/SplitPagePreviewer";
 
 class SplitPageRefactoring extends UsabilityRefactoring {
 
@@ -20,15 +20,15 @@ class SplitPageRefactoring extends UsabilityRefactoring {
 
     transform() {
         this.activeSection = this.getSections()[0];
-        this.createSectionsList();
+        this.createSectionsLinks();
         this.hideSections();
     }
 
-    createSectionsList() {
-        let sectionList = document.createElement("ul");
+    createSectionsLinks() {
+        this.sectionLinks = [];
         const me = this;
+        let sectionLinksContainer = document.createElement("div");
         this.getSections().map(function (section) {
-            let listElement = document.createElement("li");
             let elementLink = document.createElement("a");
             elementLink.textContent = section.name;
             elementLink.addEventListener("click", function () {
@@ -36,10 +36,11 @@ class SplitPageRefactoring extends UsabilityRefactoring {
                 section.element.style.display = section.element.getAttribute("uxpainter-display");
                 me.setActiveSection(section);
             });
-            listElement.appendChild(elementLink);
-            sectionList.appendChild(listElement);
+            me.sectionLinks.push(elementLink);
+            sectionLinksContainer.appendChild(elementLink);
         });
-        this.getSectionListContainer().appendChild(sectionList);
+        this.getSectionListContainer().appendChild(sectionLinksContainer);
+        this.applyStyles(this.getSectionLinks(), this.getStyle());
     }
 
     getSections() {
@@ -56,6 +57,10 @@ class SplitPageRefactoring extends UsabilityRefactoring {
             section.element.setAttribute("uxpainter-display", section.element.style.display);
             section.element.style.display = "none";
         })
+    }
+
+    isContainerAList() {
+        return this.getSectionListContainer().tagName == "UL";
     }
 
     getActiveSection() {
@@ -86,6 +91,11 @@ class SplitPageRefactoring extends UsabilityRefactoring {
        return clonedRefactoring;
     }
 
+    getSectionLinks() {
+        return this.sectionLinks;
+    }
+
+
     static asString() {
         return "Split Page";
     }
@@ -95,7 +105,7 @@ class SplitPageRefactoring extends UsabilityRefactoring {
     }
 
     static getPreviewer() {
-        return new RefactoringPreviewer();
+        return new SplitPagePreviewer();
     }
 
 }

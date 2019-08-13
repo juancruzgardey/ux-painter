@@ -59,16 +59,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         this.getStyle()[elementName] = style;
     }
 
-    applyStyles(targetElements,styles) {
-        if (!styles) {
-            return
-        }
-        for (let i = 0; i < targetElements.length; i++) {
-            Object.keys(styles).forEach(function (cssProperty) {
-               targetElements[i].style[cssProperty] = styles[cssProperty];
-            });
-        }
-    }
 
     static getPreviewer() {
         return new RefactoringOnElementPreviewer();
