@@ -117,3 +117,8 @@
 a {
     cursor: pointer;
 }
+
+.uxpainter-message {
+    font-style: italic;
+    color: #6c757d;
+}

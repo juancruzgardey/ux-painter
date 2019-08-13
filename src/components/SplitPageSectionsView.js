@@ -12,12 +12,17 @@ class SplitPageSectionsView extends React.Component {
             addSection: false,
             newSectionName: '',
             newSectionXpath: '',
-            sectionListContainerXpath: ''
+            sectionListContainerXpath: '',
+            selectingLinksContainer: false
         };
         this.addSection = this.addSection.bind(this);
         this.setSectionName = this.setSectionName.bind(this);
         this.saveSection = this.saveSection.bind(this);
+        this.cancelSection = this.cancelSection.bind(this);
         this.enableElementSelection = this.enableElementSelection.bind(this);
+
+        this.enableLinksContainerSelection = this.enableLinksContainerSelection.bind(this);
+        this.disableLinksContainerSelection = this.disableLinksContainerSelection.bind(this);
 
         this.refactor = this.refactor.bind(this);
         this.pageSelector = new PageSelector(this);
@@ -39,6 +44,23 @@ class SplitPageSectionsView extends React.Component {
         this.pageSelector.restoreDomElementsBehaviour();
     }
 
+    enableLinksContainerSelection () {
+        this.setState(state => {
+           state.selectingLinksContainer = true;
+           return state;
+        });
+        this.enableElementSelection();
+    }
+
+    disableLinksContainerSelection () {
+        this.setState(state => {
+            state.selectingLinksContainer = false;
+            return state;
+        });
+        this.disableElementSelection();
+    }
+
+
     addSection() {
         this.setState(state => {
             state.addSection = true;
@@ -47,6 +69,16 @@ class SplitPageSectionsView extends React.Component {
             return state
         });
         this.enableElementSelection();
+    }
+
+    cancelSection() {
+        this.setState(state => {
+            state.addSection = false;
+            state.newSectionName = '';
+            state.newSectionXpath = '';
+            return state
+        });
+        this.disableElementSelection();
     }
 
     onElementSelected(element) {
@@ -60,6 +92,7 @@ class SplitPageSectionsView extends React.Component {
                 state.sectionListContainerXpath = elementXpath;
                 this.props.refactoring.setSectionListContainerXpath(elementXpath);
                 me.disableElementSelection();
+                state.selectingLinksContainer = false;
             }
             return state;
         });
@@ -107,10 +140,12 @@ class SplitPageSectionsView extends React.Component {
                                 <input type={'text'} className={'form-control'} onChange={this.setSectionName}/>
                             </div>
                             <div className={'form-group'}>
-                                <p>Root Element: {this.state.newSectionXpath}</p>
+                                <p>Root Element: {this.state.newSectionXpath?this.state.newSectionXpath:
+                                    <span className={'uxpainter-message'}>Select an Element</span>}</p>
                             </div>
                             <div className={'form-group'}>
-                                <a className={'btn btn-light'} onClick={this.saveSection}>Confirm</a>
+                                <a className={'btn btn-light inline-link'} onClick={this.saveSection}>Add</a>
+                                <a className={'btn btn-danger inline-link'} onClick={this.cancelSection}>Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -126,8 +161,15 @@ class SplitPageSectionsView extends React.Component {
                 </div>
                 <div className={'row'}>
                     <div className={'col-sm'}>
-                        <p>Section Links Container: <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.enableElementSelection}>Change</a></p>
+                        <p>Section Links Container:
+                            {this.state.selectingLinksContainer?
+                                <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.disableLinksContainerSelection}>Cancel</a>:
+                                <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.enableLinksContainerSelection}>Change</a>}</p>
                     </div>
+                    {this.state.selectingLinksContainer?
+                        <div className={'col-sm'}>
+                            <span className={'uxpainter-message'}>Select an Element</span>
+                        </div>:null}
                     <div className={'col-sm'}>
                         <p>Current element: {this.state.sectionListContainerXpath}</p>
                     </div>

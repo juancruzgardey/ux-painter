@@ -34,6 +34,7 @@ class SplitPageRefactoring extends UsabilityRefactoring {
             elementLink.addEventListener("click", function () {
                 me.getActiveSection().element.style.display = "none";
                 section.element.style.display = section.element.getAttribute("uxpainter-display");
+                section.element.scrollIntoView();
                 me.setActiveSection(section);
             });
             me.sectionLinks.push(elementLink);
