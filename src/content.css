@@ -37,7 +37,7 @@
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 9999; /* Sit on top */
-    padding: 50px; /* Location of the box */
+    padding: 30px; /* Location of the box */
     left: 0;
     top: 0;
 }
@@ -61,14 +61,8 @@
     max-height: 400px;
     overflow: scroll;
 }
-.ux-painter-modal-container {
-    margin-bottom: 10px;
-    border: 2px solid #6c757d;
-    border-radius: 3px;
-}
 
 .ux-painter-modal-footer {
-    margin: 15px;
 }
 
 .ux-painter-btn {
@@ -77,9 +71,9 @@
     text-align: center;
     border-radius: .25rem;
     padding: .375rem .75rem;
-    margin: 5px;
     font-size: 1rem;
     font-weight: 400;
+    margin: 5px;
 }
 
 .ux-painter-btn:hover {
