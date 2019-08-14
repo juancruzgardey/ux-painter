@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 
-import { Link, goBack } from 'route-lite';
+import { Link, goBack, goTo } from 'route-lite';
 import RefactoringListView from "./RefactoringListView";
 import PreviewModal from "./PreviewModal";
 
@@ -10,7 +10,6 @@ class RefactoringView extends React.Component {
     constructor(props) {
         super(props);
         this.refactoring = this.props.refactoring;
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePreviewClick = this.handlePreviewClick.bind(this);
         this.createModal();
         this.selectedRefactoring = this.refactoring;
@@ -23,12 +22,14 @@ class RefactoringView extends React.Component {
         document.body.appendChild(this.modal);
     }
 
-    handleSubmit() {
+    doRefactor() {
         this.modal.parentNode.removeChild(this.modal);
         this.refactoring.setStyle(this.selectedRefactoring.getStyle());
         this.refactoring.setURL(document.location.href.replace(document.location.search, ""));
         this.refactoring.execute();
         window.refactoringManager.getCurrentVersion().addRefactoring(this.refactoring);
+        document.querySelector("#refactoring-extension-root").style.display = "block";
+        goTo(RefactoringListView);
     }
 
     createPreviews() {
@@ -47,8 +48,8 @@ class RefactoringView extends React.Component {
         this.createModal();
 
         const previewElements = this.createPreviews();
-
         ReactDOM.render(<PreviewModal targetElements={previewElements} view={this}/>, this.modal);
+        document.querySelector("#refactoring-extension-root").style.display = "none";
         this.modal.style.display = "block";
     }
 
@@ -59,7 +60,6 @@ class RefactoringView extends React.Component {
                     <h2>{this.refactoring.constructor.asString()}</h2>
                     {this.props.children}
                     <div className={'form-group'}>
-                            <Link className={'btn btn-warning inline-link'} onClick={this.handleSubmit} component={RefactoringListView}>Refactor</Link>
                             <Link className={'btn btn-dark inline-link'}  onClick={this.handlePreviewClick}>Preview</Link>
                     </div>
                     <div className={'form-group'}>

@@ -63,6 +63,29 @@
 }
 .ux-painter-modal-container {
     margin-bottom: 10px;
+    border: 2px solid #6c757d;
+    border-radius: 3px;
+}
+
+.ux-painter-modal-footer {
+    margin: 15px;
+}
+
+.ux-painter-btn {
+    color: #212529;
+    background-color: #ffc107;
+    text-align: center;
+    border-radius: .25rem;
+    padding: .375rem .75rem;
+    margin: 5px;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.ux-painter-btn:hover {
+    text-decoration: none;
+    cursor:pointer;
+    color: white;
 }
 
 .ux-painter-modal-previews {

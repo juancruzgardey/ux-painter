@@ -6,6 +6,7 @@ class PreviewModal extends React.Component {
         super(props);
         this.targetElementContainer = React.createRef();
         this.optionChange = this.optionChange.bind(this);
+        this.doRefactor = this.doRefactor.bind(this);
     }
 
 
@@ -18,6 +19,11 @@ class PreviewModal extends React.Component {
         this.targetElementContainer.current.appendChild(this.props.targetElements[0]);
         this.activeOption = document.querySelector(".ux-painter-option-list li a");
         this.activeOption.setAttribute("class", "active");
+    }
+
+    doRefactor() {
+        this.closeModal();
+        this.props.view.doRefactor();
     }
 
     render() {
@@ -33,6 +39,9 @@ class PreviewModal extends React.Component {
                 <div className={"ux-painter-modal-body"}>
                     <div className={"ux-painter-modal-previews"} ref={this.targetElementContainer}>
                     </div>
+                </div>
+                <div className={"ux-painter-modal-footer"}>
+                    <a className={'ux-painter-btn'} style={{float: "right"}} onClick={this.doRefactor}>Refactor</a>
                 </div>
             </div>
         );
