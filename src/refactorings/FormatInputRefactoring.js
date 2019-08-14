@@ -45,8 +45,8 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return placeholder;
     }
 
-    clone() {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setFormatString(this.getFormatString());
         return clonedRefactoring;
     }

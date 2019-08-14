@@ -29,8 +29,8 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         return TurnAttributeIntoLinkView;
     }
 
-    clone() {
-        let refactoring = super.clone();
+    clone(aContext) {
+        let refactoring = super.clone(aContext);
         refactoring.setTargetURL(this.getTargetURL());
         return refactoring;
     }

@@ -48,8 +48,8 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     }
 
 
-    clone () {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setElement(this.getElement().cloneNode(true));
         clonedRefactoring.setElementXpath(this.getElementXpath());
         return clonedRefactoring;

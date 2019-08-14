@@ -8,18 +8,13 @@ class RefactoringOnElementPreviewer extends RefactoringPreviewer {
 
     cloneRefactoring(aRefactoring) {
         const originalTargetElement = aRefactoring.getElement();
-        if (!originalTargetElement.getAttribute("data-uxpainter-id")) {
-            originalTargetElement.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
-        }
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(originalTargetElement);
-        const clonedTargetElementContainer = targetElementContainer.cloneNode(true);
 
-        clonedTargetElementContainer.style.width = window.getComputedStyle(targetElementContainer).getPropertyValue("width");
-        clonedTargetElementContainer.style.height = window.getComputedStyle(targetElementContainer).getPropertyValue("height");
+        let previewRefactoring = aRefactoring.clone(targetElementContainer);
+        previewRefactoring.getContext().style.width = window.getComputedStyle(targetElementContainer).getPropertyValue("width");
+        previewRefactoring.getContext().style.height = window.getComputedStyle(targetElementContainer).getPropertyValue("height");
 
-        let previewRefactoring = aRefactoring.clone();
-        previewRefactoring.setElement(this.findTargetElement(clonedTargetElementContainer,originalTargetElement.getAttribute("data-uxpainter-id")));
-        previewRefactoring.setContext(clonedTargetElementContainer);
+        previewRefactoring.setElement(this.findTargetElement(previewRefactoring.getContext(),originalTargetElement.getAttribute("data-uxpainter-id")));
         return previewRefactoring;
     }
 

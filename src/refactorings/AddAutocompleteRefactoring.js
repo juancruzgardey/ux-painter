@@ -62,8 +62,8 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle()["highlightedElements"] = styles[0];
     }
 
-    clone() {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setValues(this.getValues());
         return clonedRefactoring;
     }

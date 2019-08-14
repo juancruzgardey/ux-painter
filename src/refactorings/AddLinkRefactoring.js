@@ -40,8 +40,8 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         return AddLinkView;
     }
 
-    clone() {
-        let refactoring = super.clone();
+    clone(aContext) {
+        let refactoring = super.clone(aContext);
         refactoring.setTargetURL(this.getTargetURL());
         refactoring.setLinkName(this.getLinkName());
         return refactoring;

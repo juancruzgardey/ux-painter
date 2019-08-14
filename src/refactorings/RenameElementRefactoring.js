@@ -29,8 +29,8 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         return RenameElementView;
     }
 
-    clone() {
-        let refactoring = super.clone();
+    clone(aContext) {
+        let refactoring = super.clone(aContext);
         refactoring.setNewName(this.getNewName());
         return refactoring;
     }

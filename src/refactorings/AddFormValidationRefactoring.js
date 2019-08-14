@@ -44,8 +44,8 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return "form";
     }
 
-    clone() {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setRequiredInputXpaths(this.getRequiredInputXpaths());
         return clonedRefactoring;
     }

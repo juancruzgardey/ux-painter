@@ -73,8 +73,22 @@ class UsabilityRefactoring {
 
     clone(aContext) {
         let clone = new this.constructor();
-        clone.setContext(aContext);
+        if (aContext) {
+            clone.setContext(this.cloneContext(aContext));
+        }
+        else {
+            clone.setContext(this.cloneContext(this.getContext()));
+        }
         return clone;
+    }
+
+    cloneContext(aContext) {
+        const clonedElement = aContext.cloneNode(true);
+        if (clonedElement.querySelector("#refactoring-extension-root")) {
+            console.log("borra root");
+            clonedElement.querySelector("#refactoring-extension-root").parentNode.removeChild(clonedElement.querySelector("#refactoring-extension-root"));
+        }
+        return clonedElement;
     }
 
     getElementInContext(anElement) {

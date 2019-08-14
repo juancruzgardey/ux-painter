@@ -58,8 +58,8 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle()["tooltip"] = aStyle[0];
     }
 
-    clone () {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setTooltipName(this.tooltipName);
         return clonedRefactoring;
     }

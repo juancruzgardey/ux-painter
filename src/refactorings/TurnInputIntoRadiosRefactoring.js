@@ -76,8 +76,8 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle().otherInput = style;
     }
 
-    clone() {
-        let refactoring = super.clone();
+    clone(aContext) {
+        let refactoring = super.clone(aContext);
         refactoring.setValues(this.getValues());
         return refactoring;
     }

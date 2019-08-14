@@ -15,7 +15,7 @@ class RefactoringPreviewer {
     }
 
     cloneRefactoring(aRefactoring) {
-        let clonedRefactoring = aRefactoring.clone(aRefactoring.getContext().cloneNode(true));
+        let clonedRefactoring = aRefactoring.clone();
         clonedRefactoring.getContext().style.width = window.getComputedStyle(aRefactoring.getContext()).getPropertyValue("width");
         clonedRefactoring.getContext().style.height = window.getComputedStyle(aRefactoring.getContext()).getPropertyValue("height");
         return clonedRefactoring;

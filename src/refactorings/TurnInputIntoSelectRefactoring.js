@@ -84,8 +84,8 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle()["otherInput"] = aStyle;
     }
 
-    clone() {
-        let clonedRefactoring = super.clone();
+    clone(aContext) {
+        let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setValues(this.values);
         return clonedRefactoring;
     }

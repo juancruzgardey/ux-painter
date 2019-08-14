@@ -45,9 +45,9 @@ class RefactoringView extends React.Component {
     handlePreviewClick () {
         this.refactoring.removeHighlighting();
         this.modal.parentNode.removeChild(this.modal);
-        this.createModal();
 
         const previewElements = this.createPreviews();
+        this.createModal();
         ReactDOM.render(<PreviewModal targetElements={previewElements} view={this}/>, this.modal);
         document.querySelector("#refactoring-extension-root").style.display = "none";
         this.modal.style.display = "block";
