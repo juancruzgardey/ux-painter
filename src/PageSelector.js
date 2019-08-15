@@ -188,7 +188,7 @@ PageSelector.prototype.getAllVisibleDomElements = function(){
 	return document.querySelectorAll("body, input, div, a, img, span, label, ul, li, p, pre, cite, em"); //:not(.first)
 };
 PageSelector.prototype.getAllVisibleDomElementsButBody = function(){
-	return document.querySelectorAll("div, input, a, img, span, label, ul, li, p, pre, cite, em, form, select, h1, h2, h3, h4, h5, h6, nav, section, header, aside, footer"); //:not(.first)
+	return document.querySelectorAll("div, input, a, img, span, label, ul, li, p, pre, cite, em, form, select, h1, h2, h3, h4, h5, h6, nav, section, header, aside, footer, tr"); //:not(.first)
 };
 PageSelector.prototype.getCurrentSidebarElements = function(){
 	

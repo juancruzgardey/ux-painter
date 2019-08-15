@@ -1,10 +1,13 @@
 import StyleScrapper from '../scrappers/StyleScrapper';
 import RefactoringView from "../components/RefactoringView";
 import ElementSelectionView from "../components/ElementSelectionView";
+import XPathInterpreter from "./XPathInterpreter";
+import RefactoringPreviewer from "../previewers/RefactoringPreviewer";
 
 class UsabilityRefactoring {
     constructor () {
         this.styleScrapper = new StyleScrapper();
+        this.xpathInterpreter = new XPathInterpreter();
     }
 
     initialize () {}
@@ -122,6 +125,10 @@ class UsabilityRefactoring {
 
     static getClassName() {
         return "";
+    }
+
+    static getPreviewer() {
+        return new RefactoringPreviewer();
     }
 }
 

@@ -1,5 +1,4 @@
 import UsabilityRefactoring from "./UsabilityRefactoring";
-import XPathInterpreter from "./XPathInterpreter";
 import SplitPageSectionsView from "../components/SplitPageSectionsView";
 import SplitPagePreviewer from "../previewers/SplitPagePreviewer";
 
@@ -7,7 +6,6 @@ class SplitPageRefactoring extends UsabilityRefactoring {
 
     constructor() {
         super();
-        this.xpathInterpreter = new XPathInterpreter();
     }
 
     setSectionsXpath(sections) {
