@@ -33,7 +33,7 @@ function PageSelector(aComponent){
 	//this.createEventListeners();
 	this.selectableElemClass = "andes-selectable";
 	this.onHoverHighlightClass = "andes-highlighted-on-hover";
-	this.selectionClass = "andes-selected";
+	this.selectionClass = "uxpainter-element-selected";
 	this.clearBackgroundClass = "andes-clear-background";
 	this.obfuscatedClass = "andes-blurred";
 	this.onElementSelectionMessage = null;
@@ -433,7 +433,7 @@ PageSelector.prototype.removeFullSelectionStyle = function(){
 	this.removeClassFromMatchingElements(this.selectableElemClass);
 	this.removeClassFromMatchingElements(this.onHoverHighlightClass);
 	this.removeClassFromMatchingElements(this.clearBackgroundClass);
-	this.removeClassFromMatchingElements(this.selectionClass);
+	//this.removeClassFromMatchingElements(this.selectionClass);
 	//this.restoreDomElementsBehaviour();
 
 	return Promise.resolve();
@@ -507,5 +507,9 @@ PageSelector.prototype.removeClearBackground = function(elem){
 	
 	this.removeStyleClass(elem, this.clearBackgroundClass);	
 };
+
+PageSelector.prototype.removeSelectedElementsHighlighting = function () {
+	this.removeClassFromMatchingElements(this.selectionClass);
+}
 
 export default PageSelector;

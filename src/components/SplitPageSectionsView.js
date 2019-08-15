@@ -28,6 +28,7 @@ class SplitPageSectionsView extends React.Component {
         this.pageSelector = new PageSelector(this);
 
         this.props.refactoring.setSectionsXpath(this.state.sections);
+        this.xpathInterpreter = new XPathInterpreter();
     }
 
     enableElementSelection() {
@@ -72,6 +73,10 @@ class SplitPageSectionsView extends React.Component {
     }
 
     cancelSection() {
+        if (this.state.newSectionXpath) {
+            const section = this.xpathInterpreter.getSingleElementByXpath(this.state.newSectionXpath, this.props.refactoring.getContext());
+            this.pageSelector.removeSelectionClass(section);
+        }
         this.setState(state => {
             state.addSection = false;
             state.newSectionName = '';
@@ -82,11 +87,12 @@ class SplitPageSectionsView extends React.Component {
     }
 
     onElementSelected(element) {
-        const elementXpath = (new XPathInterpreter()).getPath(element, this.props.refactoring.getContext())[0];
+        const elementXpath = (this.xpathInterpreter.getPath(element, this.props.refactoring.getContext()))[0];
         const me = this;
         this.setState(state => {
             if (state.addSection) {
                 state.newSectionXpath = elementXpath;
+                me.pageSelector.addSelectionClass(element);
             }
             else {
                 state.sectionListContainerXpath = elementXpath;

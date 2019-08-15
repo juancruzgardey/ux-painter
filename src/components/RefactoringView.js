@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { Link, goBack, goTo } from 'route-lite';
 import RefactoringListView from "./RefactoringListView";
 import PreviewModal from "./PreviewModal";
+import PageSelector from "../PageSelector";
 
 class RefactoringView extends React.Component {
 
@@ -13,6 +14,7 @@ class RefactoringView extends React.Component {
         this.handlePreviewClick = this.handlePreviewClick.bind(this);
         this.createModal();
         this.selectedRefactoring = this.refactoring;
+        this.pageSelector = new PageSelector(this);
     }
 
     createModal() {
@@ -43,7 +45,7 @@ class RefactoringView extends React.Component {
     }
 
     handlePreviewClick () {
-        this.refactoring.removeHighlighting();
+        this.pageSelector.removeSelectedElementsHighlighting();
         this.modal.parentNode.removeChild(this.modal);
 
         const previewElements = this.createPreviews();

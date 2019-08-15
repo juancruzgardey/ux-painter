@@ -59,19 +59,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         this.getStyle()[elementName] = style;
     }
 
-    highlightElements() {
-        if(this.getElement().classList && !this.getElement().classList.contains("uxpainter-element-selected")){
-            this.getElement().classList.add("uxpainter-element-selected");
-        }
-    }
-
-    removeHighlighting() {
-        if(this.getElement().classList && this.getElement().classList.contains("uxpainter-element-selected")){
-            this.getElement().classList.remove("uxpainter-element-selected");
-        }
-    }
-
-
     static getPreviewer() {
         return new RefactoringOnElementPreviewer();
     }

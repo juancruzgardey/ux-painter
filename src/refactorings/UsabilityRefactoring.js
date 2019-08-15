@@ -112,12 +112,6 @@ class UsabilityRefactoring {
         }
     }
 
-    highlightElements() {
-    }
-
-    removeHighlighting() {
-    }
-
     static fromJSON(json) {
         let refactoring = new (window.refactoringManager.getRefactoringClass(json.refactoring));
         Object.keys(json).map(function (key) {

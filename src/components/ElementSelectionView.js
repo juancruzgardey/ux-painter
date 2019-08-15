@@ -25,10 +25,14 @@ class ElementSelectionView extends React.Component {
 
 
     onElementSelected(anElement) {
+        if (this.refactoring.getElement()) {
+            this.pageSelector.removeSelectionClass(this.refactoring.getElement());
+        }
         const elementXpath = (new XPathInterpreter()).getPath(anElement, document.body)[0];
         this.setState({elementXpath: elementXpath});
         this.refactoring.setElementXpath(elementXpath);
-        this.refactoring.highlightElements();
+        this.refactoring.setElement(anElement);
+        this.pageSelector.addSelectionClass(anElement);
         const me = this;
     }
 
@@ -38,6 +42,7 @@ class ElementSelectionView extends React.Component {
 
     handleBack() {
         this.disableElementSelection();
+        this.pageSelector.removeSelectedElementsHighlighting();
         goBack();
     }
 
