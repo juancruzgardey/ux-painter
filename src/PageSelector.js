@@ -228,10 +228,13 @@ PageSelector.prototype.preventDomElementsBehaviour = function(){
 PageSelector.prototype.preventFormsOnSubmit = function(){
 
 	//TODO: it is not working with "addEventListener". This is a problem because maybe we can not resore the original behaviour after this
-	document.querySelectorAll("form").forEach(function(form){ 
-		form.onsubmit = function(evt){ 
+	const me = this;
+	document.querySelectorAll("form").forEach(function(form){
+		/**
+		form.onsubmit = function(evt){
     		return false;
-		}; 
+		}; */
+		form.addEventListener("submit", me.preventActionsListener, false);
     });
 }
 PageSelector.prototype.restoreDomElementsBehaviour = function(){
@@ -249,7 +252,16 @@ PageSelector.prototype.restoreDomElementsBehaviour = function(){
 	});
 
 	this.removeFullSelectionStyle();
+	this.restoreFormsSubmission();
+
 };
+
+PageSelector.prototype.restoreFormsSubmission = function () {
+	const me = this;
+	document.querySelectorAll("form").forEach(function (form) {
+		form.removeEventListener("submit", me.preventActionsListener);
+	});
+}
 PageSelector.prototype.removeAugmentedActions = function(elem){
 	
 	elem.removeAttribute("andes-actions");
