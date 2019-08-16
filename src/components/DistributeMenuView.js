@@ -10,6 +10,7 @@ class DistributeMenuView extends React.Component {
         this.state = {
             bulkActionXpath: '',
             selectingBulkAction: false,
+            selectingItem: false,
             itemsXpath: this.props.refactoring.getItemXpathList()
         };
 
@@ -37,17 +38,30 @@ class DistributeMenuView extends React.Component {
     }
 
     enableItemSelection() {
+        this.setState({selectingItem: true});
         this.enableElementSelection("div, tr, li");
     }
 
     onElementSelected(anElement) {
+        this.pageSelector.addSelectionClass(anElement);
         const elementXpath = this.xpathInterpreter.getPath(anElement, this.props.refactoring.getContext())[0];
         if (this.state.selectingBulkAction) {
+            if (this.props.refactoring.getBulkAction()) {
+                this.pageSelector.removeSelectionClass(this.props.refactoring.getBulkAction());
+            }
             this.props.refactoring.setBulkActionXpath(elementXpath);
             this.setState({selectingBulkAction: false, bulkActionXpath: elementXpath});
         }
         else {
-            this.setState(state => {state.itemsXpath.push(elementXpath);return state})
+            let items = this.props.refactoring.findSimilarItems(anElement);
+            this.setState(state => {
+                items.map(item => {
+                    this.pageSelector.addSelectionClass(item);
+                    state.itemsXpath.push(this.xpathInterpreter.getPath(item, this.props.refactoring.getContext())[0]);
+                });
+                state.selectingItem = false;
+                return state
+            });
         }
         this.pageSelector.restoreDomElementsBehaviour();
     }
@@ -59,14 +73,19 @@ class DistributeMenuView extends React.Component {
         return (
         <RefactoringView refactoring={this.props.refactoring}>
             <div className={'form-group'}>
-                <p>Bulk Action <a className={'btn btn-link'} onClick={this.enableBulkActionSelection}>Select</a></p>
-                <p>Current Element: {this.state.bulkActionXpath}</p>
+                <h6>Bulk Action</h6>
+                {!this.state.selectingBulkAction &&
+                    (<a className={'btn btn-link'} onClick={this.enableBulkActionSelection}>Select</a>)}
+                {this.state.selectingBulkAction && (
+                    <span className={'uxpainter-message'}>Select an Action</span>
+                )}
             </div>
             <div className={'form-group'}>
-                <p>Items <a className={'btn btn-link'} onClick={this.enableItemSelection}>Add</a></p>
-                <ul>
-                    {itemList}
-                </ul>
+                <h6>Items</h6>
+                {!this.state.selectingItem && (<a className={'btn btn-link'} onClick={this.enableItemSelection}>Add</a>)}
+                {this.state.selectingItem && (
+                    <span className={'uxpainter-message'}>Select an Item</span>
+                )}
             </div>
         </RefactoringView>
 

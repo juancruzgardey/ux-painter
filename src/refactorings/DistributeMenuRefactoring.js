@@ -8,7 +8,6 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         this.getItems().map(item => {
            item.appendChild(me.createActionLink(item));
         });
-
     }
 
     setBulkActionXpath(xpath) {
@@ -38,25 +37,53 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
     }
 
     createActionLink(item) {
-        let linkElement = document.createElement("a");
-        linkElement.textContent = "Action";
+        //let linkElement = document.createElement("a");
+        //linkElement.textContent = "Action";
+        let linkElement = this.getBulkAction().cloneNode(true);
+        if (linkElement.type == "submit") {
+            linkElement.addEventListener("submit", function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            });
+        }
         const me = this;
-        linkElement.addEventListener("click", function () {
+        linkElement.addEventListener("click", function (e) {
             if (item.querySelector("input[type='checkbox']")) {
                 item.querySelector("input[type='checkbox']").click();
             }
             else {
                 item.click();
             }
-            if (me.getBulkAction().getAttribute("type") == "submit") {
-                me.getBulkAction().submit();
-            }
-            else {
-                me.getBulkAction().click();
-            }
-
+            me.getBulkAction().click();
+            e.stopImmediatePropagation();
         });
         return linkElement;
+    }
+
+    findSimilarItems(item) {
+        let similarItems = [];
+        let candidateElements = document.querySelectorAll(item.tagName.toLowerCase());
+        for (let i = 0; i < candidateElements.length; i++) {
+            if (this.areSimilarItems(item, candidateElements[i])) {
+                similarItems.push(candidateElements[i]);
+            }
+        }
+        return similarItems;
+    }
+
+    areSimilarItems(item, otherItem) {
+        if (item.children.length != otherItem.children.length) {
+            return false;
+        }
+        if (item.children.length == 0 && otherItem.children.length == 0) {
+            return item.tagName == otherItem.tagName;
+        }
+        let equals = true;
+        for (let i = 0; i < item.children.length && equals; i++) {
+            equals = this.areSimilarItems(item.children[i], otherItem.children[i]);
+        }
+        return equals;
+
     }
 
     getSelectionView () {
@@ -68,10 +95,10 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         clonedRefactoring.setBulkActionXpath(this.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(this.getBulkAction()), clonedRefactoring.getContext())[0]);
         const me = this;
         let newItemsXpath = this.getItems().map (item => {
+            console.log(clonedRefactoring.getElementInContext(item));
             return me.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(item), clonedRefactoring.getContext())[0];
         });
         clonedRefactoring.setItemXpathList(newItemsXpath);
-
         return clonedRefactoring;
     }
 

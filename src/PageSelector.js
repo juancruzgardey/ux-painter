@@ -40,6 +40,7 @@ function PageSelector(aComponent){
 	this.loadListeners();
 	this.selectedElem = null;
 	this.component = aComponent;
+	this.elementIDAttribute = "data-uxpainter-id";
 };
 PageSelector.prototype.getSetOfXPathsByOccurrences = function(element, relativeElem, generateRelativeSelector, relativeElements){
 
@@ -114,9 +115,7 @@ PageSelector.prototype.loadListeners = function(){
 			me.removeStyleClass(targetElem, me.clearBackgroundClass);
 		});
 
-        if (!me.selectedElem.getAttribute("data-uxpainter-id")) {
-            me.selectedElem.setAttribute("data-uxpainter-id", Math.random().toString(36).substring(2, 15));
-        }
+		me.setElementID(me.selectedElem);
 		me.component.onElementSelected(me.selectedElem);
 
 		/**me.generatePreview(me.selectedElem).then(function(preview){
@@ -188,7 +187,7 @@ PageSelector.prototype.getAllVisibleDomElements = function(){
 	return document.querySelectorAll("body, input, div, a, img, span, label, ul, li, p, pre, cite, em"); //:not(.first)
 };
 PageSelector.prototype.getAllVisibleDomElementsButBody = function(){
-	return document.querySelectorAll("div, input, a, img, span, label, ul, li, p, pre, cite, em, form, select, h1, h2, h3, h4, h5, h6, nav, section, header, aside, footer, tr"); //:not(.first)
+	return document.querySelectorAll("div, input, a, img, span, label, ul, li, p, pre, cite, em, form, select, h1, h2, h3, h4, h5, h6, nav, section, header, aside, footer, tr, button"); //:not(.first)
 };
 PageSelector.prototype.getCurrentSidebarElements = function(){
 	
@@ -433,7 +432,8 @@ PageSelector.prototype.addSelectableElemStyle = function(elem){
 }
 PageSelector.prototype.addSelectionClass = function(elem){
 
-	this.addStyleClass(elem, this.selectionClass);  
+	this.addStyleClass(elem, this.selectionClass);
+	this.setElementID(elem);
 }
 PageSelector.prototype.removeSelectionClass = function(elem){
 
@@ -522,6 +522,12 @@ PageSelector.prototype.removeClearBackground = function(elem){
 
 PageSelector.prototype.removeSelectedElementsHighlighting = function () {
 	this.removeClassFromMatchingElements(this.selectionClass);
+}
+
+PageSelector.prototype.setElementID = function (element) {
+	if (!element.getAttribute(this.elementIDAttribute)) {
+		element.setAttribute(this.elementIDAttribute, Math.random().toString(36).substring(2, 15));
+	}
 }
 
 export default PageSelector;
