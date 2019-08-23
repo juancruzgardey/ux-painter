@@ -33,7 +33,6 @@ function PageSelector(aComponent){
 	//this.createEventListeners();
 	this.selectableElemClass = "andes-selectable";
 	this.onHoverHighlightClass = "andes-highlighted-on-hover";
-	this.selectionClass = "uxpainter-element-selected";
 	this.clearBackgroundClass = "andes-clear-background";
 	this.obfuscatedClass = "andes-blurred";
 	this.onElementSelectionMessage = null;
@@ -41,6 +40,9 @@ function PageSelector(aComponent){
 	this.selectedElem = null;
 	this.component = aComponent;
 	this.elementIDAttribute = "data-uxpainter-id";
+
+	this.selectionClass = "uxpainter-element-selected";
+	this.secondarySelectionClass = "uxpainter-element-selected-2";
 };
 PageSelector.prototype.getSetOfXPathsByOccurrences = function(element, relativeElem, generateRelativeSelector, relativeElements){
 
@@ -116,7 +118,8 @@ PageSelector.prototype.loadListeners = function(){
 		});
 
 		me.setElementID(me.selectedElem);
-		me.component.onElementSelected(me.selectedElem);
+
+		me.componentCallback ? me.component[me.componentCallback](me.selectedElem):me.component.onElementSelected(me.selectedElem);
 
 		/**me.generatePreview(me.selectedElem).then(function(preview){
 
@@ -144,8 +147,8 @@ PageSelector.prototype.loadListeners = function(){
 	this.mouseEnterSelection = function(evt) {  
 
 		evt.preventDefault(); evt.stopImmediatePropagation();
-		//me.selectedElem = evt.target;
-		//console.log(me.selectedElem);
+
+		me.removeStyleClass(this.parentNode, me.onHoverHighlightClass);
 		me.addStyleClass(this, me.onHoverHighlightClass);
 	};
 	this.withParentElements = function(element){
@@ -306,6 +309,8 @@ PageSelector.prototype.enableElementSelection = function(data){
 	this.darkifyAllDomElements();
 	this.preventFormsOnSubmit();
 
+	this.componentCallback = data.componentCallback;
+
 	this.lastUsedExtractor = new scrappers[data.scrapperClass]();
 	this.generatesSingleElemSelectors = data.generatesSingleElemSelectors;
 	var elements = this.lastUsedExtractor.getElements(data.targetElementSelector);
@@ -435,6 +440,13 @@ PageSelector.prototype.addSelectionClass = function(elem){
 	this.addStyleClass(elem, this.selectionClass);
 	this.setElementID(elem);
 }
+
+PageSelector.prototype.addSecondarySelectionClass = function(elem){
+
+	this.addStyleClass(elem, this.secondarySelectionClass);
+	this.setElementID(elem);
+}
+
 PageSelector.prototype.removeSelectionClass = function(elem){
 
 	this.removeStyleClass(elem, this.selectionClass);  
