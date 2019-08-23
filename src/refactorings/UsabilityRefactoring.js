@@ -3,11 +3,13 @@ import RefactoringView from "../components/RefactoringView";
 import ElementSelectionView from "../components/ElementSelectionView";
 import XPathInterpreter from "./XPathInterpreter";
 import RefactoringPreviewer from "../previewers/RefactoringPreviewer";
+import PageSelector from "../PageSelector";
 
 class UsabilityRefactoring {
     constructor () {
         this.styleScrapper = new StyleScrapper();
         this.xpathInterpreter = new XPathInterpreter();
+        this.pageSelector = new PageSelector(this);
     }
 
     initialize () {}
@@ -102,6 +104,13 @@ class UsabilityRefactoring {
         else {
             return this.getContext().querySelector("[data-uxpainter-id='" + id + "']");
         }
+    }
+
+    getElementsXpath(elements) {
+        const me = this;
+        elements.map(element => {
+            return me.xpathInterpreter.getPath(me.getElementInContext(element), me.getContext())[0];
+        });
     }
 
     applyStyles(targetElements,styles) {

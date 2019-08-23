@@ -534,12 +534,35 @@ PageSelector.prototype.removeClearBackground = function(elem){
 
 PageSelector.prototype.removeSelectedElementsHighlighting = function () {
 	this.removeClassFromMatchingElements(this.selectionClass);
+	this.removeClassFromMatchingElements(this.secondarySelectionClass);
 }
 
 PageSelector.prototype.setElementID = function (element) {
 	if (!element.getAttribute(this.elementIDAttribute)) {
 		element.setAttribute(this.elementIDAttribute, Math.random().toString(36).substring(2, 15));
 	}
+}
+
+PageSelector.prototype.findSimilarElements = function (container, element) {
+	var elementsFound = [];
+	var candidateElements = container.querySelectorAll("*");
+	for (let i = 0; i < candidateElements.length; i++) {
+		if (this.compareElements(element, candidateElements[i])) {
+			elementsFound.push(candidateElements[i]);
+		}
+	}
+	return elementsFound;
+};
+
+PageSelector.prototype.compareElements = function (element, anotherElement) {
+	var exlucedAttributes = ["id", this.elementIDAttribute];
+	for (let i = 0; i < element.getAttributeNames().length; i++) {
+		if (exlucedAttributes.indexOf(element.getAttributeNames()[i]) != -1
+		&& element.getAttribute(element.getAttributeNames()[i]) != anotherElement.getAttribute(element.getAttributeNames()[i])) {
+			return false;
+		}
+	}
+	return true;
 }
 
 export default PageSelector;

@@ -5,8 +5,8 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
 
     transform() {
         const me = this;
-        this.getItems().map(item => {
-           item.appendChild(me.createActionLink(item));
+        this.getItems().map((item, index) => {
+           item.appendChild(me.createActionLink(me.getItemLinks()[index]));
         });
     }
 
@@ -36,9 +36,7 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         return this.itemXpathList;
     }
 
-    createActionLink(item) {
-        //let linkElement = document.createElement("a");
-        //linkElement.textContent = "Action";
+    createActionLink(itemActivationElement) {
         let linkElement = this.getBulkAction().cloneNode(true);
         if (linkElement.type == "submit") {
             linkElement.addEventListener("submit", function (e) {
@@ -48,12 +46,7 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         }
         const me = this;
         linkElement.addEventListener("click", function (e) {
-            if (item.querySelector("input[type='checkbox']")) {
-                item.querySelector("input[type='checkbox']").click();
-            }
-            else {
-                item.click();
-            }
+            itemActivationElement.click();
             me.getBulkAction().click();
             e.stopImmediatePropagation();
         });
@@ -65,6 +58,7 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         let candidateElements = document.querySelectorAll(item.tagName.toLowerCase());
         for (let i = 0; i < candidateElements.length; i++) {
             if (this.areSimilarItems(item, candidateElements[i])) {
+                this.itemXpathList.push(this.xpathInterpreter.getPath(candidateElements[i], this.getContext())[0]);
                 similarItems.push(candidateElements[i]);
             }
         }
@@ -86,6 +80,31 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
 
     }
 
+    findItemsActivationLink(anElement) {
+        const me = this;
+        this.itemLinkXpaths = this.getItems().map((item, index) => {
+            let itemLink = me.pageSelector.findSimilarElements(item, anElement)[0];
+            if (itemLink) {
+                return me.xpathInterpreter.getPath(itemLink, me.getContext())[0];
+            }
+            else {
+                return me.itemXpathList[index];
+            }
+        });
+        return this.itemLinkXpaths;
+    }
+
+    getItemLinks() {
+        const me = this;
+        return this.itemLinkXpaths.map(xpath => {
+           return me.xpathInterpreter.getSingleElementByXpath(xpath, me.getContext());
+        });
+    }
+
+    setItemLinkXpathList(xpathList) {
+        this.itemLinkXpaths = xpathList;
+    }
+
     getSelectionView () {
         return DistributeMenuView;
     }
@@ -93,12 +112,8 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
     clone(aContext) {
         let clonedRefactoring = super.clone(aContext);
         clonedRefactoring.setBulkActionXpath(this.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(this.getBulkAction()), clonedRefactoring.getContext())[0]);
-        const me = this;
-        let newItemsXpath = this.getItems().map (item => {
-            console.log(clonedRefactoring.getElementInContext(item));
-            return me.xpathInterpreter.getPath(clonedRefactoring.getElementInContext(item), clonedRefactoring.getContext())[0];
-        });
-        clonedRefactoring.setItemXpathList(newItemsXpath);
+        clonedRefactoring.setItemXpathList(clonedRefactoring.getElementsXpath(this.getItems()));
+        clonedRefactoring.setItemLinkXpathList(clonedRefactoring.getElementsXpath(this.getItemLinks()));
         return clonedRefactoring;
     }
 

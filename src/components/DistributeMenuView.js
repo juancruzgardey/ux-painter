@@ -11,6 +11,7 @@ class DistributeMenuView extends React.Component {
             bulkActionXpath: '',
             selectingBulkAction: false,
             selectingItem: false,
+            selectingActivationItem: false,
             itemsXpath: this.props.refactoring.getItemXpathList()
         };
 
@@ -22,47 +23,61 @@ class DistributeMenuView extends React.Component {
 
     }
 
-    enableElementSelection(targetSelector) {
+    enableElementSelection(targetSelector, callback) {
         this.pageSelector.enableElementSelection({
             "scrapperClass": "QuerySelectorScrapper",
             "targetElementSelector": targetSelector,
             "onElementSelection": "onElementSelection",
-            "justFullPath": true
+            "justFullPath": true,
+            "componentCallback": callback
         });
         this.pageSelector.preventDomElementsBehaviour();
     }
 
     enableBulkActionSelection() {
         this.setState({selectingBulkAction: true});
-        this.enableElementSelection("a,button, input[type='submit']");
+        this.enableElementSelection("a,button, input[type='submit']", "onBulkActionSelected");
+    }
+
+    onBulkActionSelected(anElement) {
+        const elementXpath = this.xpathInterpreter.getPath(anElement, this.props.refactoring.getContext())[0];
+        this.pageSelector.addSelectionClass(anElement);
+        if (this.props.refactoring.getBulkAction()) {
+            this.pageSelector.removeSelectionClass(this.props.refactoring.getBulkAction());
+        }
+        this.props.refactoring.setBulkActionXpath(elementXpath);
+        this.setState({selectingBulkAction: false, bulkActionXpath: elementXpath});
     }
 
     enableItemSelection() {
         this.setState({selectingItem: true});
-        this.enableElementSelection("div, tr, li");
+        this.enableElementSelection("div, tr, li", "onItemSelected");
     }
 
-    onElementSelected(anElement) {
+    onItemSelected(anElement) {
         this.pageSelector.addSelectionClass(anElement);
         const elementXpath = this.xpathInterpreter.getPath(anElement, this.props.refactoring.getContext())[0];
-        if (this.state.selectingBulkAction) {
-            if (this.props.refactoring.getBulkAction()) {
-                this.pageSelector.removeSelectionClass(this.props.refactoring.getBulkAction());
-            }
-            this.props.refactoring.setBulkActionXpath(elementXpath);
-            this.setState({selectingBulkAction: false, bulkActionXpath: elementXpath});
-        }
-        else {
-            let items = this.props.refactoring.findSimilarItems(anElement);
-            this.setState(state => {
-                items.map(item => {
-                    this.pageSelector.addSelectionClass(item);
-                    state.itemsXpath.push(this.xpathInterpreter.getPath(item, this.props.refactoring.getContext())[0]);
-                });
-                state.selectingItem = false;
-                return state
-            });
-        }
+        let items = this.props.refactoring.findSimilarItems(anElement);
+        items.map(item => {
+            this.pageSelector.addSelectionClass(item);
+        });
+        this.pageSelector.restoreDomElementsBehaviour();
+        this.enableItemActivationSelection();
+    }
+
+    enableItemActivationSelection() {
+        this.setState({selectingActivationItem: true});
+        this.enableElementSelection("div,a, button,input[type='checkbox']", "onItemActivationSelected");
+    }
+
+    onItemActivationSelected(anElement) {
+        this.props.refactoring.findItemsActivationLink(anElement);
+        console.log(this.props.refactoring.getItemLinks());
+        const me = this;
+        this.props.refactoring.getItemLinks().map(link => {
+            me.pageSelector.addSecondarySelectionClass(link);
+        });
+        this.setState({selectingItem: false,selectingActivationItem: false});
         this.pageSelector.restoreDomElementsBehaviour();
     }
 
@@ -71,23 +86,27 @@ class DistributeMenuView extends React.Component {
             return <li>{itemXpath}</li>
         });
         return (
-        <RefactoringView refactoring={this.props.refactoring}>
-            <div className={'form-group'}>
-                <h6>Bulk Action</h6>
-                {!this.state.selectingBulkAction &&
+            <RefactoringView refactoring={this.props.refactoring}>
+                <div className={'form-group'}>
+                    <h6>Bulk Action</h6>
+                    {!this.state.selectingBulkAction &&
                     (<a className={'btn btn-link'} onClick={this.enableBulkActionSelection}>Select</a>)}
-                {this.state.selectingBulkAction && (
-                    <span className={'uxpainter-message'}>Select an Action</span>
-                )}
-            </div>
-            <div className={'form-group'}>
-                <h6>Items</h6>
-                {!this.state.selectingItem && (<a className={'btn btn-link'} onClick={this.enableItemSelection}>Add</a>)}
-                {this.state.selectingItem && (
-                    <span className={'uxpainter-message'}>Select an Item</span>
-                )}
-            </div>
-        </RefactoringView>
+                    {this.state.selectingBulkAction && (
+                        <span className={'uxpainter-message'}>Select an Action</span>
+                    )}
+                </div>
+                <div className={'form-group'}>
+                    <h6>Items</h6>
+                    {!this.state.selectingItem && (
+                        <a className={'btn btn-link'} onClick={this.enableItemSelection}>Add</a>)}
+                    {this.state.selectingItem && !this.state.selectingActivationItem && (
+                        <span className={'uxpainter-message'}>Select an Item</span>
+                    )}
+                    {this.state.selectingItem && this.state.selectingActivationItem && (
+                        <span className={'uxpainter-message'}>Select the link to activate the item</span>
+                    )}
+                </div>
+            </RefactoringView>
 
         )
     }
