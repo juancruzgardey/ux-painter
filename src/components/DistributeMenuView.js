@@ -72,10 +72,9 @@ class DistributeMenuView extends React.Component {
 
     onItemActivationSelected(anElement) {
         this.props.refactoring.findItemsActivationLink(anElement);
-        console.log(this.props.refactoring.getItemLinks());
         const me = this;
         this.props.refactoring.getItemLinks().map(link => {
-            me.pageSelector.addSecondarySelectionClass(link);
+            me.pageSelector.addSelectionClass(link, me.pageSelector.secondarySelectionClass);
         });
         this.setState({selectingItem: false,selectingActivationItem: false});
         this.pageSelector.restoreDomElementsBehaviour();

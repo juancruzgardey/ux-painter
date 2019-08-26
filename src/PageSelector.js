@@ -112,10 +112,6 @@ PageSelector.prototype.loadListeners = function(){
 		var matchingElements = me.withParentElements(me.selectedElem);
 
 		me.removeHighlightingOnHover(me.selectedElem); 
-		matchingElements.forEach(targetElem => {
-			me.removeStyleClass(targetElem, me.selectionClass);
-			me.removeStyleClass(targetElem, me.clearBackgroundClass);
-		});
 
 		me.setElementID(me.selectedElem);
 
@@ -435,22 +431,17 @@ PageSelector.prototype.addSelectableElemStyle = function(elem){
 
 	this.addStyleClass(elem, this.selectableElemClass);  
 }
-PageSelector.prototype.addSelectionClass = function(elem){
-
-	this.addStyleClass(elem, this.selectionClass);
+PageSelector.prototype.addSelectionClass = function(elem, className){
+	if (!className) {
+		className = this.selectionClass;
+	}
+	this.addStyleClass(elem, className);
 	this.setElementID(elem);
+	if (elem.type == 'checkbox') {
+		elem.checked = true;
+	}
 }
 
-PageSelector.prototype.addSecondarySelectionClass = function(elem){
-
-	this.addStyleClass(elem, this.secondarySelectionClass);
-	this.setElementID(elem);
-}
-
-PageSelector.prototype.removeSelectionClass = function(elem){
-
-	this.removeStyleClass(elem, this.selectionClass);  
-}
 PageSelector.prototype.removeFullSelectionStyle = function(){
 
 	this.removeClassFromMatchingElements(this.obfuscatedClass);
@@ -532,9 +523,23 @@ PageSelector.prototype.removeClearBackground = function(elem){
 	this.removeStyleClass(elem, this.clearBackgroundClass);	
 };
 
+PageSelector.prototype.removeSelectionClass = function (elem, className) {
+	if (!className) {
+		className = this.selectionClass;
+	}
+	if (elem.type == 'checkbox') {
+		elem.checked = false;
+	}
+	this.removeStyleClass(elem, className);
+}
+
 PageSelector.prototype.removeSelectedElementsHighlighting = function () {
-	this.removeClassFromMatchingElements(this.selectionClass);
-	this.removeClassFromMatchingElements(this.secondarySelectionClass);
+	var matchingElements = document.querySelectorAll("." + this.selectionClass + ", ."
+	  + this.secondarySelectionClass);
+	for (let i = 0; i < matchingElements.length; i++) {
+		this.removeSelectionClass(matchingElements[i], this.selectionClass);
+		this.removeSelectionClass(matchingElements[i], this.secondarySelectionClass);
+	}
 }
 
 PageSelector.prototype.setElementID = function (element) {
@@ -557,7 +562,7 @@ PageSelector.prototype.findSimilarElements = function (container, element) {
 PageSelector.prototype.compareElements = function (element, anotherElement) {
 	var exlucedAttributes = ["id", this.elementIDAttribute];
 	for (let i = 0; i < element.getAttributeNames().length; i++) {
-		if (exlucedAttributes.indexOf(element.getAttributeNames()[i]) != -1
+		if (exlucedAttributes.indexOf(element.getAttributeNames()[i]) == -1
 		&& element.getAttribute(element.getAttributeNames()[i]) != anotherElement.getAttribute(element.getAttributeNames()[i])) {
 			return false;
 		}

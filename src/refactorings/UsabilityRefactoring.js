@@ -108,7 +108,7 @@ class UsabilityRefactoring {
 
     getElementsXpath(elements) {
         const me = this;
-        elements.map(element => {
+        return elements.map(element => {
             return me.xpathInterpreter.getPath(me.getElementInContext(element), me.getContext())[0];
         });
     }
