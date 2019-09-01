@@ -36,7 +36,7 @@ class UsabilityRefactoring {
     }
 
     serialize () {
-        return {"refactoring": this.constructor.getClassName(), "url": this.getURL()};
+        return {"refactoring": this.constructor.getClassName(), "url": this.getURL(), "style": this.getStyle()};
     }
 
     createRefactoring(json) {

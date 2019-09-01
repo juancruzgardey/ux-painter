@@ -36,7 +36,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     serialize () {
         let json = super.serialize();
         json.elementXpath = this.getElementXpath();
-        json.style = this.getStyle();
         return json;
     }
 

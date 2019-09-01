@@ -94,6 +94,13 @@ class SplitPageRefactoring extends UsabilityRefactoring {
         return this.sectionLinks;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.sections = this.sections;
+        json.sectionListContainerXpath = this.sectionListContainerXpath;
+        return json;
+    }
+
 
     static asString() {
         return "Split Page";
