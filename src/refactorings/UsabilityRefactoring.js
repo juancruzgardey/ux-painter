@@ -19,7 +19,16 @@ class UsabilityRefactoring {
 
     execute () {
         this.initialize();
-        this.transform();
+        if (this.checkPreconditions()) {
+            this.transform();
+        }
+        else {
+            console.log("Invalid refactoring");
+        }
+    }
+
+    checkPreconditions() {
+        return true;
     }
 
     isOnElement () {

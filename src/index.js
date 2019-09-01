@@ -10,7 +10,11 @@ const app = document.createElement('div');
 app.id = "refactoring-extension-root";
 document.body.appendChild(app);
 window.refactoringManager = new RefactoringManager();
-window.refactoringManager.executeCurrentVersion();
+
+window.onload = function () {
+    window.refactoringManager.executeCurrentVersion();
+};
+
 ReactDOM.render(<Main />, app);
 
 app.style.display = "none";

@@ -28,9 +28,10 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return this.targetElement;
     }
 
-    initialize () {
-
+    checkPreconditions() {
+        return this.getElement() !== undefined;
     }
+
 
     serialize () {
         let json = super.serialize();
