@@ -117,6 +117,18 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         return clonedRefactoring;
     }
 
+    serialize() {
+        let json = super.serialize();
+        json.itemXpathList = this.itemXpathList;
+        json.itemLinkXpaths = this.itemLinkXpaths;
+        json.bulkActionXpath = this.bulkActionXpath;
+        return json;
+    }
+
+    static getClassName() {
+        return "DistributeMenuRefactoring";
+    }
+
     static asString() {
         return "Distribute Menu";
     }
