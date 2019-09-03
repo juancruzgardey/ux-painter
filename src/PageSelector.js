@@ -307,7 +307,7 @@ PageSelector.prototype.enableElementSelection = function(data){
 
 	this.componentCallback = data.componentCallback;
 
-	this.lastUsedExtractor = new scrappers[data.scrapperClass]();
+	this.lastUsedExtractor = new scrappers["QuerySelectorScrapper"]();
 	this.generatesSingleElemSelectors = data.generatesSingleElemSelectors;
 	var elements = this.lastUsedExtractor.getElements(data.targetElementSelector);
 	this.refElem = this.lastUsedExtractor.getElement(data.refElemSelector);
