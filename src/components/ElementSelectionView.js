@@ -11,10 +11,7 @@ class ElementSelectionView extends React.Component {
         this.refactoring = this.props.refactoring;
         this.pageSelector = new PageSelector (this);
         this.pageSelector.enableElementSelection({
-            "scrapperClass": "QuerySelectorScrapper",
             "targetElementSelector": this.refactoring.targetElements(),
-            "onElementSelection": "onElementSelection",
-            "justFullPath": true
         });
         this.pageSelector.preventDomElementsBehaviour();
 
