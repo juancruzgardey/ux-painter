@@ -1,7 +1,7 @@
 import React from 'react';
 import PageSelector from '../PageSelector';
 import XPathInterpreter from '../refactorings/XPathInterpreter';
-import {goBack, Link} from 'route-lite';
+import {goBack, goTo} from 'route-lite';
 
 class ElementSelectionView extends React.Component {
 
@@ -17,7 +17,7 @@ class ElementSelectionView extends React.Component {
 
         this.disableElementSelection = this.disableElementSelection.bind(this);
         this.handleBack = this.handleBack.bind(this);
-        this.targetElementImage = React.createRef();
+        this.handleNext = this.handleNext.bind(this);
     }
 
 
@@ -43,16 +43,34 @@ class ElementSelectionView extends React.Component {
         goBack();
     }
 
+    handleNext() {
+        if (this.state.elementXpath) {
+            goTo(this.refactoring.getView(), {"refactoring": this.refactoring});
+        }
+    }
+
     render () {
         return (
         <div className={"row"}>
-            <div className={"col-md-12"}>
-                <h2>Select an Element</h2>
-                <div className={'form-group'}>
-                    <Link onClick={this.disableElementSelection} className={'btn btn-warning'} component={this.refactoring.getView()} componentProps={{"refactoring": this.refactoring}}>Continue</Link>
+            <div className={"col-sm-12"}>
+                <h5 className={"text-center"}>Selection of the target element</h5>
+                <div className={"row"}>
+                    <div className={"col-sm-12"}>
+                        <h6>{this.refactoring.constructor.asString()}</h6>
+                    </div>
                 </div>
-                <div className={'form-group'}>
-                    <Link className={'btn btn-secondary'} onClick={() => this.handleBack()}>Back</Link>
+                <div className={"row"}>
+                    <div className={"col-sm-12"}>
+                        <p>Select an element from the page</p>
+                    </div>
+                </div>
+                <div className={'row'}>
+                    <div className={"col-sm-6"}>
+                        <a className={'btn btn-secondary'} onClick={() => this.handleBack()}>Back</a>
+                    </div>
+                    <div className={"col-sm-6"}>
+                        <a onClick={this.handleNext} className={'btn btn-warning'}>Next</a>
+                    </div>
                 </div>
             </div>
         </div>
