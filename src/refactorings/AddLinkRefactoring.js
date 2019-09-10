@@ -16,6 +16,10 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         this.applyStyles([this.linkElement], this.getStyle().targetElement);
     }
 
+    unDo() {
+        this.linkElement.parentNode.removeChild(this.linkElement);
+    }
+
     getTargetURL() {
         return this.targetURL;
     }
@@ -40,8 +44,8 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         return AddLinkView;
     }
 
-    clone(aContext) {
-        let refactoring = super.clone(aContext);
+    clone() {
+        let refactoring = super.clone();
         refactoring.setTargetURL(this.getTargetURL());
         refactoring.setLinkName(this.getLinkName());
         return refactoring;

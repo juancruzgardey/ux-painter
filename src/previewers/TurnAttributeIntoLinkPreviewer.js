@@ -20,7 +20,7 @@ class TurnAttributeIntoLinkPreviewer extends RefactoringOnElementPreviewer {
         let previews = [];
         const maxPreviews = existingStyles.length <= this.previewsQty?existingStyles.length:this.previewsQty;
         for (let i = 0; i < maxPreviews; i++) {
-            let previewRefactoring = this.cloneRefactoring(aRefactoring);
+            let previewRefactoring = aRefactoring.clone();
             previewRefactoring.setStyleProperty("targetElement",existingStyles[i]);
             previews.push(previewRefactoring);
         }

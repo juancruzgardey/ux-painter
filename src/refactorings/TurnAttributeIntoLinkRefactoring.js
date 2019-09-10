@@ -13,6 +13,11 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         this.applyStyles([this.linkElement], this.getStyle().targetElement);
     }
 
+    unDo() {
+        this.getElement().removeChild(this.linkElement);
+        this.getElement().innerHTML = this.linkElement.innerHTML;
+    }
+
     getTargetURL() {
         return this.targetURL;
     }

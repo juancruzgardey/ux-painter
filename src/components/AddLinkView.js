@@ -1,5 +1,6 @@
 import React from 'react';
-import RefactoringOnElementView from "./RefactoringOnElementView";
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
+
 
 class AddLinkView extends React.Component {
 
@@ -21,7 +22,7 @@ class AddLinkView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>Link Name</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleName}/>
@@ -30,7 +31,7 @@ class AddLinkView extends React.Component {
                     <label>Target URL</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleURL}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 }

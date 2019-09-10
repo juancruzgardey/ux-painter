@@ -1,5 +1,5 @@
 import React from 'react';
-import RefactoringOnElementView from "./RefactoringOnElementView";
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class TurnAttributeIntoLinkView extends React.Component {
 
@@ -17,12 +17,12 @@ class TurnAttributeIntoLinkView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>Target URL</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 }
