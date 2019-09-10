@@ -85,14 +85,8 @@ class UsabilityRefactoring {
         return ElementSelectionView;
     }
 
-    clone(aContext) {
+    clone() {
         let clone = new this.constructor();
-        if (aContext) {
-            clone.setContext(this.cloneContext(aContext));
-        }
-        else {
-            clone.setContext(this.cloneContext(this.getContext()));
-        }
         return clone;
     }
 
