@@ -127,8 +127,8 @@
     cursor:pointer;
 }
 
-.ux-painter-list-element a.active {
-    color: #dbbf70;
+.uxpainter-active-preview {
+    color: #dbbf70 !important;
 }
 
 a {
