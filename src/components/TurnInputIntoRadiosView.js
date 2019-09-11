@@ -1,5 +1,6 @@
 import RefactoringOnElementView from "./RefactoringOnElementView";
 import React from "react";
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class TurnInputIntoRadiosView extends React.Component {
 
@@ -30,12 +31,12 @@ class TurnInputIntoRadiosView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>Values</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 
