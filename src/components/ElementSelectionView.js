@@ -2,6 +2,7 @@ import React from 'react';
 import PageSelector from '../PageSelector';
 import XPathInterpreter from '../refactorings/XPathInterpreter';
 import {goBack, goTo} from 'route-lite';
+import RefactoringPreview from "./RefactoringPreview";
 
 class ElementSelectionView extends React.Component {
 
@@ -46,7 +47,12 @@ class ElementSelectionView extends React.Component {
     handleNext() {
         if (this.state.elementXpath) {
             this.disableElementSelection();
-            goTo(this.refactoring.getView(), {"refactoring": this.refactoring});
+            if (!this.refactoring.checkPreconditions()) {
+                goTo(this.refactoring.getView(), {"refactoring": this.refactoring});
+            }
+            else {
+                goTo(RefactoringPreview, {"refactoring": this.refactoring});
+            }
         }
         else {
             this.setState({errorInSelection:true});
