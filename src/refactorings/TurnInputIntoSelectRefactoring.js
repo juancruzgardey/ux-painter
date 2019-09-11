@@ -52,6 +52,16 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
             this.applyStyle();
     }
 
+    unDo() {
+        this.getElement().parentNode.removeChild(this.selectElement);
+        this.getElement().parentNode.removeChild(this.otherElement);
+        this.getElement().setAttribute("type", "text");
+    }
+
+    checkPreconditions () {
+        return super.checkPreconditions() && this.getValues() && this.getValues().length > 0;
+    }
+
     createOption(value) {
         let optionElement = document.createElement("option");
         optionElement.textContent = value;

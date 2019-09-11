@@ -21,9 +21,18 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
 
     transform () {
         this.getElement().setAttribute("type", "hidden");
-        const radioSetContainer = document.createElement("div");
-        this.getElement().parentNode.insertBefore(radioSetContainer, this.getElement());
-        ReactDOM.render(<RadioSet values={this.getValues()} refactoring={this}/>,radioSetContainer);
+        this.radioSetContainer = document.createElement("div");
+        this.getElement().parentNode.insertBefore(this.radioSetContainer, this.getElement());
+        ReactDOM.render(<RadioSet values={this.getValues()} refactoring={this}/>,this.radioSetContainer);
+    }
+
+    checkPreconditions() {
+        return super.checkPreconditions() && this.getValues() && this.getValues().length > 0;
+    }
+
+    unDo() {
+        this.getElement().parentNode.removeChild(this.radioSetContainer);
+        this.getElement().setAttribute("type", "text");
     }
 
     getView() {
@@ -77,7 +86,7 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
     }
 
     clone(aContext) {
-        let refactoring = super.clone(aContext);
+        let refactoring = super.clone();
         refactoring.setValues(this.getValues());
         return refactoring;
     }
