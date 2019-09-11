@@ -11,8 +11,8 @@ require('tipr');
 class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
 
     transform () {
-        if (this.getElement() !== undefined) {
-            this.getElement().className += " tip";
+        this.originalElement = this.getElement().cloneNode(true);
+        this.getElement().className += " tip";
             this.getElement().setAttribute("data-tip", this.tooltipName);
 
             $(this.getElement()).tipr();
@@ -21,7 +21,15 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
                 me.applyStyles(me.getTooltipElement(), me.getStyle().tooltip);
             });
 
-        }
+    }
+
+    checkPreconditions() {
+        return super.checkPreconditions() && this.tooltipName;
+    }
+
+    unDo() {
+        this.getElement().parentNode.replaceChild(this.originalElement, this.getElement());
+        this.setElement(null);
     }
 
     setTooltipName (aTooltipName) {

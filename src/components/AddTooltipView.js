@@ -1,5 +1,5 @@
 import React from 'react';
-import RefactoringOnElementView from './RefactoringOnElementView';
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class AddTooltipView extends React.Component {
 
@@ -18,12 +18,12 @@ class AddTooltipView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>Tooltip Name</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 
