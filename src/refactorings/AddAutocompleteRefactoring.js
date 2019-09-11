@@ -13,12 +13,20 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
     transform() {
         const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElementXpath());
-        new Awesomplete(this.getElement(), {list: this.values});
+        this.awesomplete = new Awesomplete(this.getElement(), {list: this.values});
         this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
         const me = this;
         this.getElement().addEventListener("keyup", function () {
           me.applyStyles(me.getHighlightedElements(), me.getStyle().highlightedElements);
         });
+    }
+
+    checkPreconditions() {
+        return super.checkPreconditions() && this.values && this.values.length > 0;
+    }
+
+    unDo() {
+        this.awesomplete.destroy();
     }
 
     setValues(aList) {
@@ -62,8 +70,8 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         this.getStyle()["highlightedElements"] = styles[0];
     }
 
-    clone(aContext) {
-        let clonedRefactoring = super.clone(aContext);
+    clone() {
+        let clonedRefactoring = super.clone();
         clonedRefactoring.setValues(this.getValues());
         return clonedRefactoring;
     }

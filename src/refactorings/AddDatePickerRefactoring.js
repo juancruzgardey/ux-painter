@@ -11,25 +11,23 @@ datepickerFactory($);
 
 class AddDatePickerRefactoring extends UsabilityRefactoringOnElement {
 
-    transformElement(anElement) {
-        $(anElement).datepicker({ dateFormat: "d/m/y" });
-    }
-
-    previewOnElement(anElement) {
-        this.transformElement(anElement);
-        const me = this;
-    }
 
     transform () {
-        this.transformElement(this.getElement());
+        $(this.getElement()).datepicker({
+            dateFormat: "d/m/y"});
         const me = this;
+        //TODO the style is removed when the user change the month
         this.getElement().addEventListener("focus", function () {
             me.applyStyles(me.getDatePickerTitle(), me.getStyle().title);
             me.applyStyles(me.getSelectableElements(), me.getStyle().selectableElements);
             me.applyStyles(me.getDatePickerTable(), me.getStyle().table);
             me.applyStyles(me.getHeaderElements(), me.getStyle().header);
         });
-
+    }
+    
+    unDo() {
+        $(this.getElement()).datepicker( "hide" );
+        $(this.getElement()).datepicker("destroy");
     }
 
     targetElements () {
