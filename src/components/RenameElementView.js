@@ -1,5 +1,5 @@
 import React from 'react';
-import RefactoringOnElementView from './RefactoringOnElementView';
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class RenameElementView extends React.Component {
 
@@ -18,12 +18,12 @@ class RenameElementView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>Element Name</label>
                     <input type={'text'} className={'form-control'} id={'uxpainter-element-name'} onChange={this.handleChange}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 

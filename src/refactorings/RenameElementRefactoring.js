@@ -7,10 +7,16 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
     }
 
     transform () {
-        const anElement = this.getElement();
-        if (anElement !== "undefined") {
-            anElement.innerHTML = this.getNewName();
-        }
+        this.oldName = this.getElement().innerHTML;
+        this.getElement().innerHTML = this.getNewName();
+    }
+
+    checkPreconditions() {
+        return super.checkPreconditions() && this.getNewName();
+    }
+
+    unDo() {
+        this.getElement().innerHTML = this.oldName;
     }
 
     setNewName (newName) {
@@ -30,7 +36,7 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
     }
 
     clone(aContext) {
-        let refactoring = super.clone(aContext);
+        let refactoring = super.clone();
         refactoring.setNewName(this.getNewName());
         return refactoring;
     }
