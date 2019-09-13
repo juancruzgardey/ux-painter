@@ -30,10 +30,7 @@ class RefactoringConfigurationView extends React.Component {
         return (
                 <div className={"container"}>
                     <div className={'row col-12'}>
-                        <h5 className={'text-center'}>Refactoring configuration</h5>
-                    </div>
-                    <div className={"row col-12"}>
-                        <h6>{this.props.refactoring.constructor.asString()}</h6>
+                        <h5 className={'text-center'}>{this.props.refactoring.constructor.asString()}</h5>
                     </div>
                     <div className={"row col-12"}>
                         {(this.props.description) && (<p>{this.props.description}</p>)}

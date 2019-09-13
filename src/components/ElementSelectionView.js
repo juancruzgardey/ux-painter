@@ -63,10 +63,7 @@ class ElementSelectionView extends React.Component {
         return (
         <div className={"container"}>
             <div className={"row col-12"}>
-                <h5 className={"text-center"}>Selection of the target element</h5>
-            </div>
-            <div className={"row col-12"}>
-                <h6>{this.refactoring.constructor.asString()}</h6>
+                <h5 className={'text-center'}>{this.refactoring.constructor.asString()}</h5>
             </div>
             <div className={"row col-12"}>
                 <p>Select an element from the page</p>
