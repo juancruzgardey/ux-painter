@@ -4,25 +4,38 @@ import AddFormValidationView from "../components/AddFormValidationView";
 
 class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
 
-    transform() {
-        const me = this;
-        this.getElement().addEventListener("submit", function (e) {
-            let invalidInputs = false;
-            me.getRequiredInputs().map(function (requiredInput) {
-               if (!requiredInput || !requiredInput.value) {
-                   requiredInput.style.borderColor = "rgb(255,0,0)";
-                   invalidInputs = true;
-               }
-            });
-            if (invalidInputs) {
-                e.preventDefault();
-                return false;
-            }
-            else {
-                me.getElement().submit();
+    constructor(props) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onSubmit(event) {
+        let invalidInputs = false;
+        this.getRequiredInputs().map(function (requiredInput) {
+            if (!requiredInput || !requiredInput.value) {
+                requiredInput.style.borderColor = "rgb(255,0,0)";
+                invalidInputs = true;
             }
         });
+        if (invalidInputs) {
+            event.preventDefault();
+            return false;
+        }
+        else {
+            this.getElement().submit();
+        }
+    }
 
+    transform() {
+        this.getElement().addEventListener("submit", this.onSubmit);
+    }
+
+    unDo() {
+        this.getElement().removeEventListener("submit", this.onSubmit);
+    }
+
+    checkPreconditions() {
+        return super.checkPreconditions() && this.requiredInputXpaths && this.requiredInputXpaths.length > 0;
     }
 
     setRequiredInputXpaths(aCollection) {

@@ -43,6 +43,7 @@ function PageSelector(aComponent){
 
 	this.selectionClass = "uxpainter-element-selected";
 	this.secondarySelectionClass = "uxpainter-element-selected-2";
+	this.requiredFieldClass = "uxpainter-required-field";
 };
 PageSelector.prototype.getSetOfXPathsByOccurrences = function(element, relativeElem, generateRelativeSelector, relativeElements){
 
@@ -440,6 +441,14 @@ PageSelector.prototype.addSelectionClass = function(elem, className){
 	if (elem.type == 'checkbox') {
 		elem.checked = true;
 	}
+}
+
+PageSelector.prototype.addRequiredField = function (element) {
+	this.addStyleClass(element, this.requiredFieldClass);
+};
+
+PageSelector.prototype.removeRequiredField = function (elem) {
+    this.removeStyleClass(elem, this.requiredFieldClass);
 }
 
 PageSelector.prototype.removeFullSelectionStyle = function(){
