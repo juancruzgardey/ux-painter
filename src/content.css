@@ -150,3 +150,9 @@ a {
 .uxpainter-required-field {
     border-color: rgb(255,0,0) !important;
 }
+
+.uxpainter-border-bottom-highlighting {
+    border-color: red;
+    border-bottom-style: solid;
+
+}

@@ -14,8 +14,13 @@ class RefactoringConfigurationView extends React.Component {
 
     handleNext() {
         if (this.props.child && this.props.child.onNext()) {
-            this.pageSelector.removeSelectedElementsHighlighting();
-            goTo(RefactoringPreview, {refactoring: this.props.refactoring});
+            if (this.props.child.next) {
+                goTo(this.props.child.next(),{refactoring: this.props.refactoring});
+            }
+            else {
+                this.pageSelector.removeSelectedElementsHighlighting();
+                goTo(RefactoringPreview, {refactoring: this.props.refactoring});
+            }
         }
     }
 

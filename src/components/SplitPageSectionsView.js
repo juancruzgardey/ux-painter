@@ -1,19 +1,20 @@
 import React from 'react';
 import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
-import RefactoringView from "./RefactoringView";
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
+import SplitPageLinksView from "./SplitPageLinksView";
 
 class SplitPageSectionsView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.refactoring = this.props.refactoring;
         this.state = {
             sections: [],
             addSection: false,
             newSectionName: '',
-            newSectionXpath: '',
-            sectionListContainerXpath: '',
-            selectingLinksContainer: false
+            newSectionXpaths: [],
+            sectionError: false
         };
         this.addSection = this.addSection.bind(this);
         this.setSectionName = this.setSectionName.bind(this);
@@ -21,10 +22,6 @@ class SplitPageSectionsView extends React.Component {
         this.cancelSection = this.cancelSection.bind(this);
         this.enableElementSelection = this.enableElementSelection.bind(this);
 
-        this.enableLinksContainerSelection = this.enableLinksContainerSelection.bind(this);
-        this.disableLinksContainerSelection = this.disableLinksContainerSelection.bind(this);
-
-        this.refactor = this.refactor.bind(this);
         this.pageSelector = new PageSelector(this);
 
         this.props.refactoring.setSectionsXpath(this.state.sections);
@@ -33,10 +30,7 @@ class SplitPageSectionsView extends React.Component {
 
     enableElementSelection() {
         this.pageSelector.enableElementSelection({
-            "scrapperClass": "QuerySelectorScrapper",
-            "targetElementSelector": "div,section,nav,footer,aside, header, ul",
-            "onElementSelection": "onElementSelection",
-            "justFullPath": true
+            "targetElementSelector": this.pageSelector.getAllVisibleDomElementsSelector()
         });
         this.pageSelector.preventDomElementsBehaviour();
     }
@@ -45,142 +39,104 @@ class SplitPageSectionsView extends React.Component {
         this.pageSelector.restoreDomElementsBehaviour();
     }
 
-    enableLinksContainerSelection () {
-        this.setState(state => {
-           state.selectingLinksContainer = true;
-           return state;
-        });
-        this.enableElementSelection();
-    }
-
-    disableLinksContainerSelection () {
-        this.setState(state => {
-            state.selectingLinksContainer = false;
-            return state;
-        });
-        this.disableElementSelection();
-    }
-
-
     addSection() {
-        this.setState(state => {
-            state.addSection = true;
-            state.newSectionName = '';
-            state.newSectionXpath = '';
-            return state
-        });
+        this.setState({addSection: true, newSectionName: '', newSectionXpaths: [], sectionError:false});
         this.enableElementSelection();
     }
 
     cancelSection() {
-        if (this.state.newSectionXpath) {
-            const section = this.xpathInterpreter.getSingleElementByXpath(this.state.newSectionXpath, this.props.refactoring.getContext());
-            this.pageSelector.removeSelectionClass(section);
+        if (this.state.newSectionXpaths.length > 0) {
+            this.state.newSectionXpaths.map(elementXpath => {
+                const sectionElement = this.xpathInterpreter.getSingleElementByXpath(elementXpath, this.refactoring.getContext());
+                this.pageSelector.removeSelectionClass(sectionElement);
+            });
         }
-        this.setState(state => {
-            state.addSection = false;
-            state.newSectionName = '';
-            state.newSectionXpath = '';
-            return state
-        });
+        this.setState({addSection: false, newSectionName: '', newSectionXpaths :[]});
         this.disableElementSelection();
     }
 
     onElementSelected(element) {
         const elementXpath = (this.xpathInterpreter.getPath(element, this.props.refactoring.getContext()))[0];
-        const me = this;
-        this.setState(state => {
-            if (state.addSection) {
-                state.newSectionXpath = elementXpath;
-                me.pageSelector.addSelectionClass(element);
-            }
-            else {
-                state.sectionListContainerXpath = elementXpath;
-                this.props.refactoring.setSectionListContainerXpath(elementXpath);
-                me.disableElementSelection();
-                state.selectingLinksContainer = false;
-            }
-            return state;
-        });
+        this.state.newSectionXpaths.push(elementXpath);
+        this.pageSelector.addSelectionClass(element);
     }
 
     setSectionName(event) {
         let inputValue = event.target.value;
-        this.setState(state => {
-            state.newSectionName = inputValue;
-            return state;
-        });
+        this.setState({newSectionName: inputValue});
     }
 
     saveSection() {
-        if (!this.state.newSectionName || !this.state.newSectionXpath) {
+        if (!this.state.newSectionName || this.state.newSectionXpaths.length == 0) {
             return
         }
         this.setState(state => {
-            state.sections.push({name: state.newSectionName, xpath: state.newSectionXpath});
+            state.sections.push({name: state.newSectionName, xpaths: state.newSectionXpaths});
             state.addSection = false;
+            state.sectionError = false;
             return state;
         });
         this.disableElementSelection();
     }
 
-    refactor() {
-        this.props.refactoring.setSectionListContainerXpath(this.state.sectionListContainerXpath);
-        this.props.refactoring.setSectionsXpath(this.state.sections);
-        this.props.refactoring.execute();
+    onNext() {
+        if (this.state.sections.length == 0) {
+            this.setState({sectionError: true});
+            return false;
+        }
+        if (this.state.addSection) {
+            this.disableElementSelection();
+        }
+        this.refactoring.setSectionsXpath(this.state.sections);
+        return true;
+    }
+
+    onBack() {
+        if (this.state.addSection) {
+            this.disableElementSelection();
+        }
+    }
+
+    next() {
+        return SplitPageLinksView;
     }
 
     render() {
         return (
-            <RefactoringView refactoring={this.props.refactoring}>
-                {!this.state.addSection && (<div className={'row'}>
-                    <div className={'col-md-12'}>
-                        <a className={'btn btn-secondary'} onClick={this.addSection}>Add Section</a>
+            <RefactoringConfigurationView child={this} refactoring={this.props.refactoring} description={'Define the sections of the target page'}>
+                {!this.state.addSection && ([
+                    <div className={'row col-12'}>
+                        <a className={'btn btn-secondary'} onClick={this.addSection}>Create Section</a>
+                    </div>,
+                    <div className={'row col-12'}>
+                        <ul>
+                            {this.state.sections.map(section => {
+                                return <li>{section.name}</li>
+                            })}
+                            </ul>
+                        </div>
+                ])}
+                {this.state.sectionError && (
+                    <div className={'row col-12'}>
+                        <p className={'text-danger'}>At least one section must be defined</p>
                     </div>
-                </div>)}
+                )}
                 {this.state.addSection && (
-                    <div className={'row'}>
-                        <div className={'col-md-12'}>
+                    <div className={'row col-12'}>
+                            <div className={'form-group'}>
+                                <p className={'uxpainter-message'}>Complete the section name and select all the elements in the page that belongs to the new section</p>
+                            </div>
                             <div className={'form-group'}>
                                 <label>Section Name</label>
                                 <input type={'text'} className={'form-control'} onChange={this.setSectionName}/>
                             </div>
                             <div className={'form-group'}>
-                                <p>Root Element: {this.state.newSectionXpath?this.state.newSectionXpath:
-                                    <span className={'uxpainter-message'}>Select an Element</span>}</p>
-                            </div>
-                            <div className={'form-group'}>
-                                <a className={'btn btn-light inline-link'} onClick={this.saveSection}>Add</a>
+                                <a className={'btn btn-light inline-link'} onClick={this.saveSection}>Add Section</a>
                                 <a className={'btn btn-danger inline-link'} onClick={this.cancelSection}>Cancel</a>
                             </div>
-                        </div>
                     </div>
                 )}
-                <div className={'row'}>
-                    <div className={'col-md-12'}>
-                        <ul>
-                            {this.state.sections.map(section => {
-                                return <li>{section.name}</li>
-                            })}
-                        </ul>
-                    </div>
-                </div>
-                <div className={'row'}>
-                    <div className={'col-sm'}>
-                        <p>Section Links Container:
-                            {this.state.selectingLinksContainer?
-                                <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.disableLinksContainerSelection}>Cancel</a>:
-                                <a className={'btn btn-link'} style={{color: '#007bff', padding: 0}} onClick={this.enableLinksContainerSelection}>Change</a>}</p>
-                    </div>
-                    {this.state.selectingLinksContainer?
-                        <div className={'col-sm'}>
-                            <span className={'uxpainter-message'}>Select an Element</span>
-                        </div>:null}
-                    <div className={'col-sm'}>
-                        <p>Current element: {this.state.sectionListContainerXpath}</p>
-                    </div>
-                </div>
-            </RefactoringView>
+            </RefactoringConfigurationView>
         )
     }
 }

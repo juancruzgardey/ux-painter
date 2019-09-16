@@ -44,6 +44,7 @@ function PageSelector(aComponent){
 	this.selectionClass = "uxpainter-element-selected";
 	this.secondarySelectionClass = "uxpainter-element-selected-2";
 	this.requiredFieldClass = "uxpainter-required-field";
+    this.borderBottomSelectionClass = "uxpainter-border-bottom-highlighting";
 };
 PageSelector.prototype.getSetOfXPathsByOccurrences = function(element, relativeElem, generateRelativeSelector, relativeElements){
 
@@ -183,6 +184,11 @@ PageSelector.prototype.loadListeners = function(){
 		return false; 
 	};
 };
+
+PageSelector.prototype.getAllVisibleDomElementsSelector = function () {
+	return "div, input, a, img, span, label, ul, li, p, pre, cite, em, form, select, h1, h2, h3, h4, h5, h6, nav, section, header, aside, footer, tr, button";
+};
+
 PageSelector.prototype.getAllVisibleDomElements = function(){
 	return document.querySelectorAll("body, input, div, a, img, span, label, ul, li, p, pre, cite, em"); //:not(.first)
 };
@@ -544,10 +550,11 @@ PageSelector.prototype.removeSelectionClass = function (elem, className) {
 
 PageSelector.prototype.removeSelectedElementsHighlighting = function () {
 	var matchingElements = document.querySelectorAll("." + this.selectionClass + ", ."
-	  + this.secondarySelectionClass);
+	  + this.secondarySelectionClass + ", ." + this.borderBottomSelectionClass);
 	for (let i = 0; i < matchingElements.length; i++) {
 		this.removeSelectionClass(matchingElements[i], this.selectionClass);
 		this.removeSelectionClass(matchingElements[i], this.secondarySelectionClass);
+        this.removeSelectionClass(matchingElements[i], this.borderBottomSelectionClass);
 	}
 }
 
