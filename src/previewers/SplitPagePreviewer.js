@@ -7,7 +7,7 @@ class SplitPagePreviewer extends RefactoringPreviewer {
         let existingStyles = this.styleScrapper.getStyles("a", sectionLinksSegment, ["background", "color", "font-family","font-size","margin","padding", "display"]);
 
         return existingStyles.map(style => {
-            let previewRefactoring = this.cloneRefactoring(aSplitPage);
+            let previewRefactoring = aSplitPage.clone();
             previewRefactoring.setStyle(style);
             return previewRefactoring;
         });
