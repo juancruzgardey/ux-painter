@@ -66,7 +66,9 @@ class ElementSelectionView extends React.Component {
                 <h5 className={'text-center'}>{this.refactoring.constructor.asString()}</h5>
             </div>
             <div className={"row col-12"}>
-                <p>Select an element from the page</p>
+                <div className={"form-group"}>
+                    <p className={'uxpainter-message'}>Select an element from the page</p>
+                </div>
             </div>
             {this.state.errorInSelection && (
                 <div className={"row col-12"}>

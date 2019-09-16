@@ -13,14 +13,11 @@ class RefactoringConfigurationView extends React.Component {
     }
 
     handleNext() {
-        if (this.props.child && this.props.child.onNext()) {
-            if (this.props.child.next) {
-                goTo(this.props.child.next(),{refactoring: this.props.refactoring});
-            }
-            else {
-                this.pageSelector.removeSelectedElementsHighlighting();
-                goTo(RefactoringPreview, {refactoring: this.props.refactoring});
-            }
+        if (this.props.child && this.props.child.onNext() && this.props.child.next) {
+            goTo(this.props.child.next(), {refactoring: this.props.refactoring});
+        }
+        else if (!this.props.child || this.props.child.onNext()) {
+            goTo(RefactoringPreview, {refactoring: this.props.refactoring});
         }
     }
 
@@ -38,8 +35,10 @@ class RefactoringConfigurationView extends React.Component {
                         <h5 className={'text-center'}>{this.props.refactoring.constructor.asString()}</h5>
                     </div>
                     <div className={"row col-12"}>
-                        {(this.props.description) && (<p>{this.props.description}</p>)}
-                        {(!this.props.description) && (<p>Complete the following information</p>)}
+                        <div className={"form-group"}>
+                        {(this.props.description) && (<p className={'uxpainter-message'}>{this.props.description}</p>)}
+                        {(!this.props.description) && (<p className={'uxpainter-message'}>Complete the following parameters:</p>)}
+                        </div>
                     </div>
                     <div className={"row col-12"}>
                             {this.props.children}
