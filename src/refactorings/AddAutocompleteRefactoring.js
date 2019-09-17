@@ -11,14 +11,44 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         super();
     }
 
+    setElement(anElement) {
+        this.targetElement = anElement;
+        if (this.targetElement.tagName == "SELECT") {
+            this.values = Array.from(this.targetElement.options).map(option => {
+                return option.label;
+            });
+        }
+    }
+
     transform() {
-        const originalStyle = this.getStyleScrapper().getElementComputedStyle(this.getElementXpath());
-        this.awesomplete = new Awesomplete(this.getElement(), {list: this.values});
-        this.getStyleScrapper().updateElementStyle(this.getElement(), originalStyle);
+        let updateInputStyle = false;
+        if (this.getElement().tagName == "INPUT") {
+            this.autocompleteInput = this.getElement();
+            updateInputStyle = true;
+        }
+        else {
+            this.autocompleteInput = this.replaceSelectWithTextInput();
+        }
+        this.awesomplete = new Awesomplete(this.autocompleteInput, {list: this.values});
+        if (updateInputStyle) {
+            this.getStyleScrapper().updateElementStyle(this.getElement(), this.getStyleScrapper().getElementComputedStyle(this.getElementXpath()));
+        }
         const me = this;
-        this.getElement().addEventListener("keyup", function () {
-          me.applyStyles(me.getHighlightedElements(), me.getStyle().highlightedElements);
+        this.autocompleteInput.addEventListener("keyup", function () {
+            me.applyStyles(me.getHighlightedElements(), me.getStyle().highlightedElements);
         });
+    }
+
+    replaceSelectWithTextInput() {
+        this.getElement().style.display = "none";
+        let textInput = document.createElement("input");
+        textInput.type = "text";
+        this.getElement().parentNode.insertBefore(textInput, this.getElement());
+        const me = this;
+        textInput.addEventListener("awesomplete-selectcomplete", function (event) {
+            me.getElement().selectedIndex = me.getValues().indexOf(event.text.value);
+        });
+        return textInput;
     }
 
     checkPreconditions() {
@@ -46,7 +76,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     targetElements() {
-        return "input[type='text']";
+        return "input[type='text'], select";
     }
 
 
