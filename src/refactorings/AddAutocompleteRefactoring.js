@@ -1,9 +1,8 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
-import XPathInterpreter from './XPathInterpreter';
 import Awesomplete from 'awesomplete/awesomplete';
 import 'awesomplete/awesomplete.css';
 import TurnInputIntoRadiosView from "../components/TurnInputIntoRadiosView";
-import ColorPreviewer from "../previewers/ColorPreviewer";
+import AddAutocompletePreviewer from "../previewers/AddAutocompletePreviewer";
 
 class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
@@ -11,9 +10,13 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         super();
     }
 
+    hasSelectInputTarget() {
+        return this.targetElement.tagName == "SELECT";
+    }
+
     setElement(anElement) {
         this.targetElement = anElement;
-        if (this.targetElement.tagName == "SELECT") {
+        if (this.hasSelectInputTarget()) {
             this.values = Array.from(this.targetElement.options).map(option => {
                 return option.label;
             });
@@ -28,6 +31,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         }
         else {
             this.autocompleteInput = this.replaceSelectWithTextInput();
+            this.applyStyles([this.autocompleteInput], this.getStyle().textInput);
         }
         this.awesomplete = new Awesomplete(this.autocompleteInput, {list: this.values});
         if (updateInputStyle) {
@@ -57,6 +61,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
     unDo() {
         this.awesomplete.destroy();
+        if (this.hasSelectInputTarget()) {
+            this.getElement().style.display = "";
+            this.autocompleteInput.parentNode.removeChild(this.autocompleteInput);
+        }
     }
 
     setValues(aList) {
@@ -81,7 +89,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
 
     getAutocompleteList() {
-        return document.querySelectorAll("#" + this.getElement().getAttribute("aria-owns"));
+        return document.querySelectorAll("#" + this.autocompleteInput.getAttribute("aria-owns"));
     }
 
     getAutocompleteListElements() {
@@ -113,7 +121,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     static getPreviewer() {
-        return new ColorPreviewer();
+        return new AddAutocompletePreviewer();
     }
 
     static getClassName() {
