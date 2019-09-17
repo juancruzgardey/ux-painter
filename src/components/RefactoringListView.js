@@ -15,7 +15,7 @@ class RefactoringListView extends React.Component {
         });
         return (
             <div className={"row col-12"}>
-                <h6 className={'text-center'}>Available Refactorings</h6>
+                <h5 className={'text-center'}>Available Refactorings</h5>
                 <div className={'row col-12'}>
                     <ul>
                         {listItems}
