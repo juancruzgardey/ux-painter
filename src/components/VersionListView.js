@@ -1,6 +1,6 @@
 import React from "react";
-import {Link} from "route-lite";
-import RefactoringListView from "./RefactoringListView";
+import {Link, goTo} from "route-lite";
+import ExtendVersionView from "./ExtendVersionView";
 
 class VersionListView extends React.Component {
 
@@ -14,34 +14,33 @@ class VersionListView extends React.Component {
     }
 
     handleClick(event) {
-        window.refactoringManager.setCurrentVersion(window.refactoringManager.getAllVersions()[event.target.getAttribute("data-version")]);
+        const selectedVersion = window.refactoringManager.getAllVersions()[event.target.getAttribute("data-version")];
+        window.refactoringManager.getCurrentVersion().unDo();
+        window.refactoringManager.setCurrentVersion(selectedVersion);
+        selectedVersion.execute();
         window.refactoringManager.save();
-        document.location.reload();
+        goTo(ExtendVersionView);
     }
 
     render() {
-        const listItems = window.refactoringManager.getAllVersions().map((version, i) => {
-            return <li><a data-version={i} onClick={this.handleClick}>{version.getName()}</a></li>
+        const allVersions = window.refactoringManager.getAllVersions().map((version, i) => {
+            return (
+            <div className={'row'}>
+                <div className={'col-6'}>
+                    <p className={'uxpainter-message'} style={{"font-size": "18px"}}>{version.getName()}</p>
+                </div>
+                <div className={'col-6'}>
+                    <button className={'btn btn-warning'} data-version={i} onClick={this.handleClick}>Extend</button>
+                </div>
+            </div>)
         });
 
-        return ([
-            <h2 className={'text-center'}>Versions</h2>,
-            <div className={'row'}>
-                <div className={'col-md-12'}>
-                    <ul>
-                        {listItems}
-                    </ul>
-                </div>
-            </div>,
-            <div className={'row'}>
-                <p>Current version: {this.getCurrentVersion()}</p>
-            </div>,
-            <div className={'row'}>
-                <div className={'col-md-12'}>
-                    <Link className={'btn btn-warning'} component={RefactoringListView}>Add Refactoring</Link>
-                </div>
+        return (
+            <div className={"container"}>
+                <h2 className={'text-center'}>Versions</h2>,
+                {allVersions}
             </div>
-        ])
+        )
     }
 
 }

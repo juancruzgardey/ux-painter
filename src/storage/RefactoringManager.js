@@ -39,6 +39,10 @@ class RefactoringManager {
         this.getCurrentVersion().execute();
     }
 
+    getOriginalVersion () {
+        return this.refactoringStorage.getOriginalVersion();
+    }
+
     save() {
         this.refactoringStorage.save();
     }

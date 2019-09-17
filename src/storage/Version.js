@@ -47,6 +47,14 @@ class Version {
         });
     }
 
+    unDo() {
+        this.refactorings.map(function (refactoring) {
+            if (refactoring.getURL() == document.location.href) {
+                refactoring.unDo();
+            }
+        });
+    }
+
     clone() {
         let version = new Version();
         version.setName(this.getName());
