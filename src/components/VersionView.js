@@ -1,6 +1,7 @@
 import React from "react";
-import {Link} from "route-lite";
+import {Link, goTo} from "route-lite";
 import RefactoringListView from "./RefactoringListView";
+import ExtendVersionView from "./ExtendVersionView";
 
 class VersionView extends React.Component {
 
@@ -17,26 +18,30 @@ class VersionView extends React.Component {
     }
 
     handleSubmit() {
-        if (this.props.version.getName()) {
+        if (this.props.version.getName() &&
+            window.refactoringManager.getOriginalVersion().getName() != this.props.version.getName()) {
+
             window.refactoringManager.addVersion(this.props.version);
             window.refactoringManager.setCurrentVersion(this.props.version.clone());
             window.refactoringManager.save();
+            goTo(ExtendVersionView);
         }
     }
 
     render() {
         return (
-            <div className={'row'}>
-                <div className={'col-md-12'}>
-                    <h2>Save Version</h2>
+            <div className={'row col-12'}>
+                    <h5 className={"text-center"}>Save Version</h5>
+                    <div className={'form-group'}>
+                        <p className={'uxpainter-message'}>The version cannot be save as <strong>{window.refactoringManager.getOriginalVersion().getName()}</strong> because that is immutable</p>
+                    </div>
                     <div className={'form-group'}>
                         <label>Version Name</label>
                         <input type={'text'} className={'form-control'} value={this.state.versionName} onChange={this.handleChange}/>
                     </div>
-                    <div className={'form-group'}>
-                        <Link className={'btn btn-dark'} onClick={this.handleSubmit} component={RefactoringListView}>Save</Link>
+                    <div className={'row col-12'}>
+                        <Link className={'btn btn-dark'} onClick={this.handleSubmit}>Save</Link>
                     </div>
-                </div>
             </div>
         )
     }
