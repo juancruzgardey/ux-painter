@@ -8,6 +8,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
 
     constructor() {
         super();
+        this.onKeyUp = this.onKeyUp.bind(this);
     }
 
     hasSelectInputTarget() {
@@ -24,10 +25,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     transform() {
-        let updateInputStyle = false;
+        let updateInputStyle = null;
         if (this.getElement().tagName == "INPUT") {
             this.autocompleteInput = this.getElement();
-            updateInputStyle = true;
+            updateInputStyle = this.getStyleScrapper().getElementComputedStyle(this.getElementXpath());
         }
         else {
             this.autocompleteInput = this.replaceSelectWithTextInput();
@@ -35,12 +36,14 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
         }
         this.awesomplete = new Awesomplete(this.autocompleteInput, {list: this.values});
         if (updateInputStyle) {
-            this.getStyleScrapper().updateElementStyle(this.getElement(), this.getStyleScrapper().getElementComputedStyle(this.getElementXpath()));
+            this.getStyleScrapper().updateElementStyle(this.getElement(), updateInputStyle);
         }
         const me = this;
-        this.autocompleteInput.addEventListener("keyup", function () {
-            me.applyStyles(me.getHighlightedElements(), me.getStyle().highlightedElements);
-        });
+        this.autocompleteInput.addEventListener("keyup", this.onKeyUp);
+    }
+
+    onKeyUp() {
+        this.applyStyles(this.getHighlightedElements(), this.getStyle().highlightedElements);
     }
 
     replaceSelectWithTextInput() {
@@ -60,6 +63,7 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     }
 
     unDo() {
+        this.autocompleteInput.removeEventListener("keyup", this.onKeyUp);
         this.awesomplete.destroy();
         if (this.hasSelectInputTarget()) {
             this.getElement().style.display = "";
