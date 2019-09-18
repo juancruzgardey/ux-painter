@@ -10,12 +10,16 @@
     padding: 0px;
 }
 
-.ux-painter ul li:hover {
+.ux-painter ul li a {
+    padding: 5px;
+}
+
+.ux-painter ul li a:hover {
     background-color: #efefef;
 }
 
 .ux-painter li {
-    margin: 5px;
+    margin: 10px 5px;
 }
 
 .ux-painter li a {
@@ -159,4 +163,9 @@ a {
 
 .uxpainter-long-row {
     margin: 30px 0px;
+}
+
+.uxpainter-refactoring-info {
+    display: inline-block;
+    margin-left: 5px;
 }
