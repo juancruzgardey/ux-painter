@@ -23,10 +23,10 @@
 }
 
 .ux-painter li a.list-link {
-    text-decoration: none;
-    color: #ffc107;
-    font-weight: bold;
-}
+     text-decoration: none;
+     color: #ffc107;
+     font-weight: bold;
+ }
 
 .target_element_image, .preview-container {
     border: 1px solid #6c757d;
@@ -132,7 +132,8 @@
 }
 
 .uxpainter-active-preview {
-    color: #dbbf70 !important;
+    color: black !important;
+    font-style: italic;
 }
 
 a {

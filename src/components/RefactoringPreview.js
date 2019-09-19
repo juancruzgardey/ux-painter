@@ -9,6 +9,7 @@ class RefactoringPreview extends React.Component {
         super(props);
         this.refactoring = this.props.refactoring;
         this.pageSelector = new PageSelector(this);
+        this.pageSelector.removeSelectedElementsHighlighting();
         this.state = {
             currentPreview: null,
             errorInPreview: false,
@@ -19,6 +20,7 @@ class RefactoringPreview extends React.Component {
 
     componentWillMount() {
         this.previews = this.refactoring.constructor.getPreviewer().generatePreviews(this.refactoring);
+        this.executePreview(this.previews[0]);
     }
 
     executePreview(previewRefactoring) {
@@ -47,16 +49,21 @@ class RefactoringPreview extends React.Component {
         goBack();
     }
 
+    isOnePreview() {
+        return this.previews.length == 1;
+    }
+
     render() {
         const me = this;
         const previewLinks = this.previews.map((preview, i) => {
             if (preview == this.state.currentPreview) {
-                return <li>
-                    <a className={'uxpainter-active-preview'} onClick={() => { me.executePreview(preview)}}>Style {i} <span className={"glyphicon glyphicon-ok"} aria-hidden={true}></span></a>
-                </li>
+                return (
+                <li>
+                    <a className={'uxpainter-active-preview list-link'} onClick={() => { me.executePreview(preview)}}>Style {i + 1} <i className="fas fa-eye fa-lg"></i></a>
+                </li>)
             }
             else {
-                return <li><a onClick={() => { me.executePreview(preview)}}>Style {i}</a></li>
+                return <li><a className={'list-link'} onClick={() => { me.executePreview(preview)}}>Style {i + 1}</a></li>
             }
         });
 
@@ -67,34 +74,37 @@ class RefactoringPreview extends React.Component {
                         <h5 className={'text-center'}>Refactoring Preview</h5>
                     </div>
                 </div>
-                <div className={"row"}>
-                    <div className={"col-12"}>
-                        <h6>{this.refactoring.constructor.asString()}</h6>
-                    </div>
+                <div className={"row uxpainter-long-row col-12"}>
+                    <h6>{this.refactoring.constructor.asString()}</h6>
                 </div>
                 <div className={"row"}>
                     <div className={"col-12"}>
-                        <p>Select a Style to see the result of the refactoring</p>
-                        <p>When the desired style is selected, confirm the refactoring</p>
+                        <p className={'uxpainter-message'}>Observe how the refactored page will looks like</p>
+                        {this.previews.length > 1 && ([
+                            <p>There are different styles to apply in this refactoring</p>,
+                            <p className={'uxpainter-message'}>Select the desired one and confirm the refactoring</p>
+                        ])}
                         {this.state.errorInPreview &&
                         (<div className={"form-group"}>
                             <p className={"text-danger"}>Select a style to confirm the refactoring</p>
                         </div> )}
                     </div>
                 </div>
-                <div className={"row"}>
-                    <div className={"co-12"}>
-                        <ul>
-                            {previewLinks}
-                        </ul>
-                    </div>
-                </div>
+                {this.previews.length > 1 && (
+                    <div className={"row"}>
+                        <div className={"co-12"}>
+                            <ul>
+                                {previewLinks}
+                            </ul>
+                        </div>
+                    </div>)}
                 <div className={'row'}>
-                    <div className={"col-4"}>
-                        <a className={'btn btn-secondary'} onClick={this.handleBack}>Back</a>
+                    <div className={"col-6"}>
+                        <a className={'btn btn-secondary'} onClick={this.handleBack}>
+                            <i className="fas fa-arrow-circle-left"></i> Back</a>
                     </div>
-                    <div className={"col-4"}>
-                        <a onClick={this.handleRefactor} className={'btn btn-warning'}>Refactor</a>
+                    <div className={"col-6"}>
+                        <a onClick={this.handleRefactor} className={'btn btn-warning'}>Refactor <i className="fas fa-hammer fa-sm"></i></a>
                     </div>
                 </div>
             </div>
