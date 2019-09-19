@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "UX-Painter React",
-  "description": "This extension is a starting point to create a real Chrome extension",
+  "name": "UX-Painter",
+  "description": "Perform quick fixes to the UI to solve usability issues",
   "version": "0.0.1",
   "browser_action": {
+    "default_icon": "default_icon.png"
   },
   "content_scripts" : [
     {
