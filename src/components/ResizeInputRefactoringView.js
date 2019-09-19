@@ -1,5 +1,5 @@
 import React from 'react';
-import RefactoringOnElementView from './RefactoringOnElementView';
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class ResizeInputRefactoringView extends React.Component {
 
@@ -17,12 +17,12 @@ class ResizeInputRefactoringView extends React.Component {
 
     render () {
         return (
-            <RefactoringOnElementView refactoring={this.refactoring}>
+            <RefactoringConfigurationView refactoring={this.refactoring}>
                 <div className={'form-group'}>
                     <label>New Input Width (in pixels)</label>
                     <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
                 </div>
-            </RefactoringOnElementView>
+            </RefactoringConfigurationView>
         )
     }
 

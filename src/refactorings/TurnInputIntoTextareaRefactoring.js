@@ -6,15 +6,18 @@ class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
 
     transform() {
         this.getElement().setAttribute("type", "hidden");
-
-        let textArea = document.createElement("textarea");
-        this.getElement().parentNode.insertBefore(textArea, this.getElement());
+        this.textArea = document.createElement("textarea");
+        this.getElement().parentNode.insertBefore(this.textArea, this.getElement());
         const me = this;
-        textArea.addEventListener("keyup", function () {
-            me.getElement().value =  textArea.value;
+        this.textArea.addEventListener("keyup", function () {
+            me.getElement().value =  this.textArea.value;
         });
-        console.log(this.getStyle());
-        this.applyStyles([textArea], this.getStyle().targetElement);
+        this.applyStyles([this.textArea], this.getStyle().targetElement);
+    }
+
+    unDo() {
+        this.textArea.parentNode.removeChild(this.textArea);
+        this.getElement().setAttribute("type", "text");
     }
 
     targetElements() {

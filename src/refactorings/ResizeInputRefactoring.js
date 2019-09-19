@@ -7,8 +7,16 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
         super();
     }
 
+    checkPreconditions() {
+        return super.checkPreconditions() && this.getInputWidth();
+    }
+
     transform() {
         this.getElement().style.width = this.getInputWidth() + "px";
+    }
+
+    unDo() {
+        this.getElement().style.width = "";
     }
 
     setInputWidth(inputWidth) {
@@ -27,8 +35,8 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
         return "input";
     }
 
-    clone(aContext) {
-        let clonedRefactoring = super.clone(aContext);
+    clone() {
+        let clonedRefactoring = super.clone();
         clonedRefactoring.setInputWidth(this.getInputWidth());
         return clonedRefactoring;
     }
