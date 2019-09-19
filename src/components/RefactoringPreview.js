@@ -2,6 +2,7 @@ import React from "react";
 import {goBack, goTo} from "route-lite";
 import RefactoringListView from "./RefactoringListView";
 import PageSelector from "../PageSelector";
+import ExtendVersionView from "./ExtendVersionView";
 
 class RefactoringPreview extends React.Component {
 
@@ -35,7 +36,7 @@ class RefactoringPreview extends React.Component {
         if (this.state.currentPreview) {
             this.state.currentPreview.setURL(document.location.href);
             window.refactoringManager.getCurrentVersion().addRefactoring(this.state.currentPreview);
-            goTo(RefactoringListView);
+            goTo(ExtendVersionView, {addingRefactoring: false});
         }
         else {
             this.setState({errorInPreview: true});
