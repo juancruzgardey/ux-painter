@@ -22,7 +22,7 @@
     margin: 10px 5px;
 }
 
-.ux-painter li a {
+.ux-painter li a.list-link {
     text-decoration: none;
     color: #ffc107;
     font-weight: bold;
@@ -168,4 +168,5 @@ a {
 .uxpainter-refactoring-info {
     display: inline-block;
     margin-left: 5px;
+    color: black;
 }

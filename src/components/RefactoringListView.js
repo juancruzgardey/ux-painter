@@ -1,6 +1,7 @@
 import {Link, goBack} from "route-lite";
 import React from "react";
 import 'tipr/tipr/tipr.css';
+import RefactoringDescriptionView from "./RefactoringDescriptionView";
 const $ = require('jquery');
 //global.jQuery = $;
 window.jQuery = $;
@@ -19,10 +20,11 @@ class RefactoringListView extends React.Component {
             let refactoring = new refactoringClass();
             return (
             <li>
-                <Link component={me.nextComponent(refactoring)} componentProps={{refactoring: refactoring}}>{refactoringClass.asString()}</Link>
-                <a className={'uxpainter-refactoring-info tip'} data-tip="refactoring description">
+                <Link className={'list-link'} component={me.nextComponent(refactoring)} componentProps={{refactoring: refactoring}}>{refactoringClass.asString()}</Link>
+                <Link component={RefactoringDescriptionView} componentProps={{refactoring: refactoring}}
+                      className={'uxpainter-refactoring-info'}>
                     <i className="fas fa-info-circle fa-lg"></i>
-                </a>
+                </Link>
             </li>)
         });
         return (

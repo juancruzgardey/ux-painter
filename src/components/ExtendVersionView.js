@@ -8,7 +8,12 @@ class ExtendVersionView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {addingRefactoring: false}
+        if (!this.props.addingRefactoring) {
+            this.state = {addingRefactoring: false}
+        }
+        else {
+            this.state = {addingRefactoring: this.props.addingRefactoring}
+        }
         this.addRefactoring = this.addRefactoring.bind(this);
     }
 
