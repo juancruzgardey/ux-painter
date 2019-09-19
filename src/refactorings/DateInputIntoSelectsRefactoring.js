@@ -10,15 +10,21 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
     transform = function () {
         var dateInput = $(this.getElement());
         if (typeof(dateInput[0]) != "undefined") {
-            var submitFieldName = dateInput.attr("name");
+            this.submitFieldName = dateInput.attr("name");
             dateInput.attr("name", "");
             dateInput.dropdownDatepicker({...{
-                submitFieldName: submitFieldName,
+                submitFieldName: this.submitFieldName,
                 daySuffixes: false,
                 monthSuffixes: false
             }, ...this.getLanguageOptions()["es"]});
             this.applyStyles(this.getSelects(), this.getStyle().selectElement);
         }
+    }
+
+    unDo() {
+        $(this.getElement()).dropdownDatepicker('destroy');
+        this.getElement().setAttribute("type", "text");
+        this.getElement().setAttribute("name", this.submitFieldName);
     }
 
     getView() {
