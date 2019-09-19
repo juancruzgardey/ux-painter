@@ -17,11 +17,19 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return this.formatString;
     }
 
+    checkPreconditions () {
+        return super.checkPreconditions() && this.getFormatString();
+    }
+
     transform() {
         const me = this;
         $(this.getElement()).mask(this.getFormatString(), {
             placeholder: me.getPlaceholder()
         });
+    }
+
+    unDo() {
+        $(this.getElement()).unmask();
     }
 
     targetElements() {
