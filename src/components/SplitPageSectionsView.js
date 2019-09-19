@@ -3,6 +3,7 @@ import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 import RefactoringConfigurationView from "./RefactoringConfigurationView";
 import SplitPageLinksView from "./SplitPageLinksView";
+import ElementSelectionGif from "./ElementSelectionGif";
 
 class SplitPageSectionsView extends React.Component {
 
@@ -126,6 +127,7 @@ class SplitPageSectionsView extends React.Component {
                             <div className={'form-group'}>
                                 <p className={'uxpainter-message'}>Complete the section name and select all the elements in the page that belongs to the new section</p>
                             </div>
+                            <ElementSelectionGif/>
                             <div className={'form-group'}>
                                 <label>Section Name</label>
                                 <input type={'text'} className={'form-control'} onChange={this.setSectionName}/>

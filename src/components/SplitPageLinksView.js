@@ -2,6 +2,7 @@ import React from "react";
 import RefactoringConfigurationView from "./RefactoringConfigurationView";
 import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
+import ElementSelectionGif from "./ElementSelectionGif";
 
 class SplitPageLinksView extends React.Component {
 
@@ -50,6 +51,7 @@ class SplitPageLinksView extends React.Component {
                 <div className={'form-group'}>
                     <p className={'uxpainter-message'}>Select an element in the page in which the links' list to show each section will be added</p>
                 </div>
+                <ElementSelectionGif/>
                 {this.state.errorInSelection && (
                     <div className={'form-group'}>
                         <p className={'text-danger'}>Element must be selected to continue</p>

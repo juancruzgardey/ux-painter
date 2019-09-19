@@ -1,10 +1,9 @@
-/*global chrome*/
-
 import React from 'react';
 import PageSelector from '../PageSelector';
 import XPathInterpreter from '../refactorings/XPathInterpreter';
 import {goBack, goTo} from 'route-lite';
 import RefactoringPreview from "./RefactoringPreview";
+import ElementSelectionGif from "./ElementSelectionGif";
 
 class ElementSelectionView extends React.Component {
 
@@ -72,9 +71,7 @@ class ElementSelectionView extends React.Component {
                     <p className={'uxpainter-message'}>Select an element from the page</p>
                 </div>
             </div>
-            <div className={"row col-12"}>
-                <img style={{border: "none"}} className={"img-thumbnail"} src={chrome.runtime.getURL("selection.gif")}/>
-            </div>
+            <ElementSelectionGif/>
             {this.state.errorInSelection && (
                 <div className={"row col-12"}>
                     <p className={'text-danger'}>Element must be selected to continue</p>
