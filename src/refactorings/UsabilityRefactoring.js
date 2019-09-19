@@ -142,6 +142,14 @@ class UsabilityRefactoring {
     static getPreviewer() {
         return new RefactoringPreviewer();
     }
+
+    getDescription() {
+        return "";
+    }
+
+    getDemoResources() {
+        return null;
+    }
 }
 
 export default UsabilityRefactoring;

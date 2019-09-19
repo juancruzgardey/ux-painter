@@ -83,6 +83,14 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "AddTooltipRefactoring";
     }
+
+    getDescription() {
+        return "Add an instant tooltip to an element to make clear its purpose";
+    }
+
+    getDemoResources() {
+        return ["AddTooltipRefactoringBefore.gif","AddTooltipRefactoringAfter.gif"];
+    }
 }
 
 export default AddTooltipRefactoring;

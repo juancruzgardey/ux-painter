@@ -58,6 +58,10 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         return "TurnAttributeIntoLinkRefactoring";
     }
 
+    getDescription() {
+        return "Provide navigation features to a static content that users intend to click";
+    }
+
 }
 
 export default TurnAttributeIntoLinkRefactoring;

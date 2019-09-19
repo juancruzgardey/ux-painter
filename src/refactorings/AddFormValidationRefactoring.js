@@ -81,6 +81,10 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return "AddFormValidationRefactoring";
     }
 
+    getDescription() {
+        return "Provide client validation to a form when the user submits it. Mandatory fields must be indicated";
+    }
+
     
 }
 

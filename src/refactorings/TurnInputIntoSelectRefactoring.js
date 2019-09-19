@@ -118,6 +118,10 @@ class TurnInputIntoSelectRefactoring extends UsabilityRefactoringOnElement {
         return "TurnInputIntoSelectRefactoring";
     }
 
+    getDescription() {
+        return "Turn a regular text field into a select box with predefined values. 'Other' option is included to enter a different value";
+    }
+
 }
 
 export default TurnInputIntoSelectRefactoring;

@@ -47,6 +47,10 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
         return "ResizeInputRefactoring";
     }
 
+    getDescription() {
+        return "Change the length of a text field according to the average text length that is usually entered";
+    }
+
 }
 
 export default ResizeInputRefactoring;

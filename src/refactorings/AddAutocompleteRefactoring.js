@@ -131,6 +131,14 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "AddAutocompleteRefactoring";
     }
+
+    getDescription() {
+        return "Possible values to an input are suggested automatically when users complete it";
+    }
+
+    getDemoResources() {
+        return ["AddAutocompleteRefactoringBefore.gif", "AddAutocompleteRefactoringAfter.gif"];
+    }
 };
 
 export default AddAutocompleteRefactoring;

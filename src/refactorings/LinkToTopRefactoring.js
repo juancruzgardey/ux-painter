@@ -29,6 +29,10 @@ class LinkToTopRefactoring extends UsabilityRefactoringOnElement {
     static asString() {
         return "Link to Top";
     }
+
+    getDescription() {
+        return "Add a link for scrolling to the top of the page that only appears when scrolling down";
+    }
 }
 
 export default LinkToTopRefactoring;

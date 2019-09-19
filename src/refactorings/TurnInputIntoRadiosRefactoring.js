@@ -101,6 +101,10 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
         return "TurnInputIntoRadiosRefactoring";
     }
 
+    getDescription() {
+        return "Turn a regular text field into a set of radio buttons with predefined values. 'Other' option is included to enter a different value";
+    }
+
 }
 
 export default TurnInputIntoRadiosRefactoring;

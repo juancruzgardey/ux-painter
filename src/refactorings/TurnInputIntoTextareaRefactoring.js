@@ -36,6 +36,10 @@ class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "TurnInputIntoTextareaRefactoring";
     }
+
+    getDescription() {
+        return "Replace a text field with a text area to make easier the input of a long text";
+    }
 }
 
 export default TurnInputIntoTextareaRefactoring;

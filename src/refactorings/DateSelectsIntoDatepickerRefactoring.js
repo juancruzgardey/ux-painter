@@ -80,6 +80,10 @@ class DateSelectsIntoDatepickerRefactoring extends UsabilityRefactoring {
     static getClassName() {
         return "DateSelectsIntoDatepickerRefactoring";
     }
+
+    getDescription () {
+        return "Replace a date input that consists in three selects (Day - Month - Year) with a date calendar";
+    }
 }
 
 export default DateSelectsIntoDatepickerRefactoring

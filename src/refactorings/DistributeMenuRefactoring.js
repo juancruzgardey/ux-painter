@@ -133,6 +133,10 @@ class DistributeMenuRefactoring extends UsabilityRefactoring {
         return "Distribute Menu";
     }
 
+    getDescription() {
+        return "Add a link or button for an action to every item, so applying the action on a single element is simpler";
+    }
+
 }
 
 export default DistributeMenuRefactoring;

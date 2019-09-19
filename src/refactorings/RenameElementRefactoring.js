@@ -55,6 +55,10 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         return "RenameElementRefactoring";
     }
 
+    getDescription() {
+        return "Make more clear an interactive element's label (e.g. button or link)";
+    }
+
 }
 
 export default RenameElementRefactoring;

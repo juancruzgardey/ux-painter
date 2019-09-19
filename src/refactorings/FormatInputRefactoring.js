@@ -65,6 +65,10 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return "FormatInputRefactoring";
     }
 
+    getDescription() {
+        return "Add a mask to a text field in order to limit the input to a certain characters";
+    }
+
 
 }
 
