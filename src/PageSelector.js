@@ -146,7 +146,11 @@ PageSelector.prototype.loadListeners = function(){
 
 		evt.preventDefault(); evt.stopImmediatePropagation();
 
-		me.removeStyleClass(this.parentNode, me.onHoverHighlightClass);
+		let parent = this.parentNode;
+		while (parent.parentNode != document) {
+            me.removeStyleClass(parent, me.onHoverHighlightClass);
+            parent = parent.parentNode;
+		}
 		me.addStyleClass(this, me.onHoverHighlightClass);
 	};
 	this.withParentElements = function(element){
