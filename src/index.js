@@ -11,9 +11,7 @@ app.id = "refactoring-extension-root";
 document.body.appendChild(app);
 window.refactoringManager = new RefactoringManager();
 
-window.onload = function () {
-    window.refactoringManager.executeCurrentVersion();
-};
+window.refactoringManager.executeCurrentVersion();
 
 ReactDOM.render(<Main />, app);
 

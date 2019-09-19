@@ -1,13 +1,13 @@
 import React from "react";
 import {Link, goTo} from "route-lite";
-import RefactoringListView from "./RefactoringListView";
-import ExtendVersionView from "./ExtendVersionView";
+import VersionListView from "./VersionListView";
 
 class VersionView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {versionName: this.props.version.getName()?this.props.version.getName(): ''}
+        this.state = {versionName: this.props.version.getName()
+            && this.props.version.getName() != window.refactoringManager.getOriginalVersion().getName() ?this.props.version.getName(): ''};
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -20,11 +20,10 @@ class VersionView extends React.Component {
     handleSubmit() {
         if (this.props.version.getName() &&
             window.refactoringManager.getOriginalVersion().getName() != this.props.version.getName()) {
-
             window.refactoringManager.addVersion(this.props.version);
             window.refactoringManager.setCurrentVersion(this.props.version.clone());
             window.refactoringManager.save();
-            goTo(ExtendVersionView);
+            goTo(VersionListView);
         }
     }
 

@@ -30,7 +30,9 @@ class VersionListView extends React.Component {
                     <p className={'uxpainter-message'} style={{"font-size": "18px"}}>{version.getName()}</p>
                 </div>
                 <div className={'col-6'}>
-                    <button className={'btn btn-warning'} data-version={i} onClick={this.handleClick}>Extend</button>
+                    <a className={"uxpainter-icon-link"} data-version={i} onClick={this.handleClick}>
+                        <i data-version={i} className="fas fa-plus fa-2x"></i>
+                    </a>
                 </div>
             </div>)
         });

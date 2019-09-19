@@ -15,10 +15,15 @@ class ExtendVersionView extends React.Component {
             this.state = {addingRefactoring: this.props.addingRefactoring}
         }
         this.addRefactoring = this.addRefactoring.bind(this);
+        this.cancelRefactoring = this.cancelRefactoring.bind(this);
     }
 
     addRefactoring() {
         this.setState({addingRefactoring: true});
+    }
+
+    cancelRefactoring() {
+        this.setState({addingRefactoring:false});
     }
 
     render () {
@@ -33,26 +38,34 @@ class ExtendVersionView extends React.Component {
             <div className={"container"}>
                 <h5 className={'text-center uxpainter-message'}>{window.refactoringManager.getCurrentVersion().getName()}</h5>
                 {!this.state.addingRefactoring && ([
-                    <div className={'row col-12'}>
+                    <div className={'row col-12 uxpainter-long-row'}>
                         <h5 className={'text-center'}>Refactorings Applied</h5>
                         {refactoringsApplied}
+                        {refactoringsApplied.length == 0 && (
+                            <div className={"form-group"}>
+                                <p>This version has no refactorings.</p>
+                            </div>
+                        )}
                     </div>,
                     <div className={'row uxpainter-long-row col-12'}>
                         <a className={'btn btn-warning'} onClick={this.addRefactoring}>Add Refactoring</a>
+                    </div>,
+                    <div className={'row uxpainter-long-row'}>
+                        <div className={'col-6'}>
+                            <Link className={'btn btn-dark'} component={VersionView}
+                                  componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save Version</Link>
+                        </div>
+                        <div className={'col-6'}>
+                            <Link className={'btn btn-secondary'} component={VersionListView}>Back</Link>
+                        </div>
                     </div>
                 ])}
-                {this.state.addingRefactoring && (
-                    <RefactoringListView/>
-                )}
-                <div className={'row uxpainter-long-row'}>
-                    <div className={'col-6'}>
-                        <Link className={'btn btn-dark'} component={VersionView}
-                              componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save Version</Link>
+                {this.state.addingRefactoring && ([
+                    <RefactoringListView/>,
+                    <div className={"row uxpainter-long-row col-12"}>
+                        <a className={'btn btn-danger'} onClick={this.cancelRefactoring}>Cancel</a>
                     </div>
-                    <div className={'col-6'}>
-                        <Link className={'btn btn-secondary'} component={VersionListView}>Back</Link>
-                    </div>
-                </div>
+                ])}
             </div>
         )
     }

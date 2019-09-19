@@ -28,7 +28,7 @@ class RefactoringListView extends React.Component {
             </li>)
         });
         return (
-            <div className={"row"}>
+            <div className={"row uxpainter-long-row"}>
                 <h5 className={'text-center'}>Available Refactorings</h5>
                 <div className={'row col-12'}>
                     <ul>
