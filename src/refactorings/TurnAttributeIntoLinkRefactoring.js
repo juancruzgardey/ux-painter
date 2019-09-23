@@ -4,6 +4,10 @@ import TurnAttributeIntoLinkPreviewer from "../previewers/TurnAttributeIntoLinkP
 
 class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
 
+    checkPreconditions() {
+        return super.checkPreconditions() && this.getTargetURL();
+    }
+
     transform() {
         this.linkElement = document.createElement("a");
         this.linkElement.href = this.getTargetURL();
