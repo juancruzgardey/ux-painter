@@ -10,19 +10,24 @@ class TurnAttributeIntoLinkPreviewer extends RefactoringOnElementPreviewer {
 
 
     generatePreviews(aRefactoring) {
-        const elementSegment = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
-        let existingLinks = Array.from(elementSegment.querySelectorAll("a,input[type='button'],button"));
-        existingLinks.sort(function (a, b) {
-            let targetElement = new DOMElementWrapper(aRefactoring.getElement());
-            return targetElement.getDistance(new DOMElementWrapper(b)) - targetElement.getDistance(new DOMElementWrapper(a));
-        });
-        let existingStyles = this.getExistingLinkStyles(existingLinks);
         let previews = [];
-        const maxPreviews = existingStyles.length <= this.previewsQty?existingStyles.length:this.previewsQty;
-        for (let i = 0; i < maxPreviews; i++) {
-            let previewRefactoring = aRefactoring.clone();
-            previewRefactoring.setStyleProperty("targetElement",existingStyles[i]);
-            previews.push(previewRefactoring);
+        if (aRefactoring.isTargetAnImage()) {
+            previews.push(aRefactoring);
+        }
+        else {
+            const elementSegment = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
+            let existingLinks = Array.from(elementSegment.querySelectorAll("a,input[type='button'],button"));
+            existingLinks.sort(function (a, b) {
+                let targetElement = new DOMElementWrapper(aRefactoring.getElement());
+                return targetElement.getDistance(new DOMElementWrapper(b)) - targetElement.getDistance(new DOMElementWrapper(a));
+            });
+            let existingStyles = this.getExistingLinkStyles(existingLinks);
+            const maxPreviews = existingStyles.length <= this.previewsQty?existingStyles.length:this.previewsQty;
+            for (let i = 0; i < maxPreviews; i++) {
+                let previewRefactoring = aRefactoring.clone();
+                previewRefactoring.setStyleProperty("targetElement",existingStyles[i]);
+                previews.push(previewRefactoring);
+            }
         }
         return previews;
     }

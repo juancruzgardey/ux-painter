@@ -11,15 +11,30 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
     transform() {
         this.linkElement = document.createElement("a");
         this.linkElement.href = this.getTargetURL();
-        this.linkElement.innerHTML = this.getElement().innerHTML;
-        this.getElement().innerHTML = "";
-        this.getElement().appendChild(this.linkElement);
+        if (this.isTargetAnImage()) {
+            this.getElement().parentNode.replaceChild(this.linkElement, this.getElement());
+            this.linkElement.appendChild(this.getElement());
+        }
+        else {
+            this.linkElement.innerHTML = this.getElement().innerHTML;
+            this.getElement().innerHTML = "";
+            this.getElement().appendChild(this.linkElement);
+        }
         this.applyStyles([this.linkElement], this.getStyle().targetElement);
     }
 
     unDo() {
-        this.getElement().removeChild(this.linkElement);
-        this.getElement().innerHTML = this.linkElement.innerHTML;
+        if (this.isTargetAnImage()) {
+            this.linkElement.parentNode.replaceChild(this.getElement(), this.linkElement);
+        }
+        else {
+            this.getElement().removeChild(this.linkElement);
+            this.getElement().innerHTML = this.linkElement.innerHTML;
+        }
+    }
+
+    isTargetAnImage() {
+        return this.getElement().tagName == "IMG";
     }
 
     getTargetURL() {

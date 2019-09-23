@@ -23,10 +23,10 @@
 }
 
 .ux-painter li a.list-link {
-     text-decoration: none;
-     color: #ffc107;
-     font-weight: bold;
- }
+    text-decoration: none;
+    color: #ffc107;
+    font-weight: bold;
+}
 
 .target_element_image, .preview-container {
     border: 1px solid #6c757d;
@@ -159,7 +159,10 @@ a {
 .uxpainter-border-bottom-highlighting {
     border-color: red;
     border-bottom-style: solid;
+}
 
+img.uxpainter-element-selected {
+    border: solid #dbbf70;
 }
 
 .uxpainter-long-row {
