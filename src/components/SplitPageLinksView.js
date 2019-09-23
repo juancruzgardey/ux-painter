@@ -22,6 +22,9 @@ class SplitPageLinksView extends React.Component {
     }
 
     onElementSelected(element) {
+        if (this.refactoring.getSectionListContainer()) {
+            this.pageSelector.removeStyleClass(this.refactoring.getSectionListContainer(), this.pageSelector.borderBottomSelectionClass);
+        }
         this.pageSelector.addSelectionClass(element, this.pageSelector.borderBottomSelectionClass);
         this.refactoring.setSectionListContainerXpath(this.xpathInterpreter.getPath(element, this.refactoring.getContext())[0]);
     }
@@ -32,6 +35,7 @@ class SplitPageLinksView extends React.Component {
 
     onBack() {
         this.disableElementSelection();
+        this.pageSelector.removeSelectedElementsHighlighting();
     }
 
     onNext() {

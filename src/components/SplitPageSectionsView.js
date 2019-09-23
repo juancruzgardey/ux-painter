@@ -96,6 +96,7 @@ class SplitPageSectionsView extends React.Component {
         if (this.state.addSection) {
             this.disableElementSelection();
         }
+        this.pageSelector.removeSelectedElementsHighlighting();
     }
 
     next() {
