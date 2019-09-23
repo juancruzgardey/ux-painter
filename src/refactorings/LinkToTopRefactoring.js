@@ -1,29 +1,49 @@
 
-import RefactoringView from "../components/RefactoringView";
-import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
+import UsabilityRefactoring from "./UsabilityRefactoring";
+import RefactoringPreview from "../components/RefactoringPreview";
 
 const $ = require('jquery');
 
-class LinkToTopRefactoring extends UsabilityRefactoringOnElement {
+class LinkToTopRefactoring extends UsabilityRefactoring {
     constructor() {
         super();
-        this.setElement(document.body);
+        this.onScroll = this.onScroll.bind(this);
+        this.onClick = this.onClick.bind(this);
+    }
+
+    checkPreconditions() {
+        return true;
     }
 
     transform () {
-        $("body").append('<a id="scroller" style="display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none"></a>');
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 0) { $('#scroller').fadeIn(); } else { $('#scroller').fadeOut(); }
-        });
-        $('#scroller').click(function() {
-            $('body,html').animate({ scrollTop: 0 }, 400);
-            return false;
-        });
+        this.link = document.createElement("a");
+        document.body.appendChild(this.link);
+        this.link.style.cssText = "display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none";
+        window.addEventListener("scroll", this.onScroll);
+        this.link.addEventListener("click", this.onClick);
+    }
 
+    onScroll() {
+        if ($(window).scrollTop() > 0) {
+            $(this.link).fadeIn();
+        }
+        else {
+            $(this.link).fadeOut();
+        }
+    }
+
+    onClick() {
+        $('body,html').animate({ scrollTop: 0 }, 400);
+        return false;
+    }
+
+    unDo() {
+        document.body.removeChild(this.link);
+        window.removeEventListener("scroll", this.onScroll);
     }
 
     getView() {
-        return RefactoringView;
+        return RefactoringPreview;
     }
 
     static asString() {

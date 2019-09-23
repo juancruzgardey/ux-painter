@@ -10,7 +10,7 @@ class RefactoringPreviewer {
 
     generatePreviews(aRefactoring) {
         let previewList = [];
-        previewList.push(this.cloneRefactoring(aRefactoring));
+        previewList.push(aRefactoring.clone());
         return previewList;
     }
 

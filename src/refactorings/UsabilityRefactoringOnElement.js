@@ -47,6 +47,10 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         return this.targetElement;
     }
 
+    getSelectionView() {
+        return ElementSelectionView;
+    }
+
     clone() {
         let clonedRefactoring = super.clone();
         clonedRefactoring.setElementXpath(this.getElementXpath());

@@ -1,9 +1,8 @@
 import StyleScrapper from '../scrappers/StyleScrapper';
-import RefactoringView from "../components/RefactoringView";
-import ElementSelectionView from "../components/ElementSelectionView";
 import XPathInterpreter from "./XPathInterpreter";
 import RefactoringPreviewer from "../previewers/RefactoringPreviewer";
 import PageSelector from "../PageSelector";
+import RefactoringPreview from "../components/RefactoringPreview";
 
 class UsabilityRefactoring {
     constructor () {
@@ -82,7 +81,7 @@ class UsabilityRefactoring {
     }
 
     getSelectionView() {
-        return ElementSelectionView;
+        return RefactoringPreview;
     }
 
     clone() {
