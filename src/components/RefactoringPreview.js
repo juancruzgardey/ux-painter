@@ -35,7 +35,7 @@ class RefactoringPreview extends React.Component {
     handleRefactor() {
         if (this.state.currentPreview) {
             this.state.currentPreview.setURL(document.location.href);
-            window.refactoringManager.getCurrentVersion().addRefactoring(this.state.currentPreview);
+            window.refactoringManager.addDirtyRefactoring(this.state.currentPreview);
             goTo(ExtendVersionView, {addingRefactoring: false});
         }
         else {

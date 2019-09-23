@@ -21,6 +21,7 @@ class RefactoringManager {
 
     constructor() {
         this.refactoringStorage = new RefactoringStorage();
+        this.dirtyRefactorings = [];
     }
 
     getCurrentVersion() {
@@ -32,7 +33,11 @@ class RefactoringManager {
     }
 
     addVersion(aVersion) {
+        this.getDirtyRefactorings().map(dirtyRefactoring => {
+            aVersion.addRefactoring(dirtyRefactoring);
+        });
         this.refactoringStorage.addVersion(aVersion);
+        this.clearDirtyRefactorings();
     }
 
     executeCurrentVersion() {
@@ -53,6 +58,18 @@ class RefactoringManager {
 
     getAllVersions() {
         return this.refactoringStorage.getAllVersions();
+    }
+
+    addDirtyRefactoring(aRefactoring) {
+        this.dirtyRefactorings.push(aRefactoring);
+    }
+
+    getDirtyRefactorings() {
+        return this.dirtyRefactorings;
+    }
+
+    clearDirtyRefactorings() {
+        this.dirtyRefactorings = [];
     }
 
     getRefactoringCatalogue() {

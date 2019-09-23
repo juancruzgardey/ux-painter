@@ -6,6 +6,7 @@ class VersionView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props.version = this.props.version.clone();
         this.state = {versionName: this.props.version.getName()
             && this.props.version.getName() != window.refactoringManager.getOriginalVersion().getName() ?this.props.version.getName(): ''};
         this.handleChange = this.handleChange.bind(this);
@@ -21,7 +22,7 @@ class VersionView extends React.Component {
         if (this.props.version.getName() &&
             window.refactoringManager.getOriginalVersion().getName() != this.props.version.getName()) {
             window.refactoringManager.addVersion(this.props.version);
-            window.refactoringManager.setCurrentVersion(this.props.version.clone());
+            window.refactoringManager.setCurrentVersion(this.props.version);
             window.refactoringManager.save();
             goTo(VersionListView);
         }

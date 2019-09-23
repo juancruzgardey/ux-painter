@@ -34,6 +34,14 @@ class ExtendVersionView extends React.Component {
            </div>)
         });
 
+        const dirtyRefactorings = window.refactoringManager.getDirtyRefactorings().map (dirtyRefactoring => {
+            return (
+                <div className={'row col-12'}>
+                    <p className={'uxpainter-message'}>{dirtyRefactoring.constructor.asString()}*</p>
+                </div>
+            )
+        });
+
         return (
             <div className={"container"}>
                 <h5 className={'text-center uxpainter-message'}>{window.refactoringManager.getCurrentVersion().getName()}</h5>
@@ -41,7 +49,8 @@ class ExtendVersionView extends React.Component {
                     <div className={'row col-12 uxpainter-long-row'}>
                         <h5 className={'text-center'}>Refactorings Applied</h5>
                         {refactoringsApplied}
-                        {refactoringsApplied.length == 0 && (
+                        {dirtyRefactorings}
+                        {refactoringsApplied.length == 0 && dirtyRefactorings.length == 0 && (
                             <div className={"form-group"}>
                                 <p>This version has no refactorings.</p>
                             </div>
