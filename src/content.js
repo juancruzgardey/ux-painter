@@ -8,7 +8,25 @@ import Router from "route-lite";
 
 class Main extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {hidden: false};
+    }
+
+    toggleView(iframe) {
+        this.setState({hidden: !this.state.hidden});
+        if (this.state.hidden) {
+            document.querySelector("#refactoring-extension-root").className = "closed";
+            iframe.querySelector(".ux-painter.container").style.display = "none";
+        }
+        else {
+            document.querySelector("#refactoring-extension-root").className = "opened";
+            iframe.querySelector(".ux-painter.container").style.display = "";
+        }
+    }
+
     render() {
+        const me = this;
         return (
             <div className={'uxpainter-frame'} style={{height: "100%"}}>
             <Frame head={[
@@ -21,14 +39,20 @@ class Main extends React.Component {
                     {
                         // Callback is invoked with iframe's window and document instances
                         ({document, window}) => {
-                            // Render Children
-                            return (
-                                <div className={'ux-painter container'}>
-                                    <Router>
-                                        <VersionListView/>
-                                    </Router>
-                                </div>
-                            )
+                            let iconClassName = null;
+                            if (me.state.hidden) {
+                                iconClassName = "far fa-caret-square-down fa-lg";
+                            }
+                            else {
+                                iconClassName = "far fa-caret-square-up fa-lg";
+                            }
+                            let control = <a className={'uxpainter-control'} onClick={() => {this.toggleView(document)}}><i className={iconClassName}></i></a>;
+                            const mainContent = <div className={'ux-painter container'}>
+                                <Router>
+                                    <VersionListView/>
+                                </Router>
+                            </div>
+                            return [control, mainContent];
                         }
                     }
                 </FrameContextConsumer>
