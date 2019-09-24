@@ -53,6 +53,11 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     getDescription() {
         return "Add a link for scrolling to the top of the page that only appears when scrolling down";
     }
+
+    getDemoResources() {
+        return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
+    }
+
 }
 
 export default LinkToTopRefactoring;
