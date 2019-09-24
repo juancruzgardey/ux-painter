@@ -9,7 +9,7 @@ class ElementSelectionView extends React.Component {
 
     constructor (props) {
         super(props);
-        this.state = {elementXpath: "", errorInSelection: false};
+        this.state = {elementXpath: "", errorInSelection: false, elementSelected: false};
         this.refactoring = this.props.refactoring;
         this.pageSelector = new PageSelector (this);
         this.pageSelector.enableElementSelection({
@@ -26,6 +26,9 @@ class ElementSelectionView extends React.Component {
     onElementSelected(anElement) {
         if (this.refactoring.getElement()) {
             this.pageSelector.removeSelectionClass(this.refactoring.getElement(), this.pageSelector.selectionClass);
+        }
+        else {
+            this.setState({elementSelected:true});
         }
         const elementXpath = (new XPathInterpreter()).getPath(anElement, document.body)[0];
         this.setState({elementXpath: elementXpath});
@@ -68,14 +71,23 @@ class ElementSelectionView extends React.Component {
             </div>
             <div className={"row col-12"}>
                 <div className={"form-group"}>
-                    <p className={'uxpainter-message'}>Select an element from the page</p>
+                    <div className={"alert alert-primary"} role="alert">
+                        {!this.props.instruction && 'Select an element in the page'}
+                        {this.props.instruction}
+                    </div>
+                    {this.state.elementSelected && (
+                        <div className={"alert alert-warning"} role="alert">
+                            Done! change the selection or continue to the next step
+                        </div>
+                    )}
                 </div>
             </div>
+            {this.state.errorInSelection && !this.state.elementSelected && (
+                <div className={"alert alert-danger"} role="alert">
+                    Element must be selected to continue
+                </div>
+            )}
             <ElementSelectionGif/>
-            {this.state.errorInSelection && (
-                <div className={"row col-12"}>
-                    <p className={'text-danger'}>Element must be selected to continue</p>
-                </div>)}
             <div className={'row uxpainter-long-row'}>
                 <div className={"col-4"}>
                     <a className={'btn btn-secondary'} onClick={() => this.handleBack()}>Back</a>

@@ -1,6 +1,7 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import TurnAttributeIntoLinkView from "../components/TurnAttributeIntoLinkView";
 import TurnAttributeIntoLinkPreviewer from "../previewers/TurnAttributeIntoLinkPreviewer";
+import TurnAttributeIntoLinkSelection from "../components/TurnAttributeIntoLinkSelection";
 
 class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
 
@@ -81,6 +82,13 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         return "Provide navigation features to a static content that users intend to click";
     }
 
+    getSelectionView() {
+        return TurnAttributeIntoLinkSelection;
+    }
+
+    getDemoResources() {
+        return ["TurnAttributeIntoLinkBefore.gif", "TurnAttributeIntoLinkAfter.gif"];
+    }
 }
 
 export default TurnAttributeIntoLinkRefactoring;

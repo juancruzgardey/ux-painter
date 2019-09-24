@@ -23,12 +23,14 @@ class RefactoringDescriptionView extends React.Component {
                 </div>
                 {this.refactoring.getDemoResources() && ([
                     <div className={"row form-group"}>
+                        <h6>Original page</h6>
                         <img className={"img-thumbnail"} src={chrome.runtime.getURL("ref_examples/" + this.refactoring.getDemoResources()[0])}/>
                     </div>,
                     <div className={"row form-group"}>
                         <i className="text-center fas fa-arrow-down fa-3x" style={{margin:"auto"}}></i>
                     </div>,
                     <div className={"row form-group"}>
+                        <h6>Refactored page</h6>
                         <img className={"img-thumbnail"} src={chrome.runtime.getURL("ref_examples/" + this.refactoring.getDemoResources()[1])}/>
                     </div>
                 ])}
