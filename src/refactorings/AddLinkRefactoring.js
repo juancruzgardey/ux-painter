@@ -8,6 +8,10 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         super();
     }
 
+    checkPreconditions () {
+        return super.checkPreconditions() && this.getLinkName() && this.getTargetURL();
+    }
+
     transform() {
         this.linkElement = document.createElement("a");
         this.linkElement.textContent = this.getLinkName();

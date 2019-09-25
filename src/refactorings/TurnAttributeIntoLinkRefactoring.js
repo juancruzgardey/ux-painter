@@ -34,10 +34,6 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
         }
     }
 
-    isTargetAnImage() {
-        return this.getElement().tagName == "IMG";
-    }
-
     getTargetURL() {
         return this.targetURL;
     }

@@ -61,6 +61,10 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
         this.getStyle()[elementName] = style;
     }
 
+    isTargetAnImage() {
+        return this.getElement().tagName == "IMG";
+    }
+
     static getPreviewer() {
         return new RefactoringOnElementPreviewer();
     }
