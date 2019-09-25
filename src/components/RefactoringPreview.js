@@ -17,6 +17,7 @@ class RefactoringPreview extends React.Component {
         };
         this.handleRefactor = this.handleRefactor.bind(this);
         this.handleBack = this.handleBack.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     componentWillMount() {
@@ -32,6 +33,12 @@ class RefactoringPreview extends React.Component {
         this.setState({currentPreview: previewRefactoring});
     }
 
+    unDoCurrentRefactoring() {
+        if (this.state.currentPreview) {
+            this.state.currentPreview.unDo();
+        }
+    }
+
     handleRefactor() {
         if (this.state.currentPreview) {
             this.state.currentPreview.setURL(document.location.href);
@@ -44,10 +51,13 @@ class RefactoringPreview extends React.Component {
     }
 
     handleBack() {
-        if (this.state.currentPreview) {
-            this.state.currentPreview.unDo();
-        }
+        this.unDoCurrentRefactoring();
         goBack();
+    }
+
+    handleCancel() {
+        this.unDoCurrentRefactoring();
+        goTo(ExtendVersionView);
     }
 
     isOnePreview() {
@@ -80,11 +90,14 @@ class RefactoringPreview extends React.Component {
                 </div>
                 <div className={"row"}>
                     <div className={"col-12"}>
-                        <p className={'uxpainter-message'}>Observe how the refactored page will looks like</p>
-                        {this.previews.length > 1 && ([
-                            <p>There are different styles to apply in this refactoring</p>,
-                            <p className={'uxpainter-message'}>Select the desired one and confirm the refactoring</p>
-                        ])}
+                        <div className={"alert alert-primary"} role="alert">
+                            Interact with the refactored elements to observe how the page looks like. You can cancel the refactoring if you don't like it.
+                        </div>
+                        {this.previews.length > 1 && (
+                            <div className={"alert alert-warning"} role="alert">
+                                Try out the possible styles and select the desired one.
+                            </div>
+                        )}
                         {this.state.errorInPreview &&
                         (<div className={"form-group"}>
                             <p className={"text-danger"}>Select a style to confirm the refactoring</p>
@@ -92,21 +105,22 @@ class RefactoringPreview extends React.Component {
                     </div>
                 </div>
                 {this.previews.length > 1 && (
-                    <div className={"row"}>
-                        <div className={"co-12"}>
-                            <ul>
-                                {previewLinks}
+                    <div className={"row col-12"}>
+                        <ul>
+                            {previewLinks}
                             </ul>
-                        </div>
-                    </div>)}
+                    </div>
+                )}
                 <div className={'row'}>
-                    <div className={"col-6"}>
-                        <a className={'btn btn-secondary'} onClick={this.handleBack}>
-                            <i className="fas fa-arrow-circle-left"></i> Back</a>
+                    <div className={"col-3"}>
+                        <a className={'btn btn-danger'} onClick={this.handleCancel}>Cancel</a>
                     </div>
                     <div className={"col-6"}>
                         <a onClick={this.handleRefactor} className={'btn btn-warning'}>Refactor <i className="fas fa-hammer fa-sm"></i></a>
                     </div>
+                </div>
+                <div className={'row uxpainter-long-row'}>
+                    <a className={'btn btn-secondary'} onClick={this.handleBack}><i className="fas fa-arrow-circle-left"></i> Back</a>
                 </div>
             </div>
         )

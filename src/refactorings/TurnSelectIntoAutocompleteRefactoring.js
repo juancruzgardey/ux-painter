@@ -1,5 +1,6 @@
 
 import AddAutocompleteRefactoring from "./AddAutocompleteRefactoring";
+import TurnSelectIntoAutocompleteSelection from "../components/TurnSelectIntoAutocompleteSelection";
 
 class TurnSelectIntoAutocompleteRefactoring extends AddAutocompleteRefactoring {
 
@@ -43,6 +44,10 @@ class TurnSelectIntoAutocompleteRefactoring extends AddAutocompleteRefactoring {
 
     targetElements() {
         return "select";
+    }
+
+    getSelectionView() {
+        return TurnSelectIntoAutocompleteSelection;
     }
 
     getDescription() {
