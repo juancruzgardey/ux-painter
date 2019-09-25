@@ -49,6 +49,10 @@ class TurnSelectIntoAutocompleteRefactoring extends AddAutocompleteRefactoring {
         return "Select field is turned into a text field in which the select options are suggested as the user types";
     }
 
+    getDemoResources() {
+        return ["TurnSelectIntoAutocompleteBefore.gif", "TurnSelectIntoAutocompleteAfter.gif"];
+    }
+
     static asString() {
         return "Turn Select into Autocomplete";
     }
