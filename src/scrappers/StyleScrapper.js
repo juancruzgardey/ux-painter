@@ -160,8 +160,8 @@ class StyleScrapper {
         return nearestElements[Math.floor(Math.random() * nearestElements.length)];
     }
 
-    getElementComputedStyle (elementXpath) {
-        return Object.assign({}, window.getComputedStyle(new XPathInterpreter().getElementByXPath(elementXpath,document.body)));
+    getElementComputedStyle (element) {
+        return Object.assign({}, window.getComputedStyle(element));
     }
 
     updateElementStyle (targetElement, computedStyle) {
