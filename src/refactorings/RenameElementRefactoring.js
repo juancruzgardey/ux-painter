@@ -28,7 +28,7 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
     }
 
     targetElements () {
-        return "a, button, input[type='button'], input[type='submit'], span, p, h1, h2, h3, h4, h5, h6";
+        return "a, button, input[type='button'], input[type='submit'], span, p, h1, h2, h3, h4, h5, h6, label";
     }
 
     getView () {
