@@ -1,6 +1,7 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
 import AddLinkView from "../components/AddLinkView";
 import TurnAttributeIntoLinkPreviewer from "../previewers/TurnAttributeIntoLinkPreviewer";
+import AddLinkSelection from "../components/AddLinkSelection";
 
 class AddLinkRefactoring extends UsabilityRefactoringOnElement {
 
@@ -60,6 +61,10 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
         json.linkName = this.getLinkName();
         json.targetURL = this.getTargetURL();
         return json;
+    }
+
+    getSelectionView() {
+        return AddLinkSelection;
     }
 
     static asString() {
