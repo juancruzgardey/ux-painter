@@ -5,7 +5,7 @@ class TurnAttributeIntoLinkPreviewer extends RefactoringOnElementPreviewer {
 
     constructor() {
         super();
-        this.previewsQty = 10;
+        this.previewsQty = 5;
     }
 
 
