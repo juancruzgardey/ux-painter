@@ -14,15 +14,16 @@ class Main extends React.Component {
     }
 
     toggleView(iframe) {
-        this.setState({hidden: !this.state.hidden});
-        if (this.state.hidden) {
-            document.querySelector("#refactoring-extension-root").className = "closed";
-            iframe.querySelector(".ux-painter.container").style.display = "none";
-        }
-        else {
-            document.querySelector("#refactoring-extension-root").className = "opened";
-            iframe.querySelector(".ux-painter.container").style.display = "";
-        }
+        this.setState({hidden: !this.state.hidden}, () => {
+            if (this.state.hidden) {
+                document.querySelector("#refactoring-extension-root").className = "closed";
+                iframe.querySelector(".ux-painter.container").style.display = "none";
+            }
+            else {
+                document.querySelector("#refactoring-extension-root").className = "opened";
+                iframe.querySelector(".ux-painter.container").style.display = "";
+            }
+        });
     }
 
     render() {
@@ -39,13 +40,7 @@ class Main extends React.Component {
                     {
                         // Callback is invoked with iframe's window and document instances
                         ({document, window}) => {
-                            let iconClassName = null;
-                            if (me.state.hidden) {
-                                iconClassName = "far fa-caret-square-down fa-lg";
-                            }
-                            else {
-                                iconClassName = "far fa-caret-square-up fa-lg";
-                            }
+                            let iconClassName = me.state.hidden?"far fa-caret-square-up fa-lg":"far fa-caret-square-down fa-lg";
                             let control = <a className={'uxpainter-control'} onClick={() => {this.toggleView(document)}}><i className={iconClassName}></i></a>;
                             const mainContent = <div className={'ux-painter container'}>
                                 <Router>
