@@ -12,11 +12,11 @@ class DateInputIntoSelectsPreviewer extends RefactoringOnElementPreviewer {
             existingStyles = this.styleScrapper.getStyles("input[type='text']", targetElementContainer, ["background",
                 "border", "border-radius", "padding", "margin", "color", "height"]);
             if (existingStyles.length == 0) {
-                previews.push(this.cloneRefactoring(aRefactoring));
+                previews.push(aRefactoring.clone());
             }
         }
         for (let i = 0; i < existingStyles.length; i++) {
-            let previewRefactoring = this.cloneRefactoring(aRefactoring);
+            let previewRefactoring = aRefactoring.clone();
             if (!existingStyles[i]["margin-right"]) {
                 existingStyles[i]["margin-right"] = "10px";
             }

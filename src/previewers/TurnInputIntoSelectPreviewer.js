@@ -16,7 +16,7 @@ class TurnInputIntoSelectPreviewer extends RefactoringOnElementPreviewer {
         for (let i = 0; i < existingStyles.length; i++) {
             existingStyles[i].width = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("width");
             existingStyles[i].height = window.getComputedStyle(aRefactoring.getElement()).getPropertyValue("height");
-            let previewRefactoring = this.cloneRefactoring(aRefactoring);
+            let previewRefactoring = aRefactoring.clone();
             previewRefactoring.setSelectStyle(existingStyles[i]);
             previewRefactoring.setOtherInputStyle(this.getTextInputStyle());
             previews.push(previewRefactoring);
