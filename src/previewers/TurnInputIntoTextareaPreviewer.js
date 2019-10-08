@@ -6,8 +6,10 @@ class TurnInputIntoTextareaPreviewer extends RefactoringOnElementPreviewer {
         let previews = [];
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
 
-        let existingTextareas = this.styleScrapper.getStyles("textarea", targetElementContainer, ["background", "border", "border-radius", "padding", "margin", "width", "height"]);
-        let existingTextinputs = this.styleScrapper.getStyles("input[type='text']", targetElementContainer, ["background", "border", "border-radius", "padding", "margin", "width"]);
+        let existingTextareas = this.styleScrapper.getStyles("textarea", document,
+            ["background", "border", "border-radius", "padding", "margin", "width", "height"], aRefactoring.getElement());
+        let existingTextinputs = this.styleScrapper.getStyles("input[type='text']", document,
+            ["background", "border", "border-radius", "padding", "margin", "width"], aRefactoring.getElement());
 
         let existingStyles = existingTextareas.concat(existingTextinputs);
         for (let i = 0; i < existingStyles.length; i++) {

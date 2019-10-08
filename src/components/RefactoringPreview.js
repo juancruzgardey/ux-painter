@@ -22,7 +22,7 @@ class RefactoringPreview extends React.Component {
     componentDidMount() {
         const me = this;
         setTimeout(() => {
-            me.previews = me.refactoring.constructor.getPreviewer().generatePreviews(me.refactoring);
+            me.previews = me.refactoring.constructor.getPreviewer().getPreviews(me.refactoring);
             me.setState({loading:false});
             },500);
     }

@@ -4,13 +4,12 @@ class DateInputIntoSelectsPreviewer extends RefactoringOnElementPreviewer {
 
     generatePreviews(aRefactoring) {
         let previews = [];
-
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
-        let existingStyles = this.styleScrapper.getStyles("select", targetElementContainer, ["background",
-            "-webkit-appearance", "border", "border-radius", "padding", "margin", "color", "height"]);
+        let existingStyles = this.styleScrapper.getStyles("select", document, ["background",
+            "-webkit-appearance", "border", "border-radius", "padding", "margin", "color", "height"], aRefactoring.getElement());
         if (existingStyles.length == 0) {
-            existingStyles = this.styleScrapper.getStyles("input[type='text']", targetElementContainer, ["background",
-                "border", "border-radius", "padding", "margin", "color", "height"]);
+            existingStyles = this.styleScrapper.getStyles("input[type='text']", document, ["background",
+                "border", "border-radius", "padding", "margin", "color", "height"], aRefactoring.getElement());
             if (existingStyles.length == 0) {
                 previews.push(aRefactoring.clone());
             }

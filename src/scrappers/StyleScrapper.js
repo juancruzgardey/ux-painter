@@ -6,7 +6,6 @@ class StyleScrapper {
     }
 
     scrapStyles(selector,elementContainer, properties) {
-        console.log(elementContainer);
         this.styles = [];
         const allElements = elementContainer.querySelectorAll(selector);
         for (let i = 0; i < allElements.length; i++) {

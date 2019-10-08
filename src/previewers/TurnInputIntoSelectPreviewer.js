@@ -7,10 +7,10 @@ class TurnInputIntoSelectPreviewer extends RefactoringOnElementPreviewer {
 
         const targetElementContainer = this.pageSegmentator.findPageSegmentOfElement(aRefactoring.getElement());
         let existingSelects = this.styleScrapper.getStyles("select", targetElementContainer, ["background","-webkit-appearance",
-        "border", "border-radius", "padding", "margin", "color"]);
+        "border", "border-radius", "padding", "margin", "color"], aRefactoring.getElement());
 
         let existingInputs = this.styleScrapper.getStyles("input", targetElementContainer, ["border", "border-radius",
-            "padding", "margin", "color"]);
+            "padding", "margin", "color"], aRefactoring.getElement());
 
         let existingStyles = existingSelects.concat(existingInputs);
         for (let i = 0; i < existingStyles.length; i++) {

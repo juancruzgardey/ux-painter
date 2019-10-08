@@ -1,20 +1,24 @@
 import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
-import StyleScrapper from "../scrappers/StyleScrapper";
+import WeightStyleScrapper from "../scrappers/WeightStyleScrapper";
+
+let Combinatorics = require('js-combinatorics');
 
 class ColorPreviewer extends RefactoringOnElementPreviewer {
 
     constructor () {
         super();
-        this.previewsQty = 4;
+        this.styleScrapper = new WeightStyleScrapper();
     }
 
     generatePreviews(aRefactoring) {
         let previews = [];
-        let styleScrapper = new StyleScrapper();
-        let stylesScrapped = styleScrapper.scrapStyles(aRefactoring.getElement(),aRefactoring.getStyledElementsQty(),this.previewsQty);
-        for (let i = 0; i < stylesScrapped.length; i++) {
+        let styles = this.styleScrapper.getStyles("h1,h2,h3,h4,h5,h6,p,span,a, button, input[type='submit']", document,
+            ["background-color", "color"], null);
+        let styleCombinations = Combinatorics.baseN(styles, aRefactoring.getStyledElementsQty()).toArray();
+
+        for (let i = 0; i < styleCombinations.length; i++) {
             const previewRefactoring = aRefactoring.clone();
-            previewRefactoring.assignStyle(stylesScrapped[i]);
+            previewRefactoring.assignStyle(styleCombinations[i]);
             previews.push(previewRefactoring);
         }
         return previews;
