@@ -5,14 +5,13 @@ class TurnInputIntoRadiosPreviewer extends RefactoringOnElementPreviewer {
     generatePreviews(aRefactoring) {
         let previews = [];
         const existingStyle = this.findRadioSetStyle();
-        if (existingStyle) {
-            previews.push(this.createPreviewRefactoring(aRefactoring,existingStyle));
+        if (!existingStyle.labelsStyle) {
+            existingStyle.labelsStyle = this.findLabelStyle(aRefactoring);
         }
-        else {
-            const options = [{radioSetItem: {display: "inline"}, labelsPosition:"right"}, {radioSetItem: {display: "block"}, labelsPosition:"left"},{radioSetItem: {display:"block"}, labelsPosition:"right"}];
-            for (let i = 0; i < options.length; i++) {
-                previews.push(this.createPreviewRefactoring(aRefactoring, options[i]));
-            }
+        const options = [{radioSetItem: {display: "inline", ...existingStyle.radioSetItem}, labelsStyle: existingStyle.labelsStyle, labelsPosition:"right"},
+            {radioSetItem: {display:"block", ...existingStyle.radioSetItem}, labelsStyle: existingStyle.labelsStyle, labelsPosition:"right"}];
+        for (let i = 0; i < options.length; i++) {
+            previews.push(this.createPreviewRefactoring(aRefactoring, options[i]));
         }
         return previews;
     }
@@ -33,45 +32,28 @@ class TurnInputIntoRadiosPreviewer extends RefactoringOnElementPreviewer {
 
     findRadioSetStyle() {
         let style = {};
+        style.labelsStyle = {};
+        style.radioSetItem = {};
         const radio = document.querySelector("input[type='radio']");
         if (!radio) {
-            return null;
+            return style;
         }
-        let radioLabel;
-        if (this.findRadioLabel(radio, "left")) {
-            radioLabel = this.findRadioLabel(radio, "left");
-            style.labelsPosition = "left";
-        } else {
-            radioLabel = this.findRadioLabel(radio, "right");
-            style.labelsPosition = "right";
-        }
-
-        const allRadioItems = document.querySelectorAll("input[name='" + radio.name + "']");
-        // all radio items are in the same container, thus they are displayed in line
-        if (allRadioItems[0].parentNode == allRadioItems[1].parentNode) {
-            style.display = "inline";
-        }
-        // each radio item has its own container
-        else {
-            // find the root element of the radio item container to get the display property.
-            let currentContainer = radio;
-            while (currentContainer.parentElement.querySelectorAll("input[name='" + radio.name + "']").length == 1) {
-                currentContainer = currentContainer.parentElement;
-            }
-            style.radioSetItem = {};
-            style.radioSetItem.display = window.getComputedStyle(currentContainer).getPropertyValue("display");
-            style.radioSetItem.margin = window.getComputedStyle(currentContainer).getPropertyValue("margin");
-            style.radioSetItem.padding = window.getComputedStyle(currentContainer).getPropertyValue("padding");
-        }
-
-        if (radioLabel.nodeType == 1) {
-            style.labelsStyle = {};
+        let radioLabel = this.findRadioLabel(radio, "right");
+        if (radioLabel && radioLabel.nodeType == 1) {
             style.labelsStyle["font-family"] = window.getComputedStyle(radioLabel).getPropertyValue("font-family");
             style.labelsStyle["font-weight"] = window.getComputedStyle(radioLabel).getPropertyValue("font-weight");
             style.labelsStyle["font-size"] = window.getComputedStyle(radioLabel).getPropertyValue("font-size");
             style.labelsStyle["margin"] = window.getComputedStyle(radioLabel).getPropertyValue("margin");
             style.labelsStyle["padding"] = window.getComputedStyle(radioLabel).getPropertyValue("padding");
         }
+
+        let currentContainer = radio;
+        while (currentContainer.parentElement.querySelectorAll("input[name='" + radio.name + "']").length == 1) {
+            currentContainer = currentContainer.parentElement;
+        }
+        style.radioSetItem.margin = window.getComputedStyle(currentContainer).getPropertyValue("margin");
+        style.radioSetItem.padding = window.getComputedStyle(currentContainer).getPropertyValue("padding");
+
         return style;
     }
 
@@ -87,7 +69,11 @@ class TurnInputIntoRadiosPreviewer extends RefactoringOnElementPreviewer {
             }
             nextElement = position == "left" ? nextElement.previousSibling:nextElement.nextSibling;
         }
+    }
 
+    findLabelStyle(aRefactoring) {
+        return this.styleScrapper.getStyles("label", document,
+            ["font-family", "font-weight", "font-size", "margin", "padding"], aRefactoring.getElement());
     }
 
 }

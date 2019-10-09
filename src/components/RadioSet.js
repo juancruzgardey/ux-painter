@@ -17,14 +17,17 @@ class RadioSet extends React.Component {
         labelsStyle.display = "inline";
 
         const radios = this.props.values.map((value, i) => {
-            let input = <input type={'radio'} value={value} name={radioName} onChange={me.handleChange}/>;
+            let input = <input type={'radio'} style={{width: "auto"}} value={value} name={radioName} onChange={me.handleChange}/>;
             let label = <label style={labelsStyle}>{value}</label>;
+            if (!me.props.refactoring.getItemStyle().margin) {
+                me.props.refactoring.getItemStyle().margin = "5px";
+            }
             return <p style={me.props.refactoring.getItemStyle()}>
                 {this.renderRadioItem(input,label)}
             </p>
         });
 
-        const otherInput = <input type={'radio'} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>;
+        const otherInput = <input type={'radio'} style={{width: "auto"}} value={'Other'} name={radioName} onChange={this.handleOtherRadio}/>;
         const otherLabel = <label style={labelsStyle}>Other</label>;
 
         let otherInputStyle = this.props.refactoring.getOtherInputStyle();
