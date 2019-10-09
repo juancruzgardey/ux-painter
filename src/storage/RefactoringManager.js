@@ -17,6 +17,7 @@ import SplitPageRefactoring from "../refactorings/SplitPageRefactoring";
 import DistributeMenuRefactoring from "../refactorings/DistributeMenuRefactoring";
 import DateSelectsIntoDatepickerRefactoring from "../refactorings/DateSelectsIntoDatepickerRefactoring";
 import TurnSelectIntoAutocompleteRefactoring from "../refactorings/TurnSelectIntoAutocompleteRefactoring";
+import AddInlineFormValidationRefactoring from "../refactorings/AddInlineFormValidationRefactoring";
 
 class RefactoringManager {
 
@@ -74,8 +75,8 @@ class RefactoringManager {
     }
 
     getRefactoringCatalogue() {
-        return [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddLinkRefactoring,
-            AddTooltipRefactoring, DateInputIntoSelectsRefactoring, DateSelectsIntoDatepickerRefactoring, DistributeMenuRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
+        return [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddInlineFormValidationRefactoring,
+            AddLinkRefactoring, AddTooltipRefactoring, DateInputIntoSelectsRefactoring, DateSelectsIntoDatepickerRefactoring, DistributeMenuRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
             ResizeInputRefactoring, SplitPageRefactoring, TurnAttributeIntoLinkRefactoring,
             TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring, TurnInputIntoTextareaRefactoring, TurnSelectIntoAutocompleteRefactoring];
     }
