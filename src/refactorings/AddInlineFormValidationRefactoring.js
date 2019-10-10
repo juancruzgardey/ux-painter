@@ -28,7 +28,12 @@ class AddInlineFormValidationRefactoring extends AddFormValidationRefactoring {
                 return false;
             }
         });
-        if (!invalidInput) {
+        if (invalidInput) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return false;
+        }
+        else {
             event.target.submit();
         }
     }

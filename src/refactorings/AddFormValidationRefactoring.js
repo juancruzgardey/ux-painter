@@ -19,6 +19,7 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         });
         if (invalidInputs) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             return false;
         }
         else {
