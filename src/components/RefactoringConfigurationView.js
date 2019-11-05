@@ -45,7 +45,7 @@ class RefactoringConfigurationView extends React.Component {
                     </div>
                     <div className={'row'}>
                         <div className={"col-4"}>
-                            <a className={'btn btn-secondary'} onClick={this.handleBack}>Back</a>
+                            <a href={""} className={'btn btn-secondary'} onClick={this.handleBack}>Back</a>
                         </div>
                         <div className={"col-4"}>
                             <a onClick={this.handleNext} className={'btn btn-warning'}>Next</a>

@@ -72,7 +72,7 @@ class ExtendVersionView extends React.Component {
                 {this.state.addingRefactoring && ([
                     <RefactoringListView/>,
                     <div className={"row uxpainter-long-row col-12"}>
-                        <a className={'btn btn-danger'} onClick={this.cancelRefactoring}>Cancel</a>
+                        <a href={"#"} className={'btn btn-danger'} onClick={this.cancelRefactoring}>Cancel</a>
                     </div>
                 ])}
             </div>
