@@ -1,7 +1,7 @@
 import React from 'react';
 import PageSelector from '../PageSelector';
 import XPathInterpreter from '../refactorings/XPathInterpreter';
-import {goBack, goTo} from 'route-lite';
+import {goBack, goTo, Link} from 'route-lite';
 import RefactoringPreview from "./RefactoringPreview";
 import ElementSelectionGif from "./ElementSelectionGif";
 
@@ -12,6 +12,7 @@ class ElementSelectionView extends React.Component {
         this.state = {elementXpath: "", errorInSelection: false, elementSelected: false};
         this.refactoring = this.props.refactoring;
         this.pageSelector = new PageSelector (this);
+        this.pageSelector.removeSelectedElementsHighlighting();
         this.pageSelector.enableElementSelection({
             "targetElementSelector": this.refactoring.targetElements(),
         });
@@ -90,10 +91,10 @@ class ElementSelectionView extends React.Component {
             <ElementSelectionGif/>
             <div className={'row uxpainter-long-row'}>
                 <div className={"col-4"}>
-                    <a className={'btn btn-secondary'} onClick={() => this.handleBack()}>Back</a>
+                    <Link className={'btn btn-secondary'} onClick={() => this.handleBack()}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                 </div>
                 <div className={"col-4"}>
-                    <a onClick={this.handleNext} className={'btn btn-warning'}>Next</a>
+                    <Link onClick={this.handleNext} className={'btn btn-warning'}>Next <i className="fas fa-arrow-circle-right"></i></Link>
                 </div>
             </div>
         </div>

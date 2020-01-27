@@ -1,5 +1,5 @@
 import React from "react";
-import {goBack, goTo } from "route-lite";
+import {goBack, goTo, Link } from "route-lite";
 import RefactoringPreview from "./RefactoringPreview";
 import PageSelector from "../PageSelector";
 
@@ -34,21 +34,21 @@ class RefactoringConfigurationView extends React.Component {
                     <div className={'row col-12'}>
                         <h5 className={'text-center'}>{this.props.refactoring.constructor.asString()}</h5>
                     </div>
-                    <div className={"row col-12"}>
-                        <div className={"form-group"}>
+                    <div className={"row uxpainter-long-row col-12"}>
+
                         {(this.props.description) && (<p className={'uxpainter-message'}>{this.props.description}</p>)}
                         {(!this.props.description) && (<p className={'uxpainter-message'}>Complete the following parameters:</p>)}
-                        </div>
+
                     </div>
-                    <div className={"row col-12"}>
+                    <div className={"row uxpainter-long-row col-12"}>
                             {this.props.children}
                     </div>
-                    <div className={'row'}>
+                    <div className={'row uxpainter-long-row'}>
                         <div className={"col-4"}>
-                            <a className={'btn btn-secondary'} onClick={this.handleBack}>Back</a>
+                            <Link className={'btn btn-secondary'} onClick={this.handleBack}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                         </div>
                         <div className={"col-4"}>
-                            <a onClick={this.handleNext} className={'btn btn-warning'}>Next</a>
+                            <Link onClick={this.handleNext} className={'btn btn-warning'}>Next <i className="fas fa-arrow-circle-right"></i></Link>
                         </div>
                     </div>
                 </div>

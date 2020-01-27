@@ -25,13 +25,13 @@ class VersionListView extends React.Component {
     render() {
         const allVersions = window.refactoringManager.getAllVersions().map((version, i) => {
             return (
-            <div className={'row'}>
-                <div className={'col-6'}>
+            <div className={'row col-12'}>
+                <div className={'col-4 offset-2'}>
                     <p className={'uxpainter-message'} style={{"font-size": "18px"}}>{version.getName()}</p>
                 </div>
-                <div className={'col-6'}>
+                <div className={'col-4 offset-2'}>
                     <a className={"uxpainter-icon-link"} data-version={i} onClick={this.handleClick}>
-                        <i data-version={i} className="fas fa-plus fa-2x"></i>
+                        <i data-version={i} className="fas fa-edit fa-lg"></i>
                     </a>
                 </div>
             </div>)
@@ -39,8 +39,10 @@ class VersionListView extends React.Component {
 
         return (
             <div className={"container"}>
-                <h2 className={'text-center'}>Versions</h2>,
+                <h2 className={'text-center'}>Versions</h2>
+                <div className={'row'} style={{"margin-top": "20px"}}>
                 {allVersions}
+                </div>
             </div>
         )
     }

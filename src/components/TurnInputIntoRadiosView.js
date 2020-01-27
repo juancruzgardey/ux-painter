@@ -32,10 +32,9 @@ class TurnInputIntoRadiosView extends React.Component {
     render () {
         return (
             <RefactoringConfigurationView refactoring={this.refactoring}>
-                <div className={'form-group'}>
-                    <label>Values</label>
-                    <input type={'text'} className={'form-control'} onChange={this.handleChange}/>
-                </div>
+                    <label>Suggested values</label>
+                    <input type={'text'} placeholder={'e.g apple,orange,banana'} className={'form-control'} onChange={this.handleChange}/>
+                    <span></span>
             </RefactoringConfigurationView>
         )
     }

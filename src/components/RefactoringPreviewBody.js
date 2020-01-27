@@ -1,5 +1,5 @@
 import React from "react";
-import {goTo} from "route-lite";
+import {goTo, Link} from "route-lite";
 import ExtendVersionView from "./ExtendVersionView";
 
 
@@ -84,11 +84,12 @@ class RefactoringPreviewBody extends React.Component {
                     </div>
                 )}
                 <div className={'row'}>
-                    <div className={"col-3"}>
-                        <a className={'btn btn-danger'} onClick={this.handleCancel}>Cancel</a>
+                    <div className={"col-4"}>
+                        <Link className={'btn btn-danger'} onClick={this.handleCancel}>Cancel <i
+                            className="fas fa-times-circle"></i></Link>
                     </div>
                     <div className={"col-6"}>
-                        <a onClick={this.handleRefactor} className={'btn btn-warning'}>Refactor <i className="fas fa-hammer fa-sm"></i></a>
+                        <Link onClick={this.handleRefactor} className={'btn btn-warning'}>Refactor <i className="fas fa-hammer fa-sm"></i></Link>
                     </div>
                 </div>
             </div>

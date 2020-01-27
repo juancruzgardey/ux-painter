@@ -60,19 +60,20 @@ class ExtendVersionView extends React.Component {
                         <a className={'btn btn-warning'} onClick={this.addRefactoring}>Add Refactoring</a>
                     </div>,
                     <div className={'row uxpainter-long-row'}>
-                        <div className={'col-6'}>
-                            <Link className={'btn btn-dark'} component={VersionView}
-                                  componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save Version</Link>
-                        </div>
-                        <div className={'col-6'}>
+                        <div className={'col-4'}>
                             <Link className={'btn btn-secondary'} component={VersionListView}>Back</Link>
+                        </div>
+                        <div className={'col-4'}>
+                            <Link className={'btn btn-dark'} component={VersionView}
+                                  componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save</Link>
                         </div>
                     </div>
                 ])}
                 {this.state.addingRefactoring && ([
                     <RefactoringListView/>,
                     <div className={"row uxpainter-long-row col-12"}>
-                        <a className={'btn btn-danger'} onClick={this.cancelRefactoring}>Cancel</a>
+                        <Link className={'btn btn-danger'} onClick={this.cancelRefactoring}>Cancel <i
+                            className="fas fa-times-circle"></i></Link>
                     </div>
                 ])}
             </div>
