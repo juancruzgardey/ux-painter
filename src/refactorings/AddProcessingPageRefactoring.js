@@ -44,7 +44,7 @@ class AddProcessingPageRefactoring extends UsabilityRefactoringOnElement {
     }
 
     static asString() {
-        return "Add Processing Page";
+        return "Add Loading Overlay";
     }
 
     static getClassName() {
