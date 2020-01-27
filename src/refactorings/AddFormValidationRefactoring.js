@@ -65,7 +65,7 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
     }
 
     static asString() {
-        return "Add Form Validation";
+        return "Add Late Form Validation";
     }
 
     getView() {
