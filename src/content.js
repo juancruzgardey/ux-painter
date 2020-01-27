@@ -40,7 +40,7 @@ class Main extends React.Component {
                     {
                         // Callback is invoked with iframe's window and document instances
                         ({document, window}) => {
-                            let iconClassName = me.state.hidden?"far fa-caret-square-up fa-lg":"far fa-caret-square-down fa-lg";
+                            let iconClassName = me.state.hidden?"far fa-caret-square-down fa-lg":"far fa-caret-square-up fa-lg";
                             let control = <a className={'uxpainter-control'} onClick={() => {this.toggleView(document)}}><i className={iconClassName}></i></a>;
                             const mainContent = <div className={'ux-painter container'}>
                                 <Router>
