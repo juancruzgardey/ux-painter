@@ -3,6 +3,7 @@ import RefactoringOnElementView from "./RefactoringOnElementView";
 import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 import RefactoringConfigurationView from "./RefactoringConfigurationView";
+import ElementSelectionGif from "./ElementSelectionGif";
 
 class AddFormValidationView extends React.Component {
 
@@ -48,12 +49,16 @@ class AddFormValidationView extends React.Component {
     render() {
         const me = this;
         let requiredInputs = this.state.requiredInputs.map(function (requiredInputXpath) {
-            return <li>{me.getElementLabel(requiredInputXpath)}</li>
+            return <li>{me.getElementLabel(requiredInputXpath)} <i className="fas fa-trash-alt" style={{color:"red"}}></i></li>
         });
         return (
             <RefactoringConfigurationView refactoring={this.refactoring} description={'Select the required inputs in the form'}
             child={this}>
+                <div className={"form-group"}>
+                    <ElementSelectionGif/>
+                </div>
                 <div className={'form-group'}>
+                    <h6>Required Inputs Selected</h6>
                     {this.state.selectingInputError && (<p className={'text-danger'}>At least one input must be selected</p>)}
                     <ul>
                         {requiredInputs}
