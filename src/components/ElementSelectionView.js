@@ -90,10 +90,10 @@ class ElementSelectionView extends React.Component {
             )}
             <ElementSelectionGif/>
             <div className={'row uxpainter-long-row'}>
-                <div className={"col-4"}>
+                <div className={"col-5"}>
                     <Link className={'btn btn-secondary'} onClick={() => this.handleBack()}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                 </div>
-                <div className={"col-4"}>
+                <div className={"col-5"}>
                     <Link onClick={this.handleNext} className={'btn btn-warning'}>Next <i className="fas fa-arrow-circle-right"></i></Link>
                 </div>
             </div>

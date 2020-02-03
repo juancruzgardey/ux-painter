@@ -40,10 +40,10 @@ class VersionView extends React.Component {
                     <input type={'text'} className={'form-control'} value={this.state.versionName} onChange={this.handleChange}/>
                 </div>
                 <div className={'row uxpainter-long-row'}>
-                    <div className={'col-4'}>
+                    <div className={'col-5'}>
                         <Link className={'btn btn-secondary'} component={VersionListView}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                     </div>
-                    <div className={'col-4'}>
+                    <div className={'col-5'}>
                         <Link className={'btn btn-dark'} onClick={this.handleSubmit}>Create</Link>
                     </div>
                 </div>

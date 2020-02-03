@@ -63,7 +63,7 @@ class RefactoringPreviewBody extends React.Component {
         });
 
         return (
-            <div className={"container"}>
+            <div className={"uxpainter-preview-body"}>
                 <div className={"row"}>
                     <div className={"col-12"}>
                         <div className={"alert alert-primary"} role="alert">
@@ -84,7 +84,7 @@ class RefactoringPreviewBody extends React.Component {
                     </div>
                 )}
                 <div className={'row'}>
-                    <div className={"col-4"}>
+                    <div className={"col-6"}>
                         <Link className={'btn btn-danger'} onClick={this.handleCancel}>Cancel <i
                             className="fas fa-times-circle"></i></Link>
                     </div>

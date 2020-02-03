@@ -5,6 +5,7 @@ import PageSelector from "../PageSelector";
 import ExtendVersionView from "./ExtendVersionView";
 import RefactoringPreviewHeader from "./RefactoringPreviewHeader";
 import RefactoringPreviewBody from "./RefactoringPreviewBody";
+import {Link} from "route-lite";
 
 class RefactoringPreview extends React.Component {
 
@@ -50,7 +51,7 @@ class RefactoringPreview extends React.Component {
                 )}
                 {!this.state.loading && <RefactoringPreviewBody previews={this.previews} setCurrentPreview={this.setCurrentPreview}/>}
                 <div className={'row uxpainter-long-row'}>
-                    <a className={'btn btn-secondary'} onClick={this.handleBack}><i className="fas fa-arrow-circle-left"></i> Back</a>
+                    <Link className={'btn btn-secondary'} onClick={this.handleBack}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                 </div>
             </div>
         )
