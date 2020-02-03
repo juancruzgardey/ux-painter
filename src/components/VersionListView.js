@@ -27,13 +27,13 @@ class VersionListView extends React.Component {
         const allVersions = window.refactoringManager.getAllVersions().map((version, i) => {
             return (
             <div className={'row col-12'}>
-                <div className={'col-4 offset-2'}>
+                <div className={'col-6 offset-2'}>
                     <p className={'uxpainter-message'} style={{"font-size": "18px"}} data-tip={'Clone version'}>
                         {version.getName()} {window.refactoringManager.getOriginalVersionName() == version.getName()
                          && (<i className="fas fa-lock"></i>)}
                     </p>
                 </div>
-                <div className={'col-1 offset-2'}>
+                <div className={'col-1 offset-1'}>
                     {window.refactoringManager.getOriginalVersionName() != version.getName() && (
                     <a className={"uxpainter-icon-link"} data-version={i} onClick={this.handleClick}>
                         <i data-version={i} className="fas fa-edit fa-lg"></i>
