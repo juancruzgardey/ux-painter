@@ -30,18 +30,23 @@ class VersionView extends React.Component {
 
     render() {
         return (
-            <div className={'row col-12'}>
-                    <h5 className={"text-center"}>Save Version</h5>
-                    <div className={'form-group'}>
-                        <p className={'uxpainter-message'}>The version cannot be save as <strong>{window.refactoringManager.getOriginalVersion().getName()}</strong> because that is immutable</p>
+            <div className={'container'}>
+                <h3 className={"text-center"}>New Version</h3>
+                <div className={'row col-12 uxpainter-long-row'}>
+                    <p className={'uxpainter-message'}>The version cannot be save as <strong>{window.refactoringManager.getOriginalVersion().getName()}</strong> because that is immutable</p>
+                </div>
+                <div className={'row col-12 uxpainter-long-row'}>
+                    <label>Name</label>
+                    <input type={'text'} className={'form-control'} value={this.state.versionName} onChange={this.handleChange}/>
+                </div>
+                <div className={'row uxpainter-long-row'}>
+                    <div className={'col-4'}>
+                        <Link className={'btn btn-secondary'} component={VersionListView}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                     </div>
-                    <div className={'form-group'}>
-                        <label>Version Name</label>
-                        <input type={'text'} className={'form-control'} value={this.state.versionName} onChange={this.handleChange}/>
+                    <div className={'col-4'}>
+                        <Link className={'btn btn-dark'} onClick={this.handleSubmit}>Create</Link>
                     </div>
-                    <div className={'row col-12'}>
-                        <Link className={'btn btn-dark'} onClick={this.handleSubmit}>Save</Link>
-                    </div>
+                </div>
             </div>
         )
     }

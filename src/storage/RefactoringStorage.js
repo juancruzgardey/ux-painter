@@ -2,6 +2,10 @@ import Version from "./Version";
 
 class RefactoringStorage {
 
+    constructor() {
+        this.originalVersionName = "Original";
+    }
+
     getCurrentVersion() {
         if (!this.currentVersion) {
             if (localStorage.getItem("currentVersion")) {
@@ -20,7 +24,11 @@ class RefactoringStorage {
     }
 
     getOriginalVersion() {
-        return new Version("Original");
+        return new Version(this.originalVersionName);
+    }
+
+    getOriginalVersionName() {
+        return this.originalVersionName;
     }
 
     getVersions() {

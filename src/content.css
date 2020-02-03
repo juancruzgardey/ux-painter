@@ -175,3 +175,7 @@ img.uxpainter-element-selected {
     margin-left: 5px;
     color: black;
 }
+
+.uxpainter-icon-link, .uxpainter-icon-link:hover {
+    color: black;
+}

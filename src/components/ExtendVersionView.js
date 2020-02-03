@@ -16,6 +16,7 @@ class ExtendVersionView extends React.Component {
         }
         this.addRefactoring = this.addRefactoring.bind(this);
         this.cancelRefactoring = this.cancelRefactoring.bind(this);
+        this.updateVersion = this.updateVersion.bind(this);
     }
 
     addRefactoring() {
@@ -24,6 +25,10 @@ class ExtendVersionView extends React.Component {
 
     cancelRefactoring() {
         this.setState({addingRefactoring:false});
+    }
+
+    updateVersion() {
+        window.refactoringManager.saveDirtyRefactorings();
     }
 
     render () {
@@ -65,8 +70,7 @@ class ExtendVersionView extends React.Component {
                             <Link className={'btn btn-secondary'} component={VersionListView}><i className="fas fa-arrow-circle-left"></i> Back</Link>
                         </div>
                         <div className={'col-4'}>
-                            <Link className={'btn btn-dark'} component={VersionView}
-                                  componentProps={{version: window.refactoringManager.getCurrentVersion()}}>Save <i
+                            <Link className={'btn btn-dark'} onClick={this.updateVersion} component={VersionListView}>Save <i
                                 className="fas fa-save"></i></Link>
                         </div>
                     </div>

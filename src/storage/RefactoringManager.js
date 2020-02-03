@@ -36,11 +36,7 @@ class RefactoringManager {
     }
 
     addVersion(aVersion) {
-        this.getDirtyRefactorings().map(dirtyRefactoring => {
-            aVersion.addRefactoring(dirtyRefactoring);
-        });
         this.refactoringStorage.addVersion(aVersion);
-        this.clearDirtyRefactorings();
     }
 
     executeCurrentVersion() {
@@ -49,6 +45,10 @@ class RefactoringManager {
 
     getOriginalVersion () {
         return this.refactoringStorage.getOriginalVersion();
+    }
+
+    getOriginalVersionName() {
+        return this.refactoringStorage.getOriginalVersionName();
     }
 
     save() {
@@ -73,6 +73,14 @@ class RefactoringManager {
 
     clearDirtyRefactorings() {
         this.dirtyRefactorings = [];
+    }
+
+    saveDirtyRefactorings() {
+        const me = this;
+        this.getDirtyRefactorings().map(dirtyRefactoring => {
+            me.getCurrentVersion().addRefactoring(dirtyRefactoring);
+        });
+        this.clearDirtyRefactorings();
     }
 
     getRefactoringCatalogue() {
