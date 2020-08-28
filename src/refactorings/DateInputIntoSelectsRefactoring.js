@@ -1,8 +1,6 @@
 import $ from 'jquery';
 import 'jquery-dropdown-datepicker/dist/jquery-dropdown-datepicker';
 import UsabilityRefactoringOnElement from './UsabilityRefactoringOnElement';
-import RefactoringOnElementView from "../components/RefactoringOnElementView";
-import TurnInputIntoSelectPreviewer from "../previewers/TurnInputIntoSelectPreviewer";
 import DateInputIntoSelectsPreviewer from "../previewers/DateInputIntoSelectsPreviewer";
 
 class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
@@ -25,10 +23,6 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
         $(this.getElement()).dropdownDatepicker('destroy');
         this.getElement().setAttribute("type", "text");
         this.getElement().setAttribute("name", this.submitFieldName);
-    }
-
-    getView() {
-        return RefactoringOnElementView;
     }
 
     targetElements() {

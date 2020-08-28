@@ -1,4 +1,3 @@
-import RefactoringOnElementView from "./RefactoringOnElementView";
 import React from "react";
 import RefactoringConfigurationView from "./RefactoringConfigurationView";
 

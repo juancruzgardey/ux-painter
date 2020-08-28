@@ -1,5 +1,4 @@
 import UsabilityRefactoringOnElement from "./UsabilityRefactoringOnElement";
-import RefactoringView from "../components/RefactoringView";
 import TurnInputIntoTextareaPreviewer from "../previewers/TurnInputIntoTextareaPreviewer";
 
 class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
@@ -22,10 +21,6 @@ class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
 
     targetElements() {
         return "input[type='text']";
-    }
-
-    getView() {
-        return RefactoringView;
     }
 
     static asString() {

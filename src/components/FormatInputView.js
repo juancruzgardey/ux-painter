@@ -1,5 +1,4 @@
 import React from 'react';
-import RefactoringOnElementView from './RefactoringOnElementView';
 import RefactoringConfigurationView from "./RefactoringConfigurationView";
 
 class FormatInputView extends React.Component {

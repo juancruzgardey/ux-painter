@@ -1,5 +1,4 @@
 import React from 'react';
-import RefactoringOnElementView from "./RefactoringOnElementView";
 import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 import RefactoringConfigurationView from "./RefactoringConfigurationView";

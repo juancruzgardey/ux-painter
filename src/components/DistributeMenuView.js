@@ -1,5 +1,5 @@
 import React from 'react';
-import RefactoringView from "./RefactoringView";
+import RefactoringConfigurationView from "./RefactoringConfigurationView";
 import PageSelector from "../PageSelector";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 
@@ -85,7 +85,7 @@ class DistributeMenuView extends React.Component {
             return <li>{itemXpath}</li>
         });
         return (
-            <RefactoringView refactoring={this.props.refactoring}>
+            <RefactoringConfigurationView refactoring={this.props.refactoring}>
                 <div className={'form-group'}>
                     <h6>Bulk Action</h6>
                     {!this.state.selectingBulkAction &&
@@ -105,7 +105,7 @@ class DistributeMenuView extends React.Component {
                         <span className={'uxpainter-message'}>Select the link to activate the item</span>
                     )}
                 </div>
-            </RefactoringView>
+            </RefactoringConfigurationView>
 
         )
     }
