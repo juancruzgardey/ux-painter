@@ -85,7 +85,7 @@ class RefactoringManager {
 
     getRefactoringCatalogue() {
         return [AddAutocompleteRefactoring, AddDatePickerRefactoring, AddFormValidationRefactoring, AddInlineFormValidationRefactoring,
-            AddLinkRefactoring,AddProcessingPageRefactoring, AddTooltipRefactoring, DateInputIntoSelectsRefactoring, DateSelectsIntoDatepickerRefactoring, DistributeMenuRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
+            AddLinkRefactoring,AddProcessingPageRefactoring, AddTooltipRefactoring, DateInputIntoSelectsRefactoring, DistributeMenuRefactoring, FormatInputRefactoring, LinkToTopRefactoring, RenameElementRefactoring,
             ResizeInputRefactoring, SplitPageRefactoring, TurnAttributeIntoLinkRefactoring,
             TurnInputIntoRadiosRefactoring, TurnInputIntoSelectRefactoring, TurnInputIntoTextareaRefactoring, TurnSelectIntoAutocompleteRefactoring];
     }
