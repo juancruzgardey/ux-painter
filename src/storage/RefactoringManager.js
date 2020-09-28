@@ -79,6 +79,7 @@ class RefactoringManager {
         this.getDirtyRefactorings().map(dirtyRefactoring => {
             me.getCurrentVersion().addRefactoring(dirtyRefactoring);
         });
+        this.save();
         this.clearDirtyRefactorings();
     }
 
