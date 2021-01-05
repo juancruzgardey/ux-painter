@@ -15,7 +15,7 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         return true;
     }
 
-    transform () {
+    transform() {
         this.link = document.createElement("a");
         document.body.appendChild(this.link);
         this.link.style.cssText = "display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none";
@@ -56,6 +56,10 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
 
     getDemoResources() {
         return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
+    }
+
+    static getCode() {
+        return "<a style='display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none'></a>"
     }
 
 }

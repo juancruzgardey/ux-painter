@@ -35,6 +35,8 @@ class ElementSelectionView extends React.Component {
         this.setState({elementXpath: elementXpath});
         this.refactoring.setElementXpath(elementXpath);
         this.refactoring.setElement(anElement);
+        console.log(anElement)
+        console.log(this.refactoring)
         this.pageSelector.addSelectionClass(anElement, this.pageSelector.selectionClass);
         const me = this;
     }

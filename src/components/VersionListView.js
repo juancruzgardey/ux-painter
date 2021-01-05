@@ -1,6 +1,7 @@
 import React from "react";
 import {Link, goTo} from "route-lite";
 import ExtendVersionView from "./ExtendVersionView";
+import CodeView from "./CodeView"
 import VersionView from "./VersionView";
 
 class VersionListView extends React.Component {
@@ -8,6 +9,7 @@ class VersionListView extends React.Component {
     constructor(props) {
         super(props);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleCode = this.handleCode.bind(this);
         this.switchToVersion = this.switchToVersion.bind(this);
         this.state = {currentVersion: window.refactoringManager.getCurrentVersion()};
     }
@@ -31,7 +33,10 @@ class VersionListView extends React.Component {
         goTo(ExtendVersionView);
     }
 
-
+    handleCode (event) {
+        this.switchToVersion(event);
+        goTo(CodeView)
+    }
 
     render() {
         const allVersions = window.refactoringManager.getAllVersions().map((version, i) => {
@@ -59,6 +64,13 @@ class VersionListView extends React.Component {
                     <Link className={"uxpainter-icon-link"} component={VersionView} componentProps={{version: version}}>
                         <i data-version={i} className="far fa-clone fa-lg"></i>
                     </Link>
+                </div>
+                {/* MOD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */}
+                <div className={'col-1'}>
+                    {window.refactoringManager.getOriginalVersionName() != version.getName() && (
+                    <a className={"uxpainter-icon-link"} data-version={i} onClick={this.handleCode}>
+                        <i data-version={i} className="fas fa-code"></i>
+                    </a>)}
                 </div>
             </div>)
         });
