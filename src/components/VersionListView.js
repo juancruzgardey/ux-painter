@@ -42,14 +42,14 @@ class VersionListView extends React.Component {
         const allVersions = window.refactoringManager.getAllVersions().map((version, i) => {
             const eyeIconColor = version.getName() == this.state.currentVersion.getName() ? "#ffc107":"black";
             return (
-            <div className={'row col-12'}>
-                <div className={'col-6 offset-1'}>
+            <div className={'row'}>
+                <div className={'col-8'}>
                     <p className={'uxpainter-message'} style={{"font-size": "18px"}} data-tip={'Clone version'}>
                         {version.getName()} {window.refactoringManager.getOriginalVersionName() == version.getName()
                          && (<i className="fas fa-lock"></i>)}
                     </p>
                 </div>
-                <div className={'col-1 offset-1'}>
+                <div className={'col-1'}>
                     <a style={{"color": eyeIconColor }} className={"uxpainter-icon-link"} onClick={this.switchToVersion}>
                         <i data-version={i} className="fas fa-eye fa-lg"></i>
                     </a>
@@ -78,9 +78,7 @@ class VersionListView extends React.Component {
         return (
             <div className={"container"}>
                 <h2 className={'text-center'}>Versions</h2>
-                <div className={'row'} style={{"margin-top": "20px"}}>
-                    {allVersions}
-                </div>
+                {allVersions}
                 <div className={'row col-12'}>
                     <Link className={'btn btn-warning'} component={VersionView}
                           componentProps={{version: window.refactoringManager.getOriginalVersion()}}>New version <i className="fas fa-plus-circle"></i>

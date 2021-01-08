@@ -9,6 +9,7 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         super();
         this.onScroll = this.onScroll.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.cssText = "display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none";
     }
 
     checkPreconditions() {
@@ -18,7 +19,7 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     transform() {
         this.link = document.createElement("a");
         document.body.appendChild(this.link);
-        this.link.style.cssText = "display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none";
+        this.link.style.cssText = this.cssText
         window.addEventListener("scroll", this.onScroll);
         this.link.addEventListener("click", this.onClick);
     }
@@ -58,8 +59,8 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
     }
 
-    static getCode() {
-        return "<a style='display:block;position:fixed;bottom:30px;right:30px;width:35px;height:35px;cursor:pointer;background: url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat;display:none'></a>"
+    getCode() {
+        return "<a style=" + this.cssText + "></a>"
     }
 
 }
