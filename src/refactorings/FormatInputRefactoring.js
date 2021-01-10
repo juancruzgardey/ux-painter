@@ -77,6 +77,15 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return "Add a mask to a text field in order to limit the input to a certain characters";
     }
 
+    getCode() {
+        let element = this.getElement();
+        element.id = 'exampleId'
+        return `//IMPORTANT: You need to use jQuery-mask-plugin
+//A - Assign an id to your input. ('exampleId' in this case)
+` + element.outerHTML + `;
+//B - Get the element by ID with jQuery and assign the mask
+$('#exampleId').mask(` + this.getFormatString() + `);`
+    }
 
 }
 

@@ -25,6 +25,7 @@ class RefactoringListView extends React.Component {
                       className={'uxpainter-refactoring-info'}>
                     <i className="fas fa-info-circle fa-lg"></i>
                 </Link>
+                {(typeof refactoring.getCode === "function") ? <i class="fas fa-check-circle text-success"></i>: <i class="fas fa-times-circle text-danger"></i>}
             </li>)
         });
         return (
