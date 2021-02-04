@@ -1,7 +1,8 @@
 import RefactoringOnElementPreviewer from "./RefactoringOnElementPreviewer";
 import WeightStyleScrapper from "../scrappers/WeightStyleScrapper";
+import Combinatorics from "js-combinatorics";
 
-let Combinatorics = require('js-combinatorics');
+
 
 class ColorPreviewer extends RefactoringOnElementPreviewer {
 
