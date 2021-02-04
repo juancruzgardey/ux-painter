@@ -15,7 +15,7 @@ Check the [Demo](https://youtu.be/XKYrkFcNRKc)
 - Load unpacked extension and select the `build` folder of the repository.
 
 ## Research
-Kobold was developed at LIFIA (UNLP, Argentina) research labs. Read more about it:
+UX-Painter was developed at LIFIA (UNLP, Argentina) research labs. Read more about it:
 
 [UX-Painter: An Approach to Explore Interaction Fixes in the Browser](https://dl.acm.org/doi/10.1145/3397877)
 
