@@ -12,7 +12,7 @@ Check the [Demo](https://youtu.be/XKYrkFcNRKc)
 - Install the dependencies with `npm install`.
 - Build the extension with `npm run build`.
 - Open [chrome://extensions](chrome://extensions) and enable the developer mode.
-- Load unpacked extension and select the `build` folder of the repository.
+- Load unpacked extension and select the `public` folder of the repository.
 
 ## Research
 UX-Painter was developed at LIFIA (UNLP, Argentina) research labs. Read more about it:
