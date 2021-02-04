@@ -32,8 +32,7 @@ class Main extends React.Component {
             <div className={'uxpainter-frame'} style={{height: "100%"}}>
             <Frame head={[
                 <link type="text/css" rel="stylesheet" href={'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'}></link>,
-                <link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/0.chunk.css")} ></link>,
-                <link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/1.chunk.css")} ></link>,
+                <link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/main.css")} ></link>,
                 <link type="text/css" rel="stylesheet" href={'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'}></link>
             ]}>
                 <FrameContextConsumer>
