@@ -6,8 +6,39 @@ import { CodeBlock, CopyBlock, dracula } from "react-code-blocks";
 class CodeView extends React.Component {
 
     render() {
+        let formRef = [];
+        let normalRef = [];
+        let notElements = [];
         const refactoringsApplied = window.refactoringManager.getCurrentVersion().getRefactorings().map(refactoring => {
-            console.log(refactoring.constructor)
+            console.log('----2')
+            if (refactoring.isOnElement()) {
+                if (refactoring.getElementXpath().includes("form")) {
+                    let separated = refactoring.getElementXpath().split("/")
+                    for (let i = 0; i < separated.length; i++) {
+                        if (separated[i].includes('form')) {
+                            let formIndex = refactoring.getElementXpath().indexOf(separated[i]);
+                            let formElementXpath = refactoring.getElementXpath().substring(0, formIndex + separated[i].length);
+                            if (!formRef.includes(formElementXpath)) {
+                                formRef.push(formElementXpath)
+                            }
+                        }
+                    }
+                }
+                else {
+                    normalRef.push(refactoring.getElementXpath())
+                }
+            }
+            else {
+                let aux = {
+                    name: refactoring.constructor.asString(),
+                    html: refactoring.getCode()
+                }
+                notElements.push(aux)
+            }
+            console.log(normalRef)
+            console.log(formRef)
+            console.log(notElements)
+            console.log('----2')
             return (
                 <React.Fragment>
                     <div className='row'>

@@ -61,6 +61,9 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
 
     getCode() {
         let element = this.getElement();
+        console.log('----')
+        console.log(element)
+        console.log('----')
         element.style.width = this.getInputWidth() + "px";
         return element.outerHTML
     }
