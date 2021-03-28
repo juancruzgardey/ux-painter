@@ -68,6 +68,10 @@ class AddInlineFormValidationRefactoring extends AddFormValidationRefactoring {
     getDescription() {
         return "Provide client inline validation to a form. Mandatory fields must be indicated";
     }
+
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default AddInlineFormValidationRefactoring;

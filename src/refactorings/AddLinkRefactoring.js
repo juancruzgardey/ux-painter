@@ -78,9 +78,9 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "AddLinkRefactoring";
     }
-    getCode() {
-        
-        return this.linkElement.outerHTML
+    
+    codeAvaiable() {
+        return true
     }
 
     getDescription() {

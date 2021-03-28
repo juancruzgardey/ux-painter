@@ -34,9 +34,9 @@ class TurnInputIntoTextareaRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "TurnInputIntoTextareaRefactoring";
     }
-    getCode() {
-        this.textArea.setAttribute("type", "text");
-        return this.textArea.outerHTML
+    
+    codeAvaiable() {
+        return false
     }
 
     getDescription() {

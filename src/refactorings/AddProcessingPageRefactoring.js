@@ -54,6 +54,10 @@ class AddProcessingPageRefactoring extends UsabilityRefactoringOnElement {
     getDescription() {
         return "";
     }
+
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default AddProcessingPageRefactoring;

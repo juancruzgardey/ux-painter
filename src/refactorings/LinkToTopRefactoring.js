@@ -59,8 +59,8 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
     }
 
-    getCode() {
-        return "<a style=" + this.cssText + "></a>"
+    codeAvaiable() {
+        return true
     }
 
 }

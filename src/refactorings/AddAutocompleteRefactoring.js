@@ -108,6 +108,10 @@ class AddAutocompleteRefactoring extends UsabilityRefactoringOnElement {
     getDemoResources() {
         return ["AddAutocompleteRefactoringBefore.gif", "AddAutocompleteRefactoringAfter.gif"];
     }
+
+    codeAvaiable() {
+        return false
+    }
 };
 
 export default AddAutocompleteRefactoring;

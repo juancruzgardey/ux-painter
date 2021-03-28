@@ -100,9 +100,9 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "TurnInputIntoRadiosRefactoring";
     }
-    getCode() {
-        
-        return this.radioSetContainer.outerHTML
+    
+    codeAvaiable() {
+        return true
     }
 
     getDescription() {

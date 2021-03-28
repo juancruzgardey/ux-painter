@@ -63,10 +63,8 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         return ["RenameElementRefactoringBefore.png", "RenameElementRefactoringAfter.png"];
     }
 
-    getCode() {
-        let element = this.getElement();
-        element.innerHTML = this.getNewName()
-        return element.outerHTML
+    codeAvaiable() {
+        return true
     }
 
 }

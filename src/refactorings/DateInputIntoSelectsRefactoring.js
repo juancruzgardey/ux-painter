@@ -70,6 +70,9 @@ class DateInputIntoSelectsRefactoring extends UsabilityRefactoringOnElement {
         return "Turn simple text field for dates into 3 selects for Day - Month - Year";
     }
 
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default DateInputIntoSelectsRefactoring;
