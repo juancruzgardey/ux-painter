@@ -77,10 +77,12 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return "Add a mask to a text field in order to limit the input to a certain characters";
     }
 
-    tip() {
-        return `//IMPORTANTE: Se necesita usar jQuery-mask-plugin.
-Luego se debe enmascarar el input mediante jQuery utilizando un ID o un nombre de clase, de la siguiente forma:
-$('#exampleId').mask(` + this.getFormatString() + `);`
+    code(text,randomInt) {
+        return "$('#" + text + randomInt.toString() + "').mask(" + this.getFormatString() + ");"
+    }
+
+    imports() {
+        return "import $ from 'jquery';\nimport 'jquery-mask-plugin/dist/jquery.mask.min';"
     }
 
     codeAvaiable() {

@@ -3,32 +3,51 @@ import { Link } from "route-lite";
 import VersionListView from "./VersionListView";
 import { CodeBlock, CopyBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
+import { generateComponent, generateNotElementComponent } from "../js/helpers";
 
 class CodeView extends React.Component {
+
     render() {
         let formRef = [];
-        let formRefTips = [];
+        let formRefCodes = [];
+        let formRefImports = [];
         let normalRef = [];
         let normalXpaths = [];
         let notElements = [];
         window.refactoringManager.getCurrentVersion().getRefactorings().map(refactoring => {
+            let randomInt = Math.floor(Math.random() * 9999) + 1;
+            let auxString = "example";
+            let code = null;
+            let imports = null;
+            if (typeof refactoring.code === "function") {
+                code = refactoring.code(auxString, randomInt);
+            }
+            if (typeof refactoring.imports === "function") {
+                imports = refactoring.imports();
+            }
             if (refactoring.isOnElement()) {
+                let element = refactoring.getElement();
+                element.setAttribute("id", auxString + randomInt.toString());
                 if (refactoring.getElementXpath().includes("form")) {
-                    let separated = refactoring.getElementXpath().split("/")
+                    let separated = refactoring.getElementXpath().split("/");
                     for (let i = 0; i < separated.length; i++) {
                         if (separated[i].includes('form')) {
                             let formIndex = refactoring.getElementXpath().indexOf(separated[i]);
                             let formElementXpath = refactoring.getElementXpath().substring(0, formIndex + separated[i].length);
-                            if (!formRef.includes(formElementXpath)) {
+                            if (!formRef.includes(formElementXpath))
                                 formRef.push(formElementXpath)
-                            }
-                            const findI = (element) => element == formElementXpath;
+                            const findI = (auxelement) => auxelement == formElementXpath;
                             let indexaux = formRef.findIndex(findI);
-                            if (typeof refactoring.tip === "function") {
-                                if (formRefTips[indexaux] == null) {
-                                    formRefTips[indexaux] = []
-                                }
-                                formRefTips[indexaux].push(refactoring.tip());
+                            if (typeof refactoring.code === "function") {
+                                if (formRefCodes[indexaux] == null)
+                                    formRefCodes[indexaux] = []
+                                formRefCodes[indexaux].push(code);
+                            }
+                            if (typeof refactoring.imports === "function") {
+                                if (formRefImports[indexaux] == null)
+                                    formRefImports[indexaux] = []
+                                if (!formRefImports[indexaux].includes(imports))
+                                    formRefImports[indexaux].push(imports)
                             }
                             break;
                         }
@@ -38,13 +57,16 @@ class CodeView extends React.Component {
                     let aux = {
                         name: refactoring.constructor.asString(),
                         xPath: refactoring.getElementXpath(),
-                        tip: []
+                        code: [],
+                        imports: []
                     }
-                    let tip = (typeof refactoring.tip === "function") ? refactoring.tip() : null
                     if (!normalXpaths.includes(refactoring.getElementXpath())) {
                         normalXpaths.push(refactoring.getElementXpath());
-                        if (tip != null) {
-                            aux.tip.push(tip)
+                        if (code != null) {
+                            aux.code.push(code)
+                        }
+                        if (imports != null) {
+                            aux.imports.push(imports)
                         }
                         normalRef.push(aux);
                     }
@@ -52,8 +74,11 @@ class CodeView extends React.Component {
                         for (let i = 0; i < normalRef.length; i++) {
                             if (normalRef[i].xPath == refactoring.getElementXpath()) {
                                 normalRef[i].name += " & " + aux.name;
-                                if (tip != null) {
-                                    normalRef[i].tip.push(tip);
+                                if (code != null) {
+                                    normalRef[i].code.push(code);
+                                }
+                                if (imports != null) {
+                                    normalRef[i].imports.push(imports)
                                 }
                                 break;
                             }
@@ -64,12 +89,16 @@ class CodeView extends React.Component {
             else {
                 let aux = {
                     name: refactoring.constructor.asString(),
-                    html: refactoring.getCode()
+                    functions: refactoring.functions(auxString, randomInt),
+                    mount: refactoring.mount(auxString, randomInt),
+                    render: code
                 }
                 notElements.push(aux)
             }
         });
         const notElementsRefactorings = notElements.map(refactoring => {
+            let imports = "";
+            let text = generateNotElementComponent(imports, refactoring.mount, refactoring.functions, refactoring.render)
             return (
                 <React.Fragment>
                     <div className='row'>
@@ -78,17 +107,31 @@ class CodeView extends React.Component {
                     <div className="row">
                         <div className="col-12 mb-3">
                             <CodeBlock
-                                text={refactoring.html}
+                                text={text}
                                 language="javascript"
                                 theme={dracula}
                             />
                         </div>
                     </div>
+                    <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });
         const normalRefactorings = normalRef.map(refactoring => {
             let element = new XPathInterpreter().getSingleElementByXpath(refactoring.xPath, document.body);
+            let theCode = "";
+            let imports = "";
+            if (!refactoring.imports.length == 0) {
+                refactoring.imports.map(imports2 => {
+                    imports += imports2 + "\n";
+                })
+            }
+            if (!refactoring.code.length == 0) {
+                refactoring.code.map(code => {
+                    theCode += code + "\n"
+                })
+            }
+            let text = generateComponent(imports, theCode, element.outerHTML);
             return (
                 <React.Fragment>
                     <div className='row'>
@@ -97,30 +140,31 @@ class CodeView extends React.Component {
                     <div className="row">
                         <div className="col-12 mb-3">
                             <CodeBlock
-                                text={element.outerHTML}
+                                text={text}
                                 language="javascript"
                                 theme={dracula}
                             />
                         </div>
                     </div>
-                    {refactoring.tip.map(tipaso => {
-                        return (
-                            <div className="row">
-                                <div className="col-12 mb-3">
-                                    <CodeBlock
-                                        text={tipaso}
-                                        language="javascript"
-                                        theme={dracula}
-                                    />
-                                </div>
-                            </div>
-                        )
-                    })}
+                    <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });
         const formRefactorings = formRef.map((refactoring, i) => {
             let element = new XPathInterpreter().getSingleElementByXpath(refactoring, document.body);
+            let theCode = "";
+            let imports = "";
+            if (formRefCodes[i] != null) {
+                formRefCodes[i].map(codaso => {
+                    theCode += codaso + "\n"
+                })
+            }
+            if (formRefImports[i] != null) {
+                formRefImports[i].map(imports2 => {
+                    imports += imports2 + "\n"
+                })
+            }
+            let text = generateComponent(imports, theCode, element.outerHTML);
             return (
                 <React.Fragment>
                     <div className='row'>
@@ -129,25 +173,13 @@ class CodeView extends React.Component {
                     <div className="row">
                         <div className="col-12 mb-3">
                             <CodeBlock
-                                text={element.outerHTML}
-                                language="javascript"
+                                text={text}
+                                language="jsx"
                                 theme={dracula}
                             />
                         </div>
                     </div>
-                    {formRefTips[i] != null ? formRefTips[i].map(tipaso => {
-                        return (
-                            <div className="row">
-                                <div className="col-12 mb-3">
-                                    <CodeBlock
-                                        text={tipaso}
-                                        language="javascript"
-                                        theme={dracula}
-                                    />
-                                </div>
-                            </div>
-                        )
-                    }): null}
+                    <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });

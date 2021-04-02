@@ -59,6 +59,18 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
     }
 
+    code(text,randomInt) {
+        return "<a id='" + text + randomInt.toString() + "' style=" + this.cssText + "></a>"
+    }
+
+    functions(text,randomInt) {
+        return "onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}\n\nonScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + text + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + text + randomInt.toString() + "').fadeOut();\n}\n}\n"
+    }
+
+    mount(text, randomInt) {
+        return "window.addEventListener('scroll', this.onScroll());\n$('#" + text + randomInt.toString() + "').addEventListener('click', this.onClick());\n"
+    }
+
     codeAvaiable() {
         return true
     }

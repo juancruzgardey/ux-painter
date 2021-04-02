@@ -22,9 +22,6 @@ class UsabilityRefactoringOnElement extends UsabilityRefactoring {
     }
 
     getElement() {
-        console.log('----1')
-        console.log(document.body)
-        console.log('----1')
         if (!this.targetElement) {
             this.targetElement = new XPathInterpreter().getSingleElementByXpath(this.elementXpath, document.body);
         }

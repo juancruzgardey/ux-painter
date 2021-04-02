@@ -87,7 +87,11 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
     }
 
     codeAvaiable() {
-        return false
+        return true
+    }
+
+    tip() {
+        return "Se le debe asignar un Id al elemento 'form'.\nPosteriormente se selecciona el elemento y se le asigna una funcion que se ejecutara al hacer click en submit, de la siguiente forma:\n$('#FormID').addEventListener('submit', unaFuncion);\n"
     }
 }
 
