@@ -11,6 +11,7 @@ class CodeView extends React.Component {
         let formRef = [];
         let formRefCodes = [];
         let formRefImports = [];
+        let formRefFunctions = [];
         let normalRef = [];
         let normalXpaths = [];
         let notElements = [];
@@ -29,27 +30,56 @@ class CodeView extends React.Component {
                 let element = refactoring.getElement();
                 element.setAttribute("id", auxString + randomInt.toString());
                 if (refactoring.getElementXpath().includes("form")) {
-                    let separated = refactoring.getElementXpath().split("/");
-                    for (let i = 0; i < separated.length; i++) {
-                        if (separated[i].includes('form')) {
-                            let formIndex = refactoring.getElementXpath().indexOf(separated[i]);
-                            let formElementXpath = refactoring.getElementXpath().substring(0, formIndex + separated[i].length);
-                            if (!formRef.includes(formElementXpath))
-                                formRef.push(formElementXpath)
-                            const findI = (auxelement) => auxelement == formElementXpath;
-                            let indexaux = formRef.findIndex(findI);
-                            if (typeof refactoring.code === "function") {
-                                if (formRefCodes[indexaux] == null)
-                                    formRefCodes[indexaux] = []
-                                formRefCodes[indexaux].push(code);
+                    if (typeof refactoring.hasInside === "function") {
+                        let formElementXpath = refactoring.getElementXpath();
+                        if (!formRef.includes(formElementXpath))
+                            formRef.push(formElementXpath);
+                        const findI = (auxelement) => auxelement == formElementXpath;
+                        let indexaux = formRef.findIndex(findI);
+                        let requiredImputs = refactoring.getRequiredInputs();
+                        let randomIntCollection = [];
+                        for (let i = 0; i< requiredImputs.length; i++) {
+                            let randomIntAux = Math.floor(Math.random() * 9999) + 1;
+                            requiredImputs[i].setAttribute("id", auxString + randomIntAux.toString());
+                            randomIntCollection.push(randomIntAux);
+                        }
+                        let functions = refactoring.functions(auxString, randomIntCollection, randomInt);
+                        if (formRefFunctions[indexaux] == null)
+                            formRefFunctions[indexaux] = []
+                        formRefFunctions[indexaux].push(functions);
+                        if (formRefCodes[indexaux] == null)
+                            formRefCodes[indexaux] = []
+                        formRefCodes[indexaux].push(code);
+                        if (typeof refactoring.imports === "function") {
+                            if (formRefImports[indexaux] == null)
+                                formRefImports[indexaux] = [];
+                            if (!formRefImports[indexaux].includes(imports))
+                                formRefImports[indexaux].push(imports);
+                        }
+                    }
+                    else {
+                        let separated = refactoring.getElementXpath().split("/");
+                        for (let i = 0; i < separated.length; i++) {
+                            if (separated[i].includes('form')) {
+                                let formIndex = refactoring.getElementXpath().indexOf(separated[i]);
+                                let formElementXpath = refactoring.getElementXpath().substring(0, formIndex + separated[i].length);
+                                if (!formRef.includes(formElementXpath))
+                                    formRef.push(formElementXpath)
+                                const findI = (auxelement) => auxelement == formElementXpath;
+                                let indexaux = formRef.findIndex(findI);
+                                if (typeof refactoring.code === "function") {
+                                    if (formRefCodes[indexaux] == null)
+                                        formRefCodes[indexaux] = []
+                                    formRefCodes[indexaux].push(code);
+                                }
+                                if (typeof refactoring.imports === "function") {
+                                    if (formRefImports[indexaux] == null)
+                                        formRefImports[indexaux] = [];
+                                    if (!formRefImports[indexaux].includes(imports))
+                                        formRefImports[indexaux].push(imports);
+                                }
+                                break;
                             }
-                            if (typeof refactoring.imports === "function") {
-                                if (formRefImports[indexaux] == null)
-                                    formRefImports[indexaux] = []
-                                if (!formRefImports[indexaux].includes(imports))
-                                    formRefImports[indexaux].push(imports)
-                            }
-                            break;
                         }
                     }
                 }
@@ -98,7 +128,7 @@ class CodeView extends React.Component {
         });
         const notElementsRefactorings = notElements.map(refactoring => {
             let imports = "";
-            let text = generateNotElementComponent(imports, refactoring.mount, refactoring.functions, refactoring.render)
+            let text = generateComponent(imports, refactoring.mount, refactoring.render, refactoring.functions)
             return (
                 <React.Fragment>
                     <div className='row'>
@@ -121,6 +151,7 @@ class CodeView extends React.Component {
             let element = new XPathInterpreter().getSingleElementByXpath(refactoring.xPath, document.body);
             let theCode = "";
             let imports = "";
+            let functions = "";
             if (!refactoring.imports.length == 0) {
                 refactoring.imports.map(imports2 => {
                     imports += imports2 + "\n";
@@ -131,7 +162,7 @@ class CodeView extends React.Component {
                     theCode += code + "\n"
                 })
             }
-            let text = generateComponent(imports, theCode, element.outerHTML);
+            let text = generateComponent(imports, theCode, element.outerHTML, functions);
             return (
                 <React.Fragment>
                     <div className='row'>
@@ -154,6 +185,7 @@ class CodeView extends React.Component {
             let element = new XPathInterpreter().getSingleElementByXpath(refactoring, document.body);
             let theCode = "";
             let imports = "";
+            let functions = "";
             if (formRefCodes[i] != null) {
                 formRefCodes[i].map(codaso => {
                     theCode += codaso + "\n"
@@ -164,7 +196,12 @@ class CodeView extends React.Component {
                     imports += imports2 + "\n"
                 })
             }
-            let text = generateComponent(imports, theCode, element.outerHTML);
+            if (formRefFunctions[i] != null) {
+                formRefFunctions[i].map(functions2 => {
+                    functions += functions2 + "\n"
+                })
+            }
+            let text = generateComponent(imports, theCode, element.outerHTML, functions);
             return (
                 <React.Fragment>
                     <div className='row'>

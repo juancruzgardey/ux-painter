@@ -60,7 +60,7 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     }
 
     code(text,randomInt) {
-        return "<a id='" + text + randomInt.toString() + "' style=" + this.cssText + "></a>"
+        return "<a id='" + text + randomInt.toString() + "' style='" + this.cssText + "'></a>"
     }
 
     functions(text,randomInt) {
