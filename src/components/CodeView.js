@@ -3,7 +3,7 @@ import { Link } from "route-lite";
 import VersionListView from "./VersionListView";
 import { CodeBlock, CopyBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
-import { generateComponent, generateNotElementComponent } from "../js/helpers";
+import { generateComponent, generateStyle } from "../js/helpers";
 
 class CodeView extends React.Component {
 
@@ -16,6 +16,16 @@ class CodeView extends React.Component {
         let normalXpaths = [];
         let notElements = [];
         window.refactoringManager.getCurrentVersion().getRefactorings().map(refactoring => {
+            console.log(refactoring.getStyle())
+            let style = (refactoring.getStyle()).targetElement;
+            let stringStyle = "";
+            const styleToString = (style) => {
+                return Object.keys(style).reduce((acc, key) => (
+                    acc + key.split(/(?=[A-Z])/).join('-').toLowerCase() + ':' + style[key] + ';'
+                ), '');
+            };
+            if (style != null)
+                stringStyle += styleToString(style);
             let randomInt = Math.floor(Math.random() * 9999) + 1;
             let auxString = "example";
             let code = null;
@@ -38,7 +48,7 @@ class CodeView extends React.Component {
                         let indexaux = formRef.findIndex(findI);
                         let requiredImputs = refactoring.getRequiredInputs();
                         let randomIntCollection = [];
-                        for (let i = 0; i< requiredImputs.length; i++) {
+                        for (let i = 0; i < requiredImputs.length; i++) {
                             let randomIntAux = Math.floor(Math.random() * 9999) + 1;
                             requiredImputs[i].setAttribute("id", auxString + randomIntAux.toString());
                             randomIntCollection.push(randomIntAux);
@@ -88,16 +98,17 @@ class CodeView extends React.Component {
                         name: refactoring.constructor.asString(),
                         xPath: refactoring.getElementXpath(),
                         code: [],
-                        imports: []
+                        imports: [],
+                        styles: []
                     }
                     if (!normalXpaths.includes(refactoring.getElementXpath())) {
                         normalXpaths.push(refactoring.getElementXpath());
-                        if (code != null) {
+                        if (code != null)
                             aux.code.push(code)
-                        }
-                        if (imports != null) {
+                        if (imports != null)
                             aux.imports.push(imports)
-                        }
+                        if (stringStyle != "")
+                            aux.styles.push(generateStyle(auxString, randomInt, stringStyle));
                         normalRef.push(aux);
                     }
                     else {
@@ -110,6 +121,10 @@ class CodeView extends React.Component {
                                 if (imports != null) {
                                     normalRef[i].imports.push(imports)
                                 }
+                                if (stringStyle != "") {
+                                    stringStyle += generateStyle(auxString, randomInt, stringStyle);
+                                    normalRef[i].styles.push(stringStyle);
+                                }
                                 break;
                             }
                         }
@@ -121,13 +136,15 @@ class CodeView extends React.Component {
                     name: refactoring.constructor.asString(),
                     functions: refactoring.functions(auxString, randomInt),
                     mount: refactoring.mount(auxString, randomInt),
-                    render: code
+                    imports: refactoring.imports(),
+                    render: code,
+                    style: generateStyle(auxString, randomInt, refactoring.cssText)
                 }
                 notElements.push(aux)
             }
         });
         const notElementsRefactorings = notElements.map(refactoring => {
-            let imports = "";
+            let imports = refactoring.imports;
             let text = generateComponent(imports, refactoring.mount, refactoring.render, refactoring.functions)
             return (
                 <React.Fragment>
@@ -143,11 +160,29 @@ class CodeView extends React.Component {
                             />
                         </div>
                     </div>
+                    <div className='row'>
+                        <p className="col-12">Estilo:</p>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 mb-3">
+                            <CodeBlock
+                                text={refactoring.style}
+                                language="javascript"
+                                theme={dracula}
+                            />
+                        </div>
+                    </div>
                     <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });
         const normalRefactorings = normalRef.map(refactoring => {
+            let style = "";
+            if (refactoring.styles.length != 0) {
+                refactoring.styles.map(style2 => {
+                    style += style2;
+                })
+            }
             let element = new XPathInterpreter().getSingleElementByXpath(refactoring.xPath, document.body);
             let theCode = "";
             let imports = "";
@@ -172,11 +207,27 @@ class CodeView extends React.Component {
                         <div className="col-12 mb-3">
                             <CodeBlock
                                 text={text}
-                                language="javascript"
+                                language="jsx"
                                 theme={dracula}
                             />
                         </div>
                     </div>
+                    {style != "" ?
+                        <React.Fragment>
+                            <div className='row'>
+                                <p className="col-12">Estilo:</p>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 mb-3">
+                                    <CodeBlock
+                                        text={style}
+                                        language="javascript"
+                                        theme={dracula}
+                                    />
+                                </div>
+                            </div>
+                        </React.Fragment>
+                        : null}
                     <hr className="m-0"></hr>
                 </React.Fragment>
             )

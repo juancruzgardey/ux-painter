@@ -78,7 +78,7 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
     }
 
     code(text,randomInt) {
-        return "$('#" + text + randomInt.toString() + "').mask(" + this.getFormatString() + ");"
+        return "$('#" + text + randomInt.toString() + "').mask('" + this.getFormatString() + "');"
     }
 
     imports() {

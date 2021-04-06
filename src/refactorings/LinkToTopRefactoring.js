@@ -68,7 +68,11 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     }
 
     mount(text, randomInt) {
-        return "window.addEventListener('scroll', this.onScroll());\n$('#" + text + randomInt.toString() + "').addEventListener('click', this.onClick());\n"
+        return "window.addEventListener('scroll', this.onScroll());\n$('#" + text + randomInt.toString() + "').bind('click', this.onClick());\n"
+    }
+
+    imports() {
+        return "import $ from 'jquery';"
     }
 
     codeAvaiable() {

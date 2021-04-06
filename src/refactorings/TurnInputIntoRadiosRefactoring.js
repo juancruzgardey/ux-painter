@@ -102,7 +102,7 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
     }
     
     codeAvaiable() {
-        return true
+        return false
     }
 
     getDescription() {
