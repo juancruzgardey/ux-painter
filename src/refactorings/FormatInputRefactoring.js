@@ -77,14 +77,16 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return "Add a mask to a text field in order to limit the input to a certain characters";
     }
 
-    code(text,randomInt) {
-        return "$('#" + text + randomInt.toString() + "').mask('" + this.getFormatString() + "');"
-    }
+    //
 
     imports() {
-        return "import $ from 'jquery';\nimport 'jquery-mask-plugin/dist/jquery.mask.min';"
+        return ["import $ from 'jquery';","import 'jquery-mask-plugin/dist/jquery.mask.min';"]
     }
 
+    mounts(elementWord, randomInt) {
+        return ["$('#" + elementWord + randomInt.toString() + "').mask('" + this.getFormatString() + "');"]
+    }
+    
     codeAvaiable() {
         return true
     }

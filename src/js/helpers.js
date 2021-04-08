@@ -9,3 +9,11 @@ export function generateStyle(text, randomInt, style) {
         "#" + text + randomInt.toString() + "{" + style + "}\n"
     )
 }
+
+export function generateArray(old, newests) {
+    newests.map( newest => {
+        if (!old.includes(newest))
+            old.push(newest);
+    })
+    return old
+}

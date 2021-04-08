@@ -59,20 +59,26 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
         return ["LinkToTopBefore.gif", "LinkToTopAfter.gif"];
     }
 
-    code(text,randomInt) {
-        return "<a id='" + text + randomInt.toString() + "' style='" + this.cssText + "'></a>"
-    }
+    //
 
-    functions(text,randomInt) {
-        return "onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}\n\nonScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + text + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + text + randomInt.toString() + "').fadeOut();\n}\n}\n"
-    }
-
-    mount(text, randomInt) {
-        return "window.addEventListener('scroll', this.onScroll());\n$('#" + text + randomInt.toString() + "').bind('click', this.onClick());\n"
+    stringRefactoring(elementWord,randomInt) {
+        return "<a id='" + elementWord + randomInt.toString() + "'></a>"
     }
 
     imports() {
-        return "import $ from 'jquery';"
+        return ["import $ from 'jquery';"]
+    }
+
+    mounts(elementWord, randomInt) {
+        return ["window.addEventListener('scroll', this.onScroll());\n$('#" + elementWord + randomInt.toString() + "').bind('click', this.onClick());\n"]
+    }
+
+    functions(elementWord, randomInt) {
+        return ["onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}","onScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + elementWord + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + elementWord + randomInt.toString() + "').fadeOut();\n}\n}"]
+    }
+
+    styles(elementWord, randomInt) {
+        return ["#" + elementWord + randomInt.toString() + " {\n" + this.cssText + "\n}"]
     }
 
     codeAvaiable() {
