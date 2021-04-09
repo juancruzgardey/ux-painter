@@ -40,27 +40,60 @@ class CodeView extends React.Component {
                         }
                     }
                     for (let j = 0; j < formElementRefactoring.length; j++) {
-                        if (formElementRefactoring[j].xPath == formElementXpath) {
+                        if (formElementRefactoring[j].formXpath == formElementXpath) {
                             existsInFormElementRefactoring = true;
                             elementIndexInFormElementRefactoring = j;
                             break;
                         }
                     }
-                    let formElement = new XPathInterpreter().getSingleElementByXpath(formElementXpath, document.body);
+                    let bodyClone = document.body.cloneNode(true);          //evito modificar el verdadero body
+                    let elementXpath = refactoring.getElementXpath();
+                    let elementInClone = new XPathInterpreter().getSingleElementByXpath(elementXpath, bodyClone);
+                    let formElementInClone = new XPathInterpreter().getSingleElementByXpath(formElementXpath, bodyClone);
+                    elementInClone.style = null;
+                    elementInClone.setAttribute("id", elementWord + randomInt.toString());
                     if (existsInFormElementRefactoring) {
-                        formElementRefactoring[elementIndexInFormElementRefactoring].imports = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].imports, refactoring.imports);
-                        formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts);
-                        formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions);
-                        formElementRefactoring[elementIndexInFormElementRefactoring].styles = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].styles, refactoring.styles);
+                        let xPathModified = false;
+                        let indexXpathModified;
+                        let elementXpathId;
+                        elementInClone = new XPathInterpreter().getSingleElementByXpath(elementXpath, formElementRefactoring[elementIndexInFormElementRefactoring].elementBody);
+                        formElementInClone = new XPathInterpreter().getSingleElementByXpath(formElementXpath, formElementRefactoring[elementIndexInFormElementRefactoring].elementBody);
+                        for (let i = 0; i < formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.length; i++) {
+                            if (formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[i].elementXpath == elementXpath) {
+                                xPathModified = true;
+                                indexXpathModified = i;
+                                elementXpathId = formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[i].numberId;
+                                break;
+                            }
+                        }
+                        formElementRefactoring[elementIndexInFormElementRefactoring].imports = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].imports, refactoring.imports());
+                        if (xPathModified) {
+                            formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
+                            formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
+                            formElementRefactoring[elementIndexInFormElementRefactoring].styles = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].styles, refactoring.styles(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
+                        }
+                        else {
+                            elementInClone.style = null;
+                            elementInClone.setAttribute("id", elementWord + randomInt.toString());
+                            // formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
+                            formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = formElementInClone.outerHTML;
+                            formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.push({ elementXpath, numberId: randomInt });
+                            formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts(elementWord, randomInt));
+                            formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, randomInt));
+                            formElementRefactoring[elementIndexInFormElementRefactoring].styles = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].styles, refactoring.styles(elementWord, randomInt));
+                        }
                     }
                     else {
-                        imports = generateArray([], refactoring.imports);
-                        mounts = generateArray([], refactoring.mounts);
-                        functions = generateArray([], refactoring.functions);
-                        styles = generateArray([], refactoring.styles);
+                        imports = generateArray([], refactoring.imports());
+                        mounts = generateArray([], refactoring.mounts(elementWord, randomInt));
+                        functions = generateArray([], refactoring.functions(elementWord, randomInt));
+                        styles = generateArray([], refactoring.styles(elementWord, randomInt));
+                        let elementsModified = generateArray([], [{ elementXpath, numberId: randomInt }])
                         const form = {
-                            xPath: formElementXpath,
-                            stringFormElement: formElement.outerHTML,
+                            formXpath: formElementXpath,
+                            elementBody: bodyClone,
+                            stringFormElement: formElementInClone.outerHTML,
+                            elementsModified: elementsModified,
                             imports: imports,
                             mounts: mounts,
                             functions: functions,
