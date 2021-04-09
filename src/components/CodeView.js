@@ -4,10 +4,15 @@ import VersionListView from "./VersionListView";
 import { CodeBlock, CopyBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 import { generateComponent, generateStyle, generateArray } from "../js/helpers";
+var HTMLtoJSX = require('htmltojsx');
 
 class CodeView extends React.Component {
 
     render() {
+        var converter = new HTMLtoJSX({
+            createClass: false,
+            outputClassName: 'TestComponent'
+          });
         // let formRef = [];
         // let formRefCodes = [];
         // let formRefImports = [];
@@ -76,7 +81,7 @@ class CodeView extends React.Component {
                             elementInClone.style = null;
                             elementInClone.setAttribute("id", elementWord + randomInt.toString());
                             // formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
-                            formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = formElementInClone.outerHTML;
+                            formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = converter.convert(formElementInClone.outerHTML);;
                             formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.push({ elementXpath, numberId: randomInt });
                             formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts(elementWord, randomInt));
                             formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, randomInt));
@@ -89,10 +94,11 @@ class CodeView extends React.Component {
                         functions = generateArray([], refactoring.functions(elementWord, randomInt));
                         styles = generateArray([], refactoring.styles(elementWord, randomInt));
                         let elementsModified = generateArray([], [{ elementXpath, numberId: randomInt }])
+                        var output = converter.convert(formElementInClone.outerHTML);
                         const form = {
                             formXpath: formElementXpath,
                             elementBody: bodyClone,
-                            stringFormElement: formElementInClone.outerHTML,
+                            stringFormElement: output,
                             elementsModified: elementsModified,
                             imports: imports,
                             mounts: mounts,
@@ -128,10 +134,11 @@ class CodeView extends React.Component {
                         functions = generateArray([], refactoring.functions(elementWord, randomInt));
                         styles = generateArray([], refactoring.styles(elementWord, randomInt));
                         elementClone.setAttribute("id", elementWord + randomInt.toString());
+                        var output = converter.convert(elementClone.outerHTML);
                         const elementData = {
                             name: refactoring.constructor.asString(),
                             xPath: refactoring.getElementXpath(),
-                            stringElement: elementClone.outerHTML,
+                            stringElement: output,
                             numberId: randomInt,
                             imports: imports,
                             mounts: mounts,
