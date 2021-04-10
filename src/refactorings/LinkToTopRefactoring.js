@@ -62,11 +62,11 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     //
 
     stringRefactoring(elementWord,randomInt) {
-        return "<a id='" + elementWord + randomInt.toString() + "'></a>"
+        return "<a id='" + elementWord + randomInt.toString() + "' style='" + this.cssText + "'></a>"
     }
 
     imports() {
-        return ["import $ from 'jquery';"]
+        return ["import $ from 'jquery';\n"]
     }
 
     mounts(elementWord, randomInt) {
@@ -74,7 +74,7 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
     }
 
     functions(elementWord, randomInt) {
-        return ["onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}","onScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + elementWord + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + elementWord + randomInt.toString() + "').fadeOut();\n}\n}"]
+        return ["onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}\nonScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + elementWord + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + elementWord + randomInt.toString() + "').fadeOut();\n}\n}\n"]
     }
 
     styles(elementWord, randomInt) {

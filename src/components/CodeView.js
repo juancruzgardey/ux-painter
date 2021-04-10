@@ -55,7 +55,6 @@ class CodeView extends React.Component {
                     let elementXpath = refactoring.getElementXpath();
                     let elementInClone = new XPathInterpreter().getSingleElementByXpath(elementXpath, bodyClone);
                     let formElementInClone = new XPathInterpreter().getSingleElementByXpath(formElementXpath, bodyClone);
-                    elementInClone.style = null;
                     elementInClone.setAttribute("id", elementWord + randomInt.toString());
                     if (existsInFormElementRefactoring) {
                         let xPathModified = false;
@@ -78,7 +77,6 @@ class CodeView extends React.Component {
                             formElementRefactoring[elementIndexInFormElementRefactoring].styles = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].styles, refactoring.styles(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
                         }
                         else {
-                            elementInClone.style = null;
                             elementInClone.setAttribute("id", elementWord + randomInt.toString());
                             // formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
                             formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = converter.convert(formElementInClone.outerHTML);;
@@ -112,7 +110,6 @@ class CodeView extends React.Component {
                     let existsInElementRefactoring = false;
                     let elementIndexInElementRefactoring = null;
                     let elementClone = element.cloneNode(true);
-                    elementClone.style = null;
                     for (let j = 0; j < singleElementRefactoring.length; j++) {
                         if (singleElementRefactoring[j].xPath == refactoring.getElementXpath()) {
                             existsInElementRefactoring = true;
@@ -158,9 +155,10 @@ class CodeView extends React.Component {
                     }
                 }
                 if (!existsInNotElementRefactoring) {
+                    var output = converter.convert(refactoring.stringRefactoring(elementWord, randomInt));
                     let notEelement = {
                         name: refactoring.constructor.asString(),
-                        stringRefactoring: refactoring.stringRefactoring(elementWord, randomInt),
+                        stringRefactoring: output,
                         imports: refactoring.imports(),
                         mounts: refactoring.mounts(elementWord, randomInt),
                         functions: refactoring.functions(elementWord, randomInt),
@@ -169,271 +167,78 @@ class CodeView extends React.Component {
                     notElementRefactoring.push(notEelement)
                 }
             }
-            //     let style = (refactoring.getStyle()).targetElement;
-            //     let stringStyle = "";
-            //     const styleToString = (style) => {
-            //         return Object.keys(style).reduce((acc, key) => (
-            //             acc + key.split(/(?=[A-Z])/).join('-').toLowerCase() + ':' + style[key] + ';'
-            //         ), '');
-            //     };
-            //     if (style != null)
-            //         stringStyle += styleToString(style);
-            //     let randomInt = Math.floor(Math.random() * 9999) + 1;
-            //     let auxString = "example";
-            //     let code = null;
-            //     let imports = null;
-            //     if (typeof refactoring.code === "function") {
-            //         code = refactoring.code(auxString, randomInt);
-            //     }
-            //     if (typeof refactoring.imports === "function") {
-            //         imports = refactoring.imports();
-            //     }
-            //     if (refactoring.isOnElement()) {
-            //         let element = refactoring.getElement();
-            //         element.setAttribute("id", auxString + randomInt.toString());
-            //         if (refactoring.getElementXpath().includes("form")) {
-            //             if (typeof refactoring.hasInside === "function") {
-            //                 let formElementXpath = refactoring.getElementXpath();
-            //                 if (!formRef.includes(formElementXpath))
-            //                     formRef.push(formElementXpath);
-            //                 const findI = (auxelement) => auxelement == formElementXpath;
-            //                 let indexaux = formRef.findIndex(findI);
-            //                 let requiredImputs = refactoring.getRequiredInputs();
-            //                 let randomIntCollection = [];
-            //                 for (let i = 0; i < requiredImputs.length; i++) {
-            //                     let randomIntAux = Math.floor(Math.random() * 9999) + 1;
-            //                     requiredImputs[i].setAttribute("id", auxString + randomIntAux.toString());
-            //                     randomIntCollection.push(randomIntAux);
-            //                 }
-            //                 let functions = refactoring.functions(auxString, randomIntCollection, randomInt);
-            //                 if (formRefFunctions[indexaux] == null)
-            //                     formRefFunctions[indexaux] = []
-            //                 formRefFunctions[indexaux].push(functions);
-            //                 if (formRefCodes[indexaux] == null)
-            //                     formRefCodes[indexaux] = []
-            //                 formRefCodes[indexaux].push(code);
-            //                 if (typeof refactoring.imports === "function") {
-            //                     if (formRefImports[indexaux] == null)
-            //                         formRefImports[indexaux] = [];
-            //                     if (!formRefImports[indexaux].includes(imports))
-            //                         formRefImports[indexaux].push(imports);
-            //                 }
-            //             }
-            //             else {
-            //                 let separated = refactoring.getElementXpath().split("/");
-            //                 for (let i = 0; i < separated.length; i++) {
-            //                     if (separated[i].includes('form')) {
-            //                         let formIndex = refactoring.getElementXpath().indexOf(separated[i]);
-            //                         let formElementXpath = refactoring.getElementXpath().substring(0, formIndex + separated[i].length);
-            //                         if (!formRef.includes(formElementXpath))
-            //                             formRef.push(formElementXpath)
-            //                         const findI = (auxelement) => auxelement == formElementXpath;
-            //                         let indexaux = formRef.findIndex(findI);
-            //                         if (typeof refactoring.code === "function") {
-            //                             if (formRefCodes[indexaux] == null)
-            //                                 formRefCodes[indexaux] = []
-            //                             formRefCodes[indexaux].push(code);
-            //                         }
-            //                         if (typeof refactoring.imports === "function") {
-            //                             if (formRefImports[indexaux] == null)
-            //                                 formRefImports[indexaux] = [];
-            //                             if (!formRefImports[indexaux].includes(imports))
-            //                                 formRefImports[indexaux].push(imports);
-            //                         }
-            //                         break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //         else {
-            //             let aux = {
-            //                 name: refactoring.constructor.asString(),
-            //                 xPath: refactoring.getElementXpath(),
-            //                 code: [],
-            //                 imports: [],
-            //                 styles: []
-            //             }
-            //             if (!normalXpaths.includes(refactoring.getElementXpath())) {
-            //                 normalXpaths.push(refactoring.getElementXpath());
-            //                 if (code != null)
-            //                     aux.code.push(code)
-            //                 if (imports != null)
-            //                     aux.imports.push(imports)
-            //                 if (stringStyle != "")
-            //                     aux.styles.push(generateStyle(auxString, randomInt, stringStyle));
-            //                 normalRef.push(aux);
-            //             }
-            //             else {
-            //                 for (let i = 0; i < normalRef.length; i++) {
-            //                     if (normalRef[i].xPath == refactoring.getElementXpath()) {
-            //                         normalRef[i].name += " & " + aux.name;
-            //                         if (code != null) {
-            //                             normalRef[i].code.push(code);
-            //                         }
-            //                         if (imports != null) {
-            //                             normalRef[i].imports.push(imports)
-            //                         }
-            //                         if (stringStyle != "") {
-            //                             stringStyle += generateStyle(auxString, randomInt, stringStyle);
-            //                             normalRef[i].styles.push(stringStyle);
-            //                         }
-            //                         break;
-            //                     }
-            //                 }
-            //             }
-            //         }
-            //     }
-            //     else {
-            //         let aux = {
-            //             name: refactoring.constructor.asString(),
-            //             functions: refactoring.functions(auxString, randomInt),
-            //             mount: refactoring.mount(auxString, randomInt),
-            //             imports: refactoring.imports(),
-            //             render: code,
-            //             style: generateStyle(auxString, randomInt, refactoring.cssText)
-            //         }
-            //         notElements.push(aux)
-            //     }
         });
         console.log(singleElementRefactoring)
         console.log(formElementRefactoring)
         console.log(notElementRefactoring)
-        // const notElementsRefactorings = notElements.map(refactoring => {
-        //     let imports = refactoring.imports;
-        //     let text = generateComponent(imports, refactoring.mount, refactoring.render, refactoring.functions)
-        //     return (
-        //         <React.Fragment>
-        //             <div className='row'>
-        //                 <p className="col-12">{refactoring.name}:</p>
-        //             </div>
-        //             <div className="row">
-        //                 <div className="col-12 mb-3">
-        //                     <CodeBlock
-        //                         text={text}
-        //                         language="javascript"
-        //                         theme={dracula}
-        //                     />
-        //                 </div>
-        //             </div>
-        //             <div className='row'>
-        //                 <p className="col-12">Estilo:</p>
-        //             </div>
-        //             <div className="row">
-        //                 <div className="col-12 mb-3">
-        //                     <CodeBlock
-        //                         text={refactoring.style}
-        //                         language="javascript"
-        //                         theme={dracula}
-        //                     />
-        //                 </div>
-        //             </div>
-        //             <hr className="m-0"></hr>
-        //         </React.Fragment>
-        //     )
-        // });
-        // const normalRefactorings = normalRef.map(refactoring => {
-        //     let style = "";
-        //     if (refactoring.styles.length != 0) {
-        //         refactoring.styles.map(style2 => {
-        //             style += style2;
-        //         })
-        //     }
-        //     let element = new XPathInterpreter().getSingleElementByXpath(refactoring.xPath, document.body);
-        //     let theCode = "";
-        //     let imports = "";
-        //     let functions = "";
-        //     if (!refactoring.imports.length == 0) {
-        //         refactoring.imports.map(imports2 => {
-        //             imports += imports2 + "\n";
-        //         })
-        //     }
-        //     if (!refactoring.code.length == 0) {
-        //         refactoring.code.map(code => {
-        //             theCode += code + "\n"
-        //         })
-        //     }
-        //     let text = generateComponent(imports, theCode, element.outerHTML, functions);
-        //     return (
-        //         <React.Fragment>
-        //             <div className='row'>
-        //                 <p className="col-12">{refactoring.name}:</p>
-        //             </div>
-        //             <div className="row">
-        //                 <div className="col-12 mb-3">
-        //                     <CodeBlock
-        //                         text={text}
-        //                         language="jsx"
-        //                         theme={dracula}
-        //                     />
-        //                 </div>
-        //             </div>
-        //             {style != "" ?
-        //                 <React.Fragment>
-        //                     <div className='row'>
-        //                         <p className="col-12">Estilo:</p>
-        //                     </div>
-        //                     <div className="row">
-        //                         <div className="col-12 mb-3">
-        //                             <CodeBlock
-        //                                 text={style}
-        //                                 language="javascript"
-        //                                 theme={dracula}
-        //                             />
-        //                         </div>
-        //                     </div>
-        //                 </React.Fragment>
-        //                 : null}
-        //             <hr className="m-0"></hr>
-        //         </React.Fragment>
-        //     )
-        // });
-        // const formRefactorings = formRef.map((refactoring, i) => {
-        //     let element = new XPathInterpreter().getSingleElementByXpath(refactoring, document.body);
-        //     let theCode = "";
-        //     let imports = "";
-        //     let functions = "";
-        //     if (formRefCodes[i] != null) {
-        //         formRefCodes[i].map(codaso => {
-        //             theCode += codaso + "\n"
-        //         })
-        //     }
-        //     if (formRefImports[i] != null) {
-        //         formRefImports[i].map(imports2 => {
-        //             imports += imports2 + "\n"
-        //         })
-        //     }
-        //     if (formRefFunctions[i] != null) {
-        //         formRefFunctions[i].map(functions2 => {
-        //             functions += functions2 + "\n"
-        //         })
-        //     }
-        //     let text = generateComponent(imports, theCode, element.outerHTML, functions);
-        //     return (
-        //         <React.Fragment>
-        //             <div className='row'>
-        //                 <p className="col-12">Form #{i + 1}:</p>
-        //             </div>
-        //             <div className="row">
-        //                 <div className="col-12 mb-3">
-        //                     <CodeBlock
-        //                         text={text}
-        //                         language="jsx"
-        //                         theme={dracula}
-        //                     />
-        //                 </div>
-        //             </div>
-        //             <hr className="m-0"></hr>
-        //         </React.Fragment>
-        //     )
-        // });
+        const notElementsRefactorings = notElementRefactoring.map(refactoring => {
+            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringRefactoring);
+            return (
+                <React.Fragment>
+                    <div className='row'>
+                        <p className="col-12">{refactoring.name}:</p>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 mb-3">
+                            <CodeBlock
+                                text={text}
+                                language="javascript"
+                                theme={dracula}
+                            />
+                        </div>
+                    </div>
+                    <hr className="m-0"></hr>
+                </React.Fragment>
+            )
+        });
+        const normalRefactorings = singleElementRefactoring.map(refactoring => {
+            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringElement);
+            return (
+                <React.Fragment>
+                    <div className='row'>
+                        <p className="col-12">{refactoring.name}:</p>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 mb-3">
+                            <CodeBlock
+                                text={text}
+                                language="jsx"
+                                theme={dracula}
+                            />
+                        </div>
+                    </div>
+                    <hr className="m-0"></hr>
+                </React.Fragment>
+            )
+        });
+        const formRefactorings = formElementRefactoring.map((refactoring, i) => {
+            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringFormElement);
+            return (
+                <React.Fragment>
+                    <div className='row'>
+                        <p className="col-12">Form #{i + 1}:</p>
+                    </div>
+                    <div className="row">
+                        <div className="col-12 mb-3">
+                            <CodeBlock
+                                text={text}
+                                language="jsx"
+                                theme={dracula}
+                            />
+                        </div>
+                    </div>
+                    <hr className="m-0"></hr>
+                </React.Fragment>
+            )
+        });
         return (
             <div className="container">
                 <div className="row">
                     <h5 className='text-center col-12'>Refactorings Code</h5>
                 </div>
-                {/* {notElementsRefactorings}
+                {notElementsRefactorings}
                 {normalRefactorings}
-                {formRefactorings} */}
+                {formRefactorings}
                 <div className={'row uxpainter-long-row'}>
                     <div className={'col-5'}>
                         <Link className={'btn btn-secondary'} component={VersionListView}><i className="fas fa-arrow-circle-left"></i> Back</Link>

@@ -80,11 +80,11 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
     //
 
     imports() {
-        return ["import $ from 'jquery';","import 'jquery-mask-plugin/dist/jquery.mask.min';"]
+        return ["import $ from 'jquery';\n","import 'jquery-mask-plugin/dist/jquery.mask.min';\n"]
     }
 
     mounts(elementWord, randomInt) {
-        return ["$('#" + elementWord + randomInt.toString() + "').mask('" + this.getFormatString() + "');"]
+        return ["$('#" + elementWord + randomInt.toString() + "').mask('" + this.getFormatString() + "');\n"]
     }
     
     codeAvaiable() {

@@ -86,8 +86,12 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return "Provide client validation to a form when the user submits it. Mandatory fields must be indicated";
     }
 
-    code(text, randomInt) {
-        return "$('#" + text + randomInt.toString() + "').bind('submit', this.onSubmit);"
+    imports() {
+        return ["import $ from 'jquery';\n"]
+    }
+
+    mounts(text, randomInt) {
+        return ["$('#" + text + randomInt.toString() + "').bind('submit', this.onSubmit);\n"]
     }
 
     functions(text,randomIntCollection, randomInt) {
@@ -96,10 +100,6 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
             aux += "if (!$('#" + text + integer.toString() + "') || !$('#" + text + integer.toString() + "').val()) {\n$('#" + text + integer.toString() + "').css('border', 'red solid 1px');\ninvalidInputs = true;\n}\n";
         })
         return "onSubmit(event) {\nlet invalidInputs = false;\n" + aux + "if (invalidInputs) {\nevent.preventDefault();\nevent.stopImmediatePropagation();\nreturn false;\n}\nelse {\n$('#" + text + randomInt.toString() + "')[0].submit();\n}\n}\n"
-    }
-
-    imports() {
-        return "import $ from 'jquery';"
     }
 
     codeAvaiable() {

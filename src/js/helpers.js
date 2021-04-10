@@ -1,6 +1,18 @@
-export function generateComponent(imports, tips, content, functions) {
+export function generateComponent(imports, mounts, functions, stringRefactoring) {
+    let importsTxt = "";
+    let mountsTxt = "";
+    let functionsTxt = "";
+    imports.map( imp => {
+        importsTxt += imp;
+    })
+    mounts.map( mount => {
+        mountsTxt += mount;
+    })
+    functions.map( func => {
+        functionsTxt += func;
+    })
     return (
-        "import React, {Component} from 'react';\n" + imports + "\nclass Element extends Component {\n\ncomponentDidMount() {\n" + tips + "}\n\n" + functions + "render() {\nreturn (\n" + content + "\n);\n}\n}\nexport default Element;"
+        "import React, {Component} from 'react';\n" + importsTxt + "\nclass Element extends Component {\n\ncomponentDidMount() {\n" + mountsTxt + "}\n\n" + functionsTxt + "render() {\nreturn (\n" + stringRefactoring + "\n);\n}\n}\nexport default Element;"
     )
 }
 
