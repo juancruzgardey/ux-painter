@@ -4,22 +4,17 @@ import VersionListView from "./VersionListView";
 import { CodeBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
 import { generateComponent, generateArray } from "../js/helpers";
+import { Accordion, Card, Button } from 'react-bootstrap';
+
 var HTMLtoJSX = require('htmltojsx');
 
 class CodeView extends React.Component {
-
     render() {
+        var counter = 0;
         var converter = new HTMLtoJSX({
             createClass: false,
             outputClassName: 'TestComponent'
         });
-        // let formRef = [];
-        // let formRefCodes = [];
-        // let formRefImports = [];
-        // let formRefFunctions = [];
-        // let normalRef = [];
-        // let normalXpaths = [];
-        // let notElements = [];
         let singleElementRefactoring = [];
         let formElementRefactoring = [];
         let notElementRefactoring = [];
@@ -42,6 +37,7 @@ class CodeView extends React.Component {
                                 formExistInside = true;
                                 indexIfExists = i;
                                 bodyClone = formElementRefactoring[i].elementBody;
+                                formElement = new XPathInterpreter().getSingleElementByXpath(refactoring.getElementXpath(), formElementRefactoring[i].elementBody);
                                 if (formElementRefactoring[i].formXpathRandomInt != undefined) {
                                     randomInt = formElementRefactoring[i].formXpathRandomInt;
                                 }
@@ -57,7 +53,7 @@ class CodeView extends React.Component {
                                 let modXpath = refactoring.getElementXpath() + xpath.substring(2);
                                 let xPathFound = false;
                                 let randomIntExists = null;
-                                for (let i = 0; formElementRefactoring[indexIfExists].elementsModified.length; i++) {
+                                for (let i = 0; i < formElementRefactoring[indexIfExists].elementsModified.length; i++) {
                                     if (formElementRefactoring[indexIfExists].elementsModified[i].elementXpath == modXpath) {
                                         xPathFound = true;
                                         randomIntExists = formElementRefactoring[indexIfExists].elementsModified[i].numberId;
@@ -72,7 +68,7 @@ class CodeView extends React.Component {
                                 else {
                                     let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
                                     preFunctions += refactoring.preFunctions(elementWord, auxRandomInt);
-                                    elements.push({elementXpath: modXpath, numberId: auxRandomInt});
+                                    elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
                                     auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
                                 }
                             })
@@ -91,7 +87,7 @@ class CodeView extends React.Component {
                                 let modXpath = refactoring.getElementXpath() + xpath.substring(2);
                                 preFunctions += refactoring.preFunctions(elementWord, auxRandomInt);
                                 auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
-                                elements.push({elementXpath: modXpath, numberId: auxRandomInt});
+                                elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
                             })
                             let elementsModified = generateArray([], elements);
                             imports = generateArray([], refactoring.imports());
@@ -243,58 +239,72 @@ class CodeView extends React.Component {
             let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringRefactoring);
             return (
                 <React.Fragment>
-                    <div className='row'>
-                        <p className="col-12">{refactoring.name}:</p>
-                    </div>
-                    <div className="row">
-                        <div className="col-12 mb-3">
-                            <CodeBlock
-                                text={text}
-                                language="javascript"
-                                theme={dracula}
-                            />
-                        </div>
-                    </div>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey={counter.toString()}>
+                                {refactoring.name}
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={counter.toString()}>
+                            <Card.Body>
+                                <CodeBlock
+                                    text={text}
+                                    language="jsx"
+                                    theme={dracula}
+                                />
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
                     <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });
         const normalRefactorings = singleElementRefactoring.map(refactoring => {
+            counter++;
             let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringElement);
             return (
                 <React.Fragment>
-                    <div className='row'>
-                        <p className="col-12">{refactoring.name}:</p>
-                    </div>
-                    <div className="row">
-                        <div className="col-12 mb-3">
-                            <CodeBlock
-                                text={text}
-                                language="jsx"
-                                theme={dracula}
-                            />
-                        </div>
-                    </div>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey={counter.toString()}>
+                                {refactoring.name}
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={counter.toString()}>
+                            <Card.Body>
+                                <CodeBlock
+                                    text={text}
+                                    language="jsx"
+                                    theme={dracula}
+                                />
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
                     <hr className="m-0"></hr>
                 </React.Fragment>
             )
         });
         const formRefactorings = formElementRefactoring.map((refactoring, i) => {
+            counter++;
             let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringFormElement);
             return (
                 <React.Fragment>
-                    <div className='row'>
-                        <p className="col-12">Form #{i + 1}:</p>
-                    </div>
-                    <div className="row">
-                        <div className="col-12 mb-3">
-                            <CodeBlock
-                                text={text}
-                                language="jsx"
-                                theme={dracula}
-                            />
-                        </div>
-                    </div>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey={counter.toString()}>
+                                Form #{i + 1}
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={counter.toString()}>
+                            <Card.Body>
+                                <CodeBlock
+                                    text={text}
+                                    language="jsx"
+                                    theme={dracula}
+                                />
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
                     <hr className="m-0"></hr>
                 </React.Fragment>
             )
@@ -304,9 +314,11 @@ class CodeView extends React.Component {
                 <div className="row">
                     <h5 className='text-center col-12'>Refactorings Code</h5>
                 </div>
-                {notElementsRefactorings}
-                {normalRefactorings}
-                {formRefactorings}
+                <Accordion>
+                    {formRefactorings}
+                    {normalRefactorings}
+                    {notElementsRefactorings}
+                </Accordion>
                 <div className={'row uxpainter-long-row'}>
                     <div className={'col-5'}>
                         <Link className={'btn btn-secondary'} component={VersionListView}><i className="fas fa-arrow-circle-left"></i> Back</Link>
