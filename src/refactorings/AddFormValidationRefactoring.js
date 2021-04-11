@@ -94,12 +94,12 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return ["$('#" + text + randomInt.toString() + "').bind('submit', this.onSubmit);\n"]
     }
 
-    functions(text,randomIntCollection, randomInt) {
-        let aux = "";
-        randomIntCollection.map(integer => {
-            aux += "if (!$('#" + text + integer.toString() + "') || !$('#" + text + integer.toString() + "').val()) {\n$('#" + text + integer.toString() + "').css('border', 'red solid 1px');\ninvalidInputs = true;\n}\n";
-        })
-        return "onSubmit(event) {\nlet invalidInputs = false;\n" + aux + "if (invalidInputs) {\nevent.preventDefault();\nevent.stopImmediatePropagation();\nreturn false;\n}\nelse {\n$('#" + text + randomInt.toString() + "')[0].submit();\n}\n}\n"
+    preFunctions(text, randomInt) {
+        return "if (!$('#" + text + randomInt.toString() + "') || !$('#" + text + randomInt.toString() + "').val()) {\n$('#" + text + randomInt.toString() + "').css('border', 'red solid 1px');\ninvalidInputs = true;\n}\n";
+    }
+
+    functions(text, randomInt, preFunctions) {
+        return ["onSubmit(event) {\nlet invalidInputs = false;\n" + preFunctions + "if (invalidInputs) {\nevent.preventDefault();\nevent.stopImmediatePropagation();\nreturn false;\n}\nelse {\n$('#" + text + randomInt.toString() + "')[0].submit();\n}\n}\n"]
     }
 
     codeAvaiable() {

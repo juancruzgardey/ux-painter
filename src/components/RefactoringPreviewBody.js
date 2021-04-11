@@ -36,9 +36,6 @@ class RefactoringPreviewBody extends React.Component {
         if (this.state.currentPreview) {
             this.state.currentPreview.setURL(document.location.href);
             window.refactoringManager.addDirtyRefactoring(this.state.currentPreview);
-            console.log('jejo')
-            console.log(this.state.currentPreview)
-            console.log('joje')
             goTo(ExtendVersionView, {addingRefactoring: false});
         }
         else {

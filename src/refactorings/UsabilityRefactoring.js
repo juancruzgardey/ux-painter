@@ -165,6 +165,10 @@ class UsabilityRefactoring {
     styles(elementWord, randomInt) {
         return []
     }
+
+    hasInside() {
+        return false
+    }
 }
 
 export default UsabilityRefactoring;

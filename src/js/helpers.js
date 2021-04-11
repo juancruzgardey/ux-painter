@@ -16,12 +16,6 @@ export function generateComponent(imports, mounts, functions, stringRefactoring)
     )
 }
 
-export function generateStyle(text, randomInt, style) {
-    return (
-        "#" + text + randomInt.toString() + "{" + style + "}\n"
-    )
-}
-
 export function generateArray(old, newests) {
     newests.map( newest => {
         if (!old.includes(newest))
@@ -29,3 +23,9 @@ export function generateArray(old, newests) {
     })
     return old
 }
+
+// export function generateStyle(text, randomInt, style) {
+//     return (
+//         "#" + text + randomInt.toString() + "{" + style + "}\n"
+//     )
+// }
