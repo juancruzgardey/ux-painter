@@ -154,10 +154,6 @@ class UsabilityRefactoring {
         return []
     }
 
-    mounts(elementWord, randomInt) {
-        return []
-    }
-
     functions(elementWord, randomInt) {
         return []
     }

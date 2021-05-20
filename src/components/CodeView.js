@@ -192,12 +192,10 @@ class CodeView extends React.Component {
                         if (!singleElementRefactoring[elementIndexInElementRefactoring].name.includes(refactoring.constructor.asString()))
                             singleElementRefactoring[elementIndexInElementRefactoring].name += " & " + refactoring.constructor.asString();
                         singleElementRefactoring[elementIndexInElementRefactoring].imports = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].imports, refactoring.imports());
-                        singleElementRefactoring[elementIndexInElementRefactoring].mounts = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].mounts, refactoring.mounts(elementWord, singleElementRefactoring[elementIndexInElementRefactoring].numberId));
                         singleElementRefactoring[elementIndexInElementRefactoring].functions = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].functions, refactoring.functions(elementWord, singleElementRefactoring[elementIndexInElementRefactoring].numberId));
                     }
                     else {
                         imports = generateArray([], refactoring.imports());
-                        mounts = generateArray([], refactoring.mounts(elementWord, randomInt));
                         functions = generateArray([], refactoring.functions(elementWord, randomInt));
                         elementClone.setAttribute("id", elementWord + randomInt.toString());
                         var output = converter.convert(elementClone.outerHTML);
@@ -207,7 +205,6 @@ class CodeView extends React.Component {
                             stringElement: output,
                             numberId: randomInt,
                             imports: imports,
-                            mounts: mounts,
                             functions: functions,
                         }
                         singleElementRefactoring.push(elementData);
@@ -261,7 +258,7 @@ class CodeView extends React.Component {
         });
         const normalRefactorings = singleElementRefactoring.map(refactoring => {
             counter++;
-            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringElement);
+            let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringElement);
             return (
                 <React.Fragment>
                     <Card>

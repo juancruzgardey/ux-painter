@@ -17,7 +17,7 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return this.formatString;
     }
 
-    checkPreconditions () {
+    checkPreconditions() {
         return super.checkPreconditions() && this.getFormatString();
     }
 
@@ -43,7 +43,7 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
     getPlaceholder() {
         let placeholder = "";
         for (let i = 0; i < this.getFormatString().length; i++) {
-            if (["0","9","A","S"].indexOf(this.getFormatString()[i]) != -1) {
+            if (["0", "9", "A", "S"].indexOf(this.getFormatString()[i]) != -1) {
                 placeholder += "_";
             }
             else {
@@ -80,13 +80,13 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
     //
 
     imports() {
-        return ["import $ from 'jquery';\n","import 'jquery-mask-plugin/dist/jquery.mask.min';\n"]
+        return ["import $ from 'jquery';\n", "import 'jquery-mask-plugin/dist/jquery.mask.min';\n"]
     }
 
-    mounts(elementWord, randomInt) {
+    functions(elementWord, randomInt) {
         return ["$('#" + elementWord + randomInt.toString() + "').mask('" + this.getFormatString() + "');\n"]
     }
-    
+
     codeAvaiable() {
         return true
     }

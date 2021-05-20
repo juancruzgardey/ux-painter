@@ -59,12 +59,6 @@ class ResizeInputRefactoring extends UsabilityRefactoringOnElement {
         return "Change the length of a text field according to the average text length that is usually entered";
     }
 
-    //
-
-    styles(elementWord, randomInt) {
-        return ["#" + elementWord + randomInt.toString() + " {\nwidth: " + this.inputWidth + "px;\n}"]
-    }
-
     codeAvaiable() {
         return true
     }
