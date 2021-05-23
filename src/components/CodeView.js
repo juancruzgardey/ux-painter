@@ -3,7 +3,7 @@ import { Link } from "route-lite";
 import VersionListView from "./VersionListView";
 import { CodeBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
-import { generateComponent, generateArray } from "../js/helpers";
+import { generateComponent, generateArray, generateRequiredComponent } from "../js/helpers";
 import { Accordion, Card, Button } from 'react-bootstrap';
 
 var HTMLtoJSX = require('htmltojsx');
@@ -18,9 +18,15 @@ class CodeView extends React.Component {
         let singleElementRefactoring = [];
         let formElementRefactoring = [];
         let notElementRefactoring = [];
+
+        function addStr(str, index, stringToAdd) {
+            return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+        }
+
+
+
         window.refactoringManager.getCurrentVersion().getRefactorings().map(refactoring => {
             let imports;
-            let mounts;
             let functions;
             let elementWord = "example";
             let randomInt = Math.floor(Math.random() * 9999) + 1;
@@ -32,7 +38,7 @@ class CodeView extends React.Component {
                         let indexIfExists = null;
                         let bodyClone = document.body.cloneNode(true);
                         let formElement = new XPathInterpreter().getSingleElementByXpath(refactoring.getElementXpath(), bodyClone);
-                        for (let i = 0; formElementRefactoring.length; i++) {
+                        for (let i = 0; i < formElementRefactoring.length; i++) {
                             if (formElementRefactoring[i].formXpath == refactoring.getElementXpath()) {
                                 formExistInside = true;
                                 indexIfExists = i;
@@ -44,55 +50,57 @@ class CodeView extends React.Component {
                                 break;
                             }
                         }
-                        formElement.setAttribute("id", elementWord + randomInt.toString());     //para guardar
+                        //formElement.setAttribute("id", elementWord + randomInt.toString());     //para guardar
                         let requiredInputsXpaths = refactoring.getRequiredInputXpaths();
                         if (formExistInside) {
                             let elements = [];
-                            let preFunctions = "";
                             requiredInputsXpaths.map(xpath => {
-                                let modXpath = refactoring.getElementXpath() + xpath.substring(2);
-                                let xPathFound = false;
-                                let randomIntExists = null;
-                                for (let i = 0; i < formElementRefactoring[indexIfExists].elementsModified.length; i++) {
-                                    if (formElementRefactoring[indexIfExists].elementsModified[i].elementXpath == modXpath) {
-                                        xPathFound = true;
-                                        randomIntExists = formElementRefactoring[indexIfExists].elementsModified[i].numberId;
-                                        break;
+                                if (!formElementRefactoring[indexIfExists].requiredInputsXpaths.includes(xpath)) {
+                                    let modXpath = refactoring.getElementXpath() + xpath.substring(2);
+                                    let xPathFound = false;
+                                    let randomIntExists = null;
+                                    for (let i = 0; i < formElementRefactoring[indexIfExists].elementsModified.length; i++) {
+                                        if (formElementRefactoring[indexIfExists].elementsModified[i].elementXpath == modXpath) {
+                                            xPathFound = true;
+                                            randomIntExists = formElementRefactoring[indexIfExists].elementsModified[i].numberId;
+                                            break;
+                                        }
                                     }
-                                }
-                                let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
-                                if (xPathFound) {
-                                    preFunctions += refactoring.preFunctions(elementWord, randomIntExists);
-                                    auxElement.setAttribute("id", elementWord + randomIntExists.toString());
-                                }
-                                else {
-                                    let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
-                                    preFunctions += refactoring.preFunctions(elementWord, auxRandomInt);
-                                    elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
-                                    auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
+                                    let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
+                                    if (xPathFound) {
+                                        auxElement.setAttribute("id", elementWord + randomIntExists.toString());
+                                        formElementRefactoring[indexIfExists].requiredInputs.push(elementWord + randomIntExists.toString());
+                                    }
+                                    else {
+                                        let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
+                                        elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
+                                        auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
+                                        formElementRefactoring[indexIfExists].requiredInputs.push(elementWord + auxRandomInt.toString());
+                                    }
+                                    formElementRefactoring[indexIfExists].requiredInputsXpaths.push(xpath)
                                 }
                             })
                             formElementRefactoring[indexIfExists].elementsModified = generateArray(formElementRefactoring[indexIfExists].elementsModified, elements);
                             formElementRefactoring[indexIfExists].imports = generateArray(formElementRefactoring[indexIfExists].imports, refactoring.imports());
-                            formElementRefactoring[indexIfExists].mounts = generateArray(formElementRefactoring[indexIfExists].mounts, refactoring.mounts(elementWord, randomInt));
-                            formElementRefactoring[indexIfExists].functions = generateArray(formElementRefactoring[indexIfExists].functions, refactoring.functions(elementWord, randomInt, preFunctions));
                             formElementRefactoring[indexIfExists].stringFormElement = converter.convert(formElement.outerHTML);
+                            formElementRefactoring[indexIfExists].required = true
                         }
                         else {
                             let elements = [];
-                            let preFunctions = "";
+                            let requiredInputs = []
+                            let requiredInputsXpaths = []
                             requiredInputsXpaths.map(xpath => {
                                 let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
                                 let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
                                 let modXpath = refactoring.getElementXpath() + xpath.substring(2);
-                                preFunctions += refactoring.preFunctions(elementWord, auxRandomInt);
                                 auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
+                                requiredInputs.push(elementWord + auxRandomInt.toString());
                                 elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
+                                requiredInputsXpaths.push(xpath)
                             })
                             let elementsModified = generateArray([], elements);
                             imports = generateArray([], refactoring.imports());
-                            mounts = generateArray([], refactoring.mounts(elementWord, randomInt));
-                            functions = generateArray([], refactoring.functions(elementWord, randomInt, preFunctions));
+                            functions = [];
                             var output = converter.convert(formElement.outerHTML);
                             const form = {
                                 formXpath: refactoring.getElementXpath(),
@@ -100,8 +108,10 @@ class CodeView extends React.Component {
                                 stringFormElement: output,
                                 elementsModified,
                                 imports,
-                                mounts,
-                                functions
+                                functions,
+                                required: true,
+                                requiredInputs,
+                                requiredInputsXpaths
                             }
                             formElementRefactoring.push(form);
                         }
@@ -146,21 +156,19 @@ class CodeView extends React.Component {
                             }
                             formElementRefactoring[elementIndexInFormElementRefactoring].imports = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].imports, refactoring.imports());
                             if (xPathModified) {
-                                formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
                                 formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
                             }
                             else {
                                 elementInClone.setAttribute("id", elementWord + randomInt.toString());
                                 // formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
-                                formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = converter.convert(formElementInClone.outerHTML);;
+                                formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = converter.convert(formElementInClone.outerHTML);
                                 formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.push({ elementXpath, numberId: randomInt });
-                                formElementRefactoring[elementIndexInFormElementRefactoring].mounts = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].mounts, refactoring.mounts(elementWord, randomInt));
                                 formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, randomInt));
                             }
                         }
                         else {
+                            let requiredInputsXpaths = []
                             imports = generateArray([], refactoring.imports());
-                            mounts = generateArray([], refactoring.mounts(elementWord, randomInt));
                             functions = generateArray([], refactoring.functions(elementWord, randomInt));
                             let elementsModified = generateArray([], [{ elementXpath, numberId: randomInt }])
                             var output = converter.convert(formElementInClone.outerHTML);
@@ -170,14 +178,16 @@ class CodeView extends React.Component {
                                 stringFormElement: output,
                                 elementsModified: elementsModified,
                                 imports: imports,
-                                mounts: mounts,
                                 functions: functions,
+                                required: false,
+                                requiredInputs: [],
+                                requiredInputsXpaths
                             };
                             formElementRefactoring.push(form);
                         }
                     }
                 }
-                else {
+                else {  //FUNCIONANDO
                     let existsInElementRefactoring = false;
                     let elementIndexInElementRefactoring = null;
                     let elementClone = element.cloneNode(true);
@@ -199,6 +209,7 @@ class CodeView extends React.Component {
                         functions = generateArray([], refactoring.functions(elementWord, randomInt));
                         elementClone.setAttribute("id", elementWord + randomInt.toString());
                         var output = converter.convert(elementClone.outerHTML);
+                        console.log(output);
                         const elementData = {
                             name: refactoring.constructor.asString(),
                             xPath: refactoring.getElementXpath(),
@@ -211,7 +222,7 @@ class CodeView extends React.Component {
                     }
                 }
             }
-            else {
+            else {  //IGNORAMOS
                 let existsInNotElementRefactoring = false;
                 for (let j = 0; j < notElementRefactoring.length; j++) {
                     if (notElementRefactoring[j].name == refactoring.constructor.asString()) {
@@ -281,9 +292,80 @@ class CodeView extends React.Component {
                 </React.Fragment>
             )
         });
-        const formRefactorings = formElementRefactoring.map((refactoring, i) => {
+        const formRefactorings = 
+        console.log(formElementRefactoring)
+        formElementRefactoring.map((refactoring, i) => {
             counter++;
-            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringFormElement);
+
+            let output = refactoring.stringFormElement.replaceAll("<input", "@@@<input");
+            let test = output.split("@@@");
+            let aux = [];
+            let suma = ""
+            test.forEach((val, i) => {
+                if (val.includes("<form") && refactoring.required) {
+                    let sum = "";
+                    val = val.replaceAll(">", "@@@>");
+                    let cut = val.split("@@@");
+                    cut[0] += " onSubmit={(e) => { onSubmit(e);}}";
+                    cut.forEach((c) => {
+                        sum += c;
+                    })
+                    val = sum;
+                }
+                if (!val.includes("type=\"submit\"") && !val.includes("type=\"reset\"") && !val.includes("<form")) {
+                    val = val.replaceAll("/>", "@@@/>");
+                    let aux2 = val.split("@@@");
+                    aux2.forEach((val2, i2) => {
+                        if (i2 == 0) {
+                            let randomInt;
+                            let defValue = "";
+                            if (val2.includes("defaultValue=")) {
+                                let aux4 = val2.split("defaultValue=\"");
+                                let aux5 = aux4[1].split("\"");
+                                defValue = aux5[0];
+                            }
+                            if (val2.includes(" id=\"")) {
+                                let aux3 = val2.split(" id=\"");
+                                aux3 = aux3[1].split("\"");
+                                randomInt = aux3[0];
+                                if (refactoring.requiredInputs.includes(randomInt)) {
+                                    if (val2.includes(" style={{")) {
+                                        let ind = val2.indexOf(" style={{");
+                                        console.log(val2)
+                                        console.log(ind)
+                                        val2 = addStr(val2, ind + 9, "border: " + randomInt + " === \"\" ? \"red solid 1px\" : \"black solid 1px\",")
+                                    }
+                                }
+                                val2 = addStr(val2, val2.length - 1, " value={" + randomInt + "}");
+                            }
+                            else {
+                                randomInt = "ejemplo123" //	randomint
+                                val2 = addStr(val2, val2.length - 1, " id=\"" + randomInt + "\" value={" + randomInt + "}");
+                            }
+                            /* if (val2.includes("value=")) {
+                                let aux4 = val2.split("value=\"");
+                                let aux5 = aux4[1].split("\"");
+                                defValue = aux5[0];
+                            } */
+                            val2 = addStr(val2, val2.length - 1, " onChange={(e) => set" + randomInt + "(e.target.value)}");
+                            let obj = {
+                                randomInt,
+                                defValue
+                            }
+                            aux.push(obj);
+                        }
+                        suma += val2
+                    })
+                }
+                else {
+                    suma += val
+                }
+            })
+            let text
+            if (refactoring.required)
+                text = generateRequiredComponent(refactoring.imports, refactoring.functions, suma, refactoring.requiredInputs, aux)
+            else
+                text = generateComponent(refactoring.imports, refactoring.functions, suma);
             return (
                 <React.Fragment>
                     <Card>
