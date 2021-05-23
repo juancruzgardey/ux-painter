@@ -3,13 +3,14 @@ import { Link } from "route-lite";
 import VersionListView from "./VersionListView";
 import { CodeBlock, dracula } from "react-code-blocks";
 import XPathInterpreter from "../refactorings/XPathInterpreter";
-import { generateComponent, generateArray, generateRequiredComponent } from "../js/helpers";
+import { generateComponent, generateArray, generateRequiredFormComponent, generateRandomNumber } from "../js/helpers";
 import { Accordion, Card, Button } from 'react-bootstrap';
 
 var HTMLtoJSX = require('htmltojsx');
 
 class CodeView extends React.Component {
     render() {
+        let elementWord = "example";
         var counter = 0;
         var converter = new HTMLtoJSX({
             createClass: false,
@@ -28,8 +29,7 @@ class CodeView extends React.Component {
         window.refactoringManager.getCurrentVersion().getRefactorings().map(refactoring => {
             let imports;
             let functions;
-            let elementWord = "example";
-            let randomInt = Math.floor(Math.random() * 9999) + 1;
+            let randomInt = generateRandomNumber();
             if (refactoring.isOnElement()) {            //verifico que se trate de un refactoring que afecte al menos un elemento
                 let element = refactoring.getElement();
                 if (refactoring.getElementXpath().includes("form")) {           //verifico si se trata de un refactoring que actua sobre un formulario
@@ -57,7 +57,7 @@ class CodeView extends React.Component {
                             requiredInputsXpaths.map(xpath => {
                                 if (!formElementRefactoring[indexIfExists].requiredInputsXpaths.includes(xpath)) {
                                     let modXpath = refactoring.getElementXpath() + xpath.substring(2);
-                                    let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
+                                    let auxRandomInt = generateRandomNumber();
                                     let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
                                     elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
                                     auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
@@ -81,7 +81,7 @@ class CodeView extends React.Component {
                             let requiredInputs = []
                             let requiredInputsXpaths = []
                             requiredInputsXpaths.map(xpath => {
-                                let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
+                                let auxRandomInt = generateRandomNumber();
                                 let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
                                 let modXpath = refactoring.getElementXpath() + xpath.substring(2);
                                 auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
@@ -190,6 +190,8 @@ class CodeView extends React.Component {
                         }
                     }
                     if (existsInElementRefactoring) {
+                        if (refactoring.affectsInput() && (singleElementRefactoring[elementIndexInElementRefactoring].state == null))
+                            singleElementRefactoring[elementIndexInElementRefactoring].state = elementWord + randomInt.toString();
                         if (!singleElementRefactoring[elementIndexInElementRefactoring].name.includes(refactoring.constructor.asString()))
                             singleElementRefactoring[elementIndexInElementRefactoring].name += " & " + refactoring.constructor.asString();
                         singleElementRefactoring[elementIndexInElementRefactoring].imports = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].imports, refactoring.imports());
@@ -198,9 +200,9 @@ class CodeView extends React.Component {
                     else {
                         imports = generateArray([], refactoring.imports());
                         functions = generateArray([], refactoring.functions(elementWord, randomInt));
-                        elementClone.setAttribute("id", elementWord + randomInt.toString());
+                        if (refactoring.affectsInput())
+                            elementClone.setAttribute("id", elementWord + randomInt.toString());
                         var output = converter.convert(elementClone.outerHTML);
-                        console.log(output);
                         const elementData = {
                             name: refactoring.constructor.asString(),
                             xPath: refactoring.getElementXpath(),
@@ -208,6 +210,7 @@ class CodeView extends React.Component {
                             numberId: randomInt,
                             imports: imports,
                             functions: functions,
+                            state: refactoring.affectsInput() ? elementWord + randomInt.toString() : null
                         }
                         singleElementRefactoring.push(elementData);
                     }
@@ -235,7 +238,7 @@ class CodeView extends React.Component {
             }
         });
         const notElementsRefactorings = notElementRefactoring.map(refactoring => {
-            let text = generateComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringRefactoring);
+            let text = generateFormComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringRefactoring);
             return (
                 <React.Fragment>
                     <Card>
@@ -260,7 +263,37 @@ class CodeView extends React.Component {
         });
         const normalRefactorings = singleElementRefactoring.map(refactoring => {
             counter++;
-            let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringElement);
+            let stateManager = [];
+            let outputElement = refactoring.stringElement;
+            if (refactoring.state != null) {
+                let defValue = "";
+                outputElement = "";
+                if (refactoring.stringElement.includes("defaultValue=")) {
+                    let aux5;
+                    let aux4 = refactoring.stringElement.split("defaultValue=\"");
+                    if (aux4.length == 1) { //para manejar defaultvalue numerico
+                        aux4 = refactoring.stringElement.split("defaultValue=");
+                        aux5 = aux4[1].split(" ");
+                        aux5[0] = aux5[0].toString();
+                    }
+                    else {
+                        aux5 = aux4[1].split("\"");
+                    }
+                    defValue = aux5[0];
+                }
+                let obj = {
+                    randomInt: refactoring.state,
+                    defValue
+                }
+                let outCut = refactoring.stringElement.replaceAll("/>", "@@@/>");
+                outCut = outCut.split("@@@");
+                outCut[0] = addStr(outCut[0], outCut[0].length - 1, " onChange={(e) => set" + refactoring.state + "(e.target.value)} value={" + refactoring.state + "}");
+                outCut.forEach((o)=>{
+                    outputElement += o;
+                })
+                stateManager.push(obj);
+            }
+            let text = generateComponent(refactoring.imports, refactoring.functions, outputElement, stateManager);
             return (
                 <React.Fragment>
                     <Card>
@@ -285,12 +318,11 @@ class CodeView extends React.Component {
         });
         const formRefactorings = formElementRefactoring.map((refactoring, i) => {
             counter++;
-            console.log(refactoring.stringFormElement)
             let output = refactoring.stringFormElement.replaceAll("<input", "@@@<input");
-            let test = output.split("@@@");
-            let aux = [];
-            let suma = ""
-            test.forEach((val, i) => {
+            let outputCut = output.split("@@@");
+            let stateManager = [];
+            let outputForm = ""
+            outputCut.forEach((val, i) => {
                 if (val.includes("<form") && refactoring.required) {
                     let sum = "";
                     val = val.replaceAll(">", "@@@>");
@@ -329,7 +361,7 @@ class CodeView extends React.Component {
                                 val2 = addStr(val2, val2.length - 1, " value={" + randomInt + "}");
                             }
                             else {
-                                randomInt = "ejemplo123" //	randomint
+                                randomInt = elementWord + generateRandomNumber().toString();
                                 val2 = addStr(val2, val2.length - 1, " id=\"" + randomInt + "\" value={" + randomInt + "}");
                             }
                             /* if (val2.includes("value=")) {
@@ -342,20 +374,20 @@ class CodeView extends React.Component {
                                 randomInt,
                                 defValue
                             }
-                            aux.push(obj);
+                            stateManager.push(obj);
                         }
-                        suma += val2
+                        outputForm += val2
                     })
                 }
                 else {
-                    suma += val
+                    outputForm += val
                 }
             })
             let text
             if (refactoring.required)
-                text = generateRequiredComponent(refactoring.imports, refactoring.functions, suma, refactoring.requiredInputs, aux)
+                text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, outputForm, refactoring.requiredInputs, stateManager)
             else
-                text = generateComponent(refactoring.imports, refactoring.functions, suma);
+                text = generateComponent(refactoring.imports, refactoring.functions, outputForm, stateManager);
             return (
                 <React.Fragment>
                     <Card>

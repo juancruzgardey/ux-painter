@@ -1,18 +1,22 @@
-export function generateComponent(imports, functions, stringRefactoring) {
+export function generateComponent(imports, functions, stringRefactoring, states) {
     let importsTxt = "";
     let functionsTxt = "";
+    let statesTxt = "";
     imports.map(imp => {
         importsTxt += imp;
     })
     functions.map(func => {
         functionsTxt += func;
     })
+    states.map(state => {
+        statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
+    })
     return (
-        "import React, {useState} from 'react';\n" + importsTxt + "\nfunction Element() {\n\n" + functionsTxt + "\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Element;"
+        "import React from 'react';\n" + importsTxt + "\nfunction Form() {\n\n" + statesTxt + functionsTxt + "\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Form;"
     )
 }
 
-export function generateRequiredComponent(imports, functions, stringRefactoring, requiredInputs, states) {
+export function generateRequiredFormComponent(imports, functions, stringRefactoring, requiredInputs, states) {
     let importsTxt = "";
     let functionsTxt = "";
     let requiredInputsTxt = "";
@@ -32,7 +36,7 @@ export function generateRequiredComponent(imports, functions, stringRefactoring,
         statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
     })
     return (
-        "import React from 'react';\n" + importsTxt + "\nfunction Element() {\n\n" + statesTxt + functionsTxt + "const onSubmit = (event) => {\nlet invalidInputs = false;\nif (" + requiredInputsTxt + ")\ninvalidInputs = true;\nif (invalidInputs)\nevent.preventDefault();\n}\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Element;"
+        "import React from 'react';\n" + importsTxt + "\nfunction Form() {\n\n" + statesTxt + functionsTxt + "const onSubmit = (event) => {\nlet invalidInputs = false;\nif (" + requiredInputsTxt + ")\ninvalidInputs = true;\nif (invalidInputs)\nevent.preventDefault();\n}\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Form;"
     )
 }
 
@@ -42,4 +46,8 @@ export function generateArray(old, newests) {
             old.push(newest);
     })
     return old
+}
+
+export function generateRandomNumber() {
+    return Math.floor(Math.random() * 9999) + 1;
 }

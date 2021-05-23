@@ -87,6 +87,10 @@ class FormatInputRefactoring extends UsabilityRefactoringOnElement {
         return ["$('#" + elementWord + randomInt.toString() + "').mask('" + this.getFormatString() + "');\n"]
     }
 
+    affectsInput() {
+        return true
+    }
+
     codeAvaiable() {
         return true
     }

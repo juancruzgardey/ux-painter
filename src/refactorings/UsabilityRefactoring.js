@@ -165,6 +165,10 @@ class UsabilityRefactoring {
     hasInside() {
         return false
     }
+
+    affectsInput() {
+        return false
+    }
 }
 
 export default UsabilityRefactoring;
