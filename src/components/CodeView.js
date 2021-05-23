@@ -57,33 +57,24 @@ class CodeView extends React.Component {
                             requiredInputsXpaths.map(xpath => {
                                 if (!formElementRefactoring[indexIfExists].requiredInputsXpaths.includes(xpath)) {
                                     let modXpath = refactoring.getElementXpath() + xpath.substring(2);
-                                    let xPathFound = false;
-                                    let randomIntExists = null;
-                                    for (let i = 0; i < formElementRefactoring[indexIfExists].elementsModified.length; i++) {
-                                        if (formElementRefactoring[indexIfExists].elementsModified[i].elementXpath == modXpath) {
-                                            xPathFound = true;
-                                            randomIntExists = formElementRefactoring[indexIfExists].elementsModified[i].numberId;
-                                            break;
-                                        }
-                                    }
+                                    let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
                                     let auxElement = new XPathInterpreter().getSingleElementByXpath(xpath, formElement);
-                                    if (xPathFound) {
-                                        auxElement.setAttribute("id", elementWord + randomIntExists.toString());
-                                        formElementRefactoring[indexIfExists].requiredInputs.push(elementWord + randomIntExists.toString());
-                                    }
-                                    else {
-                                        let auxRandomInt = Math.floor(Math.random() * 9999) + 1;
-                                        elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
-                                        auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
-                                        formElementRefactoring[indexIfExists].requiredInputs.push(elementWord + auxRandomInt.toString());
-                                    }
+                                    elements.push({ elementXpath: modXpath, numberId: auxRandomInt });
+                                    auxElement.setAttribute("id", elementWord + auxRandomInt.toString());
+                                    formElementRefactoring[indexIfExists].requiredInputs.push(elementWord + auxRandomInt.toString());
                                     formElementRefactoring[indexIfExists].requiredInputsXpaths.push(xpath)
                                 }
                             })
                             formElementRefactoring[indexIfExists].elementsModified = generateArray(formElementRefactoring[indexIfExists].elementsModified, elements);
                             formElementRefactoring[indexIfExists].imports = generateArray(formElementRefactoring[indexIfExists].imports, refactoring.imports());
                             formElementRefactoring[indexIfExists].stringFormElement = converter.convert(formElement.outerHTML);
-                            formElementRefactoring[indexIfExists].required = true
+                            formElementRefactoring[indexIfExists].required = true;
+                            console.log(formElementRefactoring[indexIfExists].elementsModified[0])
+                            console.log(formElementRefactoring[indexIfExists].elementsModified[1])
+                            console.log(formElementRefactoring[indexIfExists].imports)
+                            console.log(formElementRefactoring[indexIfExists].functions)
+                            console.log(formElementRefactoring[indexIfExists].requiredInputs)
+                            console.log(formElementRefactoring[indexIfExists].requiredInputsXpaths)
                         }
                         else {
                             let elements = [];
@@ -292,11 +283,9 @@ class CodeView extends React.Component {
                 </React.Fragment>
             )
         });
-        const formRefactorings = 
-        console.log(formElementRefactoring)
-        formElementRefactoring.map((refactoring, i) => {
+        const formRefactorings = formElementRefactoring.map((refactoring, i) => {
             counter++;
-
+            console.log(refactoring.stringFormElement)
             let output = refactoring.stringFormElement.replaceAll("<input", "@@@<input");
             let test = output.split("@@@");
             let aux = [];
@@ -331,9 +320,10 @@ class CodeView extends React.Component {
                                 if (refactoring.requiredInputs.includes(randomInt)) {
                                     if (val2.includes(" style={{")) {
                                         let ind = val2.indexOf(" style={{");
-                                        console.log(val2)
-                                        console.log(ind)
-                                        val2 = addStr(val2, ind + 9, "border: " + randomInt + " === \"\" ? \"red solid 1px\" : \"black solid 1px\",")
+                                        val2 = addStr(val2, ind + 9, "border: " + randomInt + " === \"\" ? \"red solid 1px\" : \"black solid 1px\",");
+                                    }
+                                    else {
+                                        val2 = addStr(val2, val2.length -1, " style={{ border: " + randomInt + " === \"\" ? \"red solid 1px\" : \"black solid 1px\" }}");
                                     }
                                 }
                                 val2 = addStr(val2, val2.length - 1, " value={" + randomInt + "}");

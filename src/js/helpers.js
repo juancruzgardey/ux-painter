@@ -25,8 +25,8 @@ export function generateRequiredComponent(imports, functions, stringRefactoring,
     })
     for (let i = 0; i < requiredInputs.length; i++) {
         requiredInputsTxt += requiredInputs[i] + " === \"\"";
-        if ((i+1) != requiredInputs.length)
-            requiredInputs += " || ";
+        if (i != (requiredInputs.length - 1))
+            requiredInputsTxt += " || ";
     }
     states.map(state => {
         statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
