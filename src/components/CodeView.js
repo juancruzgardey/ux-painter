@@ -322,7 +322,15 @@ class CodeView extends React.Component {
             let outputCut = output.split("@@@");
             let stateManager = [];
             let outputForm = ""
+            let formName = null;
+            let text;
+            let formNum = (i + 1).toString();
             outputCut.forEach((val, i) => {
+                if (val.includes(" name=") && val.includes("<form")) {
+                    let formNameAux = val.split(" name=\"");
+                    formNameAux = formNameAux[1].split("\"");
+                    formName = formNameAux[0];
+                }
                 if (val.includes("<form") && refactoring.required) {
                     let sum = "";
                     val = val.replaceAll(">", "@@@>");
@@ -383,7 +391,6 @@ class CodeView extends React.Component {
                     outputForm += val
                 }
             })
-            let text
             if (refactoring.required)
                 text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, outputForm, refactoring.requiredInputs, stateManager)
             else
@@ -393,7 +400,7 @@ class CodeView extends React.Component {
                     <Card>
                         <Card.Header>
                             <Accordion.Toggle as={Button} variant="link" eventKey={counter.toString()}>
-                                Form #{i + 1}
+                                {formName? formName : "Form #" + formNum}
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey={counter.toString()}>
