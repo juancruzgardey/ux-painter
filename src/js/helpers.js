@@ -9,7 +9,10 @@ export function generateComponent(imports, functions, stringRefactoring, states)
         functionsTxt += func;
     })
     states.map(state => {
-        statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
+        if (typeof state.defValue == "boolean")
+            statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(" + state.defValue + ");\n"
+        else
+            statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
     })
     return (
         "import React from 'react';\n" + importsTxt + "\nfunction Form() {\n\n" + statesTxt + functionsTxt + "\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Form;"

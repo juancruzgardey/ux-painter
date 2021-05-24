@@ -61,24 +61,19 @@ class LinkToTopRefactoring extends UsabilityRefactoring {
 
     //
 
-    stringRefactoring(elementWord,randomInt) {
-        return "<a id='" + elementWord + randomInt.toString() + "' style='" + this.cssText + "'></a>"
+    stringRefactoring() {
+        return "<React.Fragment>{isVisible && (<a style={{position: \"fixed\", bottom: 30, right: 30, width: 35, height: 35, cursor: \"pointer\", background: \"url(https://selfrefactoring.s3.amazonaws.com/resources/refactorings/totop.png) no-repeat\"}} onClick={scrollToTop} />)}</React.Fragment>"
     }
 
-    imports() {
-        return ["import $ from 'jquery';\n"]
+    state() {
+        return [{
+            randomInt: "isVisible",
+            defValue: false
+        }]
     }
 
-    mounts(elementWord, randomInt) {
-        return ["window.addEventListener('scroll', this.onScroll());\n$('#" + elementWord + randomInt.toString() + "').bind('click', this.onClick());\n"]
-    }
-
-    functions(elementWord, randomInt) {
-        return ["onClick() {\n$('body,html').animate({ scrollTop: 0 }, 400);\nreturn false;\n}\nonScroll() {\nif ($(window).scrollTop() > 0) {\n$('" + elementWord + randomInt.toString() + "').fadeIn();\n}\nelse {\n$('" + elementWord + randomInt.toString() + "').fadeOut();\n}\n}\n"]
-    }
-
-    styles(elementWord, randomInt) {
-        return ["#" + elementWord + randomInt.toString() + " {\n" + this.cssText + "\n}"]
+    functions() {
+        return ["const toggleVisibility = () => { if (window.pageYOffset > 300) { setisVisible(true); } else { setisVisible(false); } };", "const scrollToTop = () => { window.scrollTo({ top: 0, behavior: \"smooth\" }); };", "React.useEffect(() => { window.addEventListener(\"scroll\", toggleVisibility); }, []);"]
     }
 
     codeAvaiable() {

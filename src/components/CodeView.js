@@ -178,7 +178,7 @@ class CodeView extends React.Component {
                         }
                     }
                 }
-                else {  //FUNCIONANDO
+                else {
                     let existsInElementRefactoring = false;
                     let elementIndexInElementRefactoring = null;
                     let elementClone = element.cloneNode(true);
@@ -216,7 +216,7 @@ class CodeView extends React.Component {
                     }
                 }
             }
-            else {  //IGNORAMOS
+            else {
                 let existsInNotElementRefactoring = false;
                 for (let j = 0; j < notElementRefactoring.length; j++) {
                     if (notElementRefactoring[j].name == refactoring.constructor.asString()) {
@@ -225,20 +225,20 @@ class CodeView extends React.Component {
                     }
                 }
                 if (!existsInNotElementRefactoring) {
-                    var output = converter.convert(refactoring.stringRefactoring(elementWord, randomInt));
+                    let state = refactoring.state();
                     let notEelement = {
                         name: refactoring.constructor.asString(),
-                        stringRefactoring: output,
+                        stringRefactoring: refactoring.stringRefactoring(),
                         imports: refactoring.imports(),
-                        mounts: refactoring.mounts(elementWord, randomInt),
-                        functions: refactoring.functions(elementWord, randomInt),
+                        functions: refactoring.functions(),
+                        state
                     }
                     notElementRefactoring.push(notEelement)
                 }
             }
         });
         const notElementsRefactorings = notElementRefactoring.map(refactoring => {
-            let text = generateFormComponent(refactoring.imports, refactoring.mounts, refactoring.functions, refactoring.stringRefactoring);
+            let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringRefactoring, refactoring.state);
             return (
                 <React.Fragment>
                     <Card>
