@@ -1,7 +1,8 @@
-export function generateComponent(imports, functions, stringRefactoring, states) {
+export function generateComponent(imports, functions, stringRefactoring, states, functionName) {
     let importsTxt = "";
     let functionsTxt = "";
     let statesTxt = "";
+    let funcName;
     imports.map(imp => {
         importsTxt += imp;
     })
@@ -14,8 +15,17 @@ export function generateComponent(imports, functions, stringRefactoring, states)
         else
             statesTxt += "const [" + state.randomInt + ", set" + state.randomInt + "] = React.useState(\"" + state.defValue + "\");\n"
     })
+    if (functionName.includes("Form "))
+        funcName = "Form";
+    else {
+        let refactoringCounter = functionName.split("&");
+        if (refactoringCounter.length > 1)
+            funcName = "MultipleRefactoring";
+        else
+            funcName = functionName.replace(/\s/g, '');
+    }
     return (
-        "import React from 'react';\n" + importsTxt + "\nfunction Form() {\n\n" + statesTxt + functionsTxt + "\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default Form;"
+        "import React from 'react';\n" + importsTxt + "\nfunction " + funcName +"() {\n\n" + statesTxt + functionsTxt + "\nreturn (\n" + stringRefactoring + "\n);\n}\nexport default " + funcName + ";"
     )
 }
 

@@ -238,7 +238,7 @@ class CodeView extends React.Component {
             }
         });
         const notElementsRefactorings = notElementRefactoring.map(refactoring => {
-            let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringRefactoring, refactoring.state);
+            let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringRefactoring, refactoring.state, refactoring.name);
             return (
                 <React.Fragment>
                     <Card>
@@ -293,7 +293,7 @@ class CodeView extends React.Component {
                 })
                 stateManager.push(obj);
             }
-            let text = generateComponent(refactoring.imports, refactoring.functions, outputElement, stateManager);
+            let text = generateComponent(refactoring.imports, refactoring.functions, outputElement, stateManager, refactoring.name);
             return (
                 <React.Fragment>
                     <Card>
@@ -372,11 +372,6 @@ class CodeView extends React.Component {
                                 randomInt = elementWord + generateRandomNumber().toString();
                                 val2 = addStr(val2, val2.length - 1, " id=\"" + randomInt + "\" value={" + randomInt + "}");
                             }
-                            /* if (val2.includes("value=")) {
-                                let aux4 = val2.split("value=\"");
-                                let aux5 = aux4[1].split("\"");
-                                defValue = aux5[0];
-                            } */
                             val2 = addStr(val2, val2.length - 1, " onChange={(e) => set" + randomInt + "(e.target.value)}");
                             let obj = {
                                 randomInt,
@@ -394,7 +389,7 @@ class CodeView extends React.Component {
             if (refactoring.required)
                 text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, outputForm, refactoring.requiredInputs, stateManager)
             else
-                text = generateComponent(refactoring.imports, refactoring.functions, outputForm, stateManager);
+                text = generateComponent(refactoring.imports, refactoring.functions, outputForm, stateManager, "Form ");
             return (
                 <React.Fragment>
                     <Card>
