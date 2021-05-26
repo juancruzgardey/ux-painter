@@ -64,3 +64,7 @@ export function generateArray(old, newests) {
 export function generateRandomNumber() {
     return Math.floor(Math.random() * 9999) + 1;
 }
+
+export function addStr(str, index, stringToAdd) {
+    return str.substring(0, index) + stringToAdd + str.substring(index, str.length);
+}
