@@ -11,9 +11,9 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
         let imports;
         let functions;
         let randomInt = generateRandomNumber();
-        if (refactoring.isOnElement()) {            //verifico que se trate de un refactoring que afecte al menos un elemento
+        if (refactoring.isOnElement()) {
             let element = refactoring.getElement();
-            if (refactoring.getElementXpath().includes("form")) {           //verifico si se trata de un refactoring que actua sobre un formulario
+            if (refactoring.getElementXpath().includes("form")) {
                 if (refactoring.hasInside()) {
                     let formExistInside = false;
                     let indexIfExists = null;
@@ -94,7 +94,7 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
                 else {
                     let formElementXpath;
                     let existsInFormElementRefactoring = false;
-                    let elementIndexInFormElementRefactoring = null;
+                    let elemenIF = null;
                     let separated = refactoring.getElementXpath().split("/");
                     for (let i = 0; i < separated.length; i++) {
                         if (separated[i].includes('form')) {
@@ -106,7 +106,7 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
                     for (let j = 0; j < formElementRefactoring.length; j++) {
                         if (formElementRefactoring[j].formXpath == formElementXpath) {
                             existsInFormElementRefactoring = true;
-                            elementIndexInFormElementRefactoring = j;
+                            elemenIF = j;
                             break;
                         }
                     }
@@ -119,26 +119,26 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
                         let xPathModified = false;
                         let indexXpathModified;
                         let elementXpathId;
-                        elementInClone = new XPathInterpreter().getSingleElementByXpath(elementXpath, formElementRefactoring[elementIndexInFormElementRefactoring].elementBody);
-                        formElementInClone = new XPathInterpreter().getSingleElementByXpath(formElementXpath, formElementRefactoring[elementIndexInFormElementRefactoring].elementBody);
-                        for (let i = 0; i < formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.length; i++) {
-                            if (formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[i].elementXpath == elementXpath) {
+                        elementInClone = new XPathInterpreter().getSingleElementByXpath(elementXpath, formElementRefactoring[elemenIF].elementBody);
+                        formElementInClone = new XPathInterpreter().getSingleElementByXpath(formElementXpath, formElementRefactoring[elemenIF].elementBody);
+                        for (let i = 0; i < formElementRefactoring[elemenIF].elementsModified.length; i++) {
+                            if (formElementRefactoring[elemenIF].elementsModified[i].elementXpath == elementXpath) {
                                 xPathModified = true;
                                 indexXpathModified = i;
-                                elementXpathId = formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[i].numberId;
+                                elementXpathId = formElementRefactoring[elemenIF].elementsModified[i].numberId;
                                 break;
                             }
                         }
-                        formElementRefactoring[elementIndexInFormElementRefactoring].imports = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].imports, refactoring.imports());
+                        formElementRefactoring[elemenIF].imports = generateArray(formElementRefactoring[elemenIF].imports, refactoring.imports());
                         if (xPathModified) {
-                            formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified[indexXpathModified].numberId));
+                            formElementRefactoring[elemenIF].functions = generateArray(formElementRefactoring[elemenIF].functions, refactoring.functions(elementWord, formElementRefactoring[elemenIF].elementsModified[indexXpathModified].numberId));
                         }
                         else {
                             elementInClone.setAttribute("id", elementWord + randomInt.toString());
-                            // formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
-                            formElementRefactoring[elementIndexInFormElementRefactoring].stringFormElement = converter.convert(formElementInClone.outerHTML);
-                            formElementRefactoring[elementIndexInFormElementRefactoring].elementsModified.push({ elementXpath, numberId: randomInt });
-                            formElementRefactoring[elementIndexInFormElementRefactoring].functions = generateArray(formElementRefactoring[elementIndexInFormElementRefactoring].functions, refactoring.functions(elementWord, randomInt));
+                            // formElementRefactoring[elemenIF].stringFormElement       COMPROBAR: quizas sea necesario guardar el nuevo elementBody para que se almacene el ultimo setattribute
+                            formElementRefactoring[elemenIF].stringFormElement = converter.convert(formElementInClone.outerHTML);
+                            formElementRefactoring[elemenIF].elementsModified.push({ elementXpath, numberId: randomInt });
+                            formElementRefactoring[elemenIF].functions = generateArray(formElementRefactoring[elemenIF].functions, refactoring.functions(elementWord, randomInt));
                         }
                     }
                     else {
@@ -164,22 +164,22 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
             }
             else {
                 let existsInElementRefactoring = false;
-                let elementIndexInElementRefactoring = null;
+                let elemI = null;
                 let elementClone = element.cloneNode(true);
                 for (let j = 0; j < singleElementRefactoring.length; j++) {
                     if (singleElementRefactoring[j].xPath == refactoring.getElementXpath()) {
                         existsInElementRefactoring = true;
-                        elementIndexInElementRefactoring = j;
+                        elemI = j;
                         break;
                     }
                 }
                 if (existsInElementRefactoring) {
-                    if (refactoring.affectsInput() && (singleElementRefactoring[elementIndexInElementRefactoring].state == null))
-                        singleElementRefactoring[elementIndexInElementRefactoring].state = elementWord + randomInt.toString();
-                    if (!singleElementRefactoring[elementIndexInElementRefactoring].name.includes(refactoring.constructor.asString()))
-                        singleElementRefactoring[elementIndexInElementRefactoring].name += " & " + refactoring.constructor.asString();
-                    singleElementRefactoring[elementIndexInElementRefactoring].imports = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].imports, refactoring.imports());
-                    singleElementRefactoring[elementIndexInElementRefactoring].functions = generateArray(singleElementRefactoring[elementIndexInElementRefactoring].functions, refactoring.functions(elementWord, singleElementRefactoring[elementIndexInElementRefactoring].numberId));
+                    if (refactoring.affectsInput() && (singleElementRefactoring[elemI].state == null))
+                        singleElementRefactoring[elemI].state = elementWord + randomInt.toString();
+                    if (!singleElementRefactoring[elemI].name.includes(refactoring.constructor.asString()))
+                        singleElementRefactoring[elemI].name += " & " + refactoring.constructor.asString();
+                    singleElementRefactoring[elemI].imports = generateArray(singleElementRefactoring[elemI].imports, refactoring.imports());
+                    singleElementRefactoring[elemI].functions = generateArray(singleElementRefactoring[elemI].functions, refactoring.functions(elementWord, singleElementRefactoring[elemI].numberId));
                 }
                 else {
                     imports = generateArray([], refactoring.imports());
@@ -201,14 +201,15 @@ export function generateElements(singleElementRefactoring, formElementRefactorin
             }
         }
         else {
-            let existsInNotElementRefactoring = false;
-            for (let j = 0; j < notElementRefactoring.length; j++) {
-                if (notElementRefactoring[j].name == refactoring.constructor.asString()) {
-                    existsInNotElementRefactoring = true;
-                    break;
-                }
-            }
-            if (!existsInNotElementRefactoring) {
+            //let existsInNotElementRefactoring = false;
+            // for (let j = 0; j < notElementRefactoring.length; j++) {
+            //     if (notElementRefactoring[j].name == refactoring.constructor.asString()) {
+            //         existsInNotElementRefactoring = true;
+            //         break;
+            //     }
+            // }
+            let findIfExistsInNotElementRefactoring = notElementRefactoring.find(element => element.name == refactoring.constructor.asString());
+            if (!findIfExistsInNotElementRefactoring) {
                 let state = refactoring.state();
                 let notEelement = {
                     name: refactoring.constructor.asString(),
