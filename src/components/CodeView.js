@@ -24,8 +24,8 @@ class CodeView extends React.Component {
                 </div>
                 <Accordion>
                     <FormElementRefactorings formElementRefactoring={formElementRefactoring} counter={0} elementWord={elementWord}></FormElementRefactorings>
-                    <SingleElementRefactorings singleElementRefactoring = {singleElementRefactoring} counter={formElementRefactoring.length}></SingleElementRefactorings>
-                    <NotElementsRefactorings notElementRefactoring = {notElementRefactoring} counter={formElementRefactoring.length + singleElementRefactoring.length}></NotElementsRefactorings>
+                    <SingleElementRefactorings singleElementRefactoring={singleElementRefactoring} counter={formElementRefactoring.length}></SingleElementRefactorings>
+                    <NotElementsRefactorings notElementRefactoring={notElementRefactoring} counter={formElementRefactoring.length + singleElementRefactoring.length}></NotElementsRefactorings>
                 </Accordion>
                 <div className={'row uxpainter-long-row'}>
                     <div className={'col-5'}>

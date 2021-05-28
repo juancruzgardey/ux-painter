@@ -34,9 +34,10 @@ export function singleElementModify(refactoring, outputElement) {
     }
 }
 
-export function formElementModify(refactoring, outputCut, formName) {
+export function formElementModify(refactoring, outputCut, elementWord) {
     var stateManager = [];
-    var outputForm = ""
+    var outputForm = "";
+    let formName = null;
     outputCut.forEach((val) => {
         if (val.includes(" name=") && val.includes("<form")) {
             let formNameAux = val.split(" name=\"");
@@ -81,7 +82,7 @@ export function formElementModify(refactoring, outputCut, formName) {
                         val2 = addStr(val2, val2.length - 1, " value={" + randomInt + "}");
                     }
                     else {
-                        randomInt = this.props.elementWord + generateRandomNumber().toString();
+                        randomInt = elementWord + generateRandomNumber().toString();
                         val2 = addStr(val2, val2.length - 1, " id=\"" + randomInt + "\" value={" + randomInt + "}");
                     }
                     val2 = addStr(val2, val2.length - 1, " onChange={(e) => set" + randomInt + "(e.target.value)}");
@@ -100,6 +101,7 @@ export function formElementModify(refactoring, outputCut, formName) {
     })
     return {
         stateManager,
-        outputForm
+        outputForm,
+        formName
     }
 }

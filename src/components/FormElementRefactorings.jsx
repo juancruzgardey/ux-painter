@@ -15,10 +15,9 @@ class FormElementRefactorings extends React.Component {
                 this.props.counter++;
                 let output = refactoring.stringFormElement.replaceAll("<input", "@@@<input");
                 var outputCut = output.split("@@@");
-                var formName = null;
                 let text;
                 let formNum = (i + 1).toString();
-                let data = formElementModify(refactoring,outputCut,formName);
+                let data = formElementModify(refactoring, outputCut, this.props.elementWord);
                 if (refactoring.required)
                     text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, data.outputForm, refactoring.requiredInputs, data.stateManager)
                 else
@@ -28,7 +27,7 @@ class FormElementRefactorings extends React.Component {
                         <Card>
                             <Card.Header>
                                 <Accordion.Toggle as={Button} variant="link" eventKey={this.props.counter.toString()}>
-                                    {formName? formName : "Form #" + formNum}
+                                    {data.formName ? data.formName : "Form #" + formNum}
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey={this.props.counter.toString()}>
