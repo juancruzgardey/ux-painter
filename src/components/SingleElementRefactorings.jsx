@@ -15,10 +15,14 @@ class SingleElementRefactorings extends React.Component {
                 this.props.counter++;
                 let stateManager = [];
                 let outputElement = refactoring.stringElement;
+                let text;
                 if (refactoring.state != null) {
-                    singleElementModify(refactoring, outputElement, stateManager);
+                    let data = singleElementModify(refactoring);
+                    text = generateComponent(refactoring.imports, refactoring.functions, data.outputElement, data.stateManager, refactoring.name);
                 }
-                let text = generateComponent(refactoring.imports, refactoring.functions, outputElement, stateManager, refactoring.name);
+                else {
+                    text = generateComponent(refactoring.imports, refactoring.functions, outputElement, stateManager, refactoring.name);
+                }
                 return (
                     <React.Fragment>
                         <Card>

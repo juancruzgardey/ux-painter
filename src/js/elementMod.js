@@ -1,8 +1,9 @@
 import { addStr, generateRandomNumber } from "../js/helpers";
 
-export function singleElementModify(refactoring, outputElement, stateManager) {
+export function singleElementModify(refactoring, outputElement) {
     let defValue = "";
     outputElement = "";
+    let stateManager = [];
     if (refactoring.stringElement.includes("defaultValue=")) {
         let aux5;
         let aux4 = refactoring.stringElement.split("defaultValue=\"");
@@ -27,9 +28,15 @@ export function singleElementModify(refactoring, outputElement, stateManager) {
         outputElement += o;
     })
     stateManager.push(obj);
+    return {
+        stateManager,
+        outputElement
+    }
 }
 
-export function formElementModify(refactoring, outputCut, stateManager, outputForm, formName) {
+export function formElementModify(refactoring, outputCut, formName) {
+    var stateManager = [];
+    var outputForm = ""
     outputCut.forEach((val) => {
         if (val.includes(" name=") && val.includes("<form")) {
             let formNameAux = val.split(" name=\"");
@@ -91,4 +98,8 @@ export function formElementModify(refactoring, outputCut, stateManager, outputFo
             outputForm += val
         }
     })
+    return {
+        stateManager,
+        outputForm
+    }
 }

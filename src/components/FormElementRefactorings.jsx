@@ -14,17 +14,15 @@ class FormElementRefactorings extends React.Component {
             this.props.formElementRefactoring.map((refactoring, i) => {
                 this.props.counter++;
                 let output = refactoring.stringFormElement.replaceAll("<input", "@@@<input");
-                let outputCut = output.split("@@@");
-                let stateManager = [];
-                let outputForm = ""
-                let formName = null;
+                var outputCut = output.split("@@@");
+                var formName = null;
                 let text;
                 let formNum = (i + 1).toString();
-                formElementModify(refactoring,outputCut,stateManager,outputForm,formName);
+                let data = formElementModify(refactoring,outputCut,formName);
                 if (refactoring.required)
-                    text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, outputForm, refactoring.requiredInputs, stateManager)
+                    text = generateRequiredFormComponent(refactoring.imports, refactoring.functions, data.outputForm, refactoring.requiredInputs, data.stateManager)
                 else
-                    text = generateComponent(refactoring.imports, refactoring.functions, outputForm, stateManager, "Form ");
+                    text = generateComponent(refactoring.imports, refactoring.functions, data.outputForm, data.stateManager, "Form ");
                 return (
                     <React.Fragment>
                         <Card>
