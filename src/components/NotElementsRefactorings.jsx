@@ -11,6 +11,7 @@ class NotElementsRefactorings extends React.Component {
     render() {
         return(
             this.props.notElementRefactoring.map(refactoring => {
+                this.props.counter++;
                 let text = generateComponent(refactoring.imports, refactoring.functions, refactoring.stringRefactoring, refactoring.state, refactoring.name);
                 return (
                     <React.Fragment>

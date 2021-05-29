@@ -16,7 +16,6 @@ class CodeView extends React.Component {
         let elementWord = "example";
 
         generateElements(singleElementRefactoring, formElementRefactoring, notElementRefactoring, elementWord);
-
         return (
             <div className="container">
                 <div className="row">
