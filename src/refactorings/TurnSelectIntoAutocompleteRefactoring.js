@@ -66,6 +66,10 @@ class TurnSelectIntoAutocompleteRefactoring extends AddAutocompleteRefactoring {
         return "TurnSelectIntoAutocompleteRefactoring";
     }
 
+    codeAvaiable() {
+        return false
+    }
+
 }
 
 export default TurnSelectIntoAutocompleteRefactoring;

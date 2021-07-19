@@ -127,6 +127,9 @@ class SplitPageRefactoring extends UsabilityRefactoring {
         return ["SplitPageRefactoringBefore.gif", "SplitPageRefactoringAfter.gif"];
     }
 
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default SplitPageRefactoring;

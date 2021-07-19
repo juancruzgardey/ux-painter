@@ -78,6 +78,10 @@ class AddLinkRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "AddLinkRefactoring";
     }
+    
+    codeAvaiable() {
+        return true
+    }
 
     getDescription() {
         return "Add a new link in a specific element of the target page. Link's name and destination URL must be provided";

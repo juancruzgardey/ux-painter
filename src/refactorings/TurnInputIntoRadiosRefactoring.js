@@ -100,6 +100,10 @@ class TurnInputIntoRadiosRefactoring extends UsabilityRefactoringOnElement {
     static getClassName() {
         return "TurnInputIntoRadiosRefactoring";
     }
+    
+    codeAvaiable() {
+        return false
+    }
 
     getDescription() {
         return "Turn a regular text field into a set of radio buttons with predefined values. 'Other' option is included to enter a different value";

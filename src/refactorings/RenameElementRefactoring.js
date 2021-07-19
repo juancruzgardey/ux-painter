@@ -63,6 +63,10 @@ class RenameElementRefactoring extends UsabilityRefactoringOnElement {
         return ["RenameElementRefactoringBefore.png", "RenameElementRefactoringAfter.png"];
     }
 
+    codeAvaiable() {
+        return true
+    }
+
 }
 
 export default RenameElementRefactoring;

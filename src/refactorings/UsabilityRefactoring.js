@@ -5,18 +5,18 @@ import PageSelector from "../PageSelector";
 import RefactoringPreview from "../components/RefactoringPreview";
 
 class UsabilityRefactoring {
-    constructor () {
+    constructor() {
         this.styleScrapper = new StyleScrapper();
         this.xpathInterpreter = new XPathInterpreter();
         this.pageSelector = new PageSelector(this);
     }
 
-    initialize () {}
-    transform () {}
+    initialize() { }
+    transform() { }
 
-    static asString () {}
+    static asString() { }
 
-    execute () {
+    execute() {
         this.initialize();
         if (this.checkPreconditions()) {
             this.transform();
@@ -30,19 +30,19 @@ class UsabilityRefactoring {
         return true;
     }
 
-    isOnElement () {
+    isOnElement() {
         return false;
     }
 
-    serialize () {
-        return {"refactoring": this.constructor.getClassName(), "url": this.getURL(), "style": this.getStyle()};
+    serialize() {
+        return { "refactoring": this.constructor.getClassName(), "url": this.getURL(), "style": this.getStyle() };
     }
 
     createRefactoring(json) {
         return new window[json.refactoring](json);
     }
 
-    setStyle (style) {
+    setStyle(style) {
         this.style = style;
     }
 
@@ -115,7 +115,7 @@ class UsabilityRefactoring {
         });
     }
 
-    applyStyles(targetElements,styles) {
+    applyStyles(targetElements, styles) {
         if (!styles) {
             return
         }
@@ -129,7 +129,7 @@ class UsabilityRefactoring {
     static fromJSON(json) {
         let refactoring = new (window.refactoringManager.getRefactoringClass(json.refactoring));
         Object.keys(json).map(function (key) {
-           refactoring[key] = json[key];
+            refactoring[key] = json[key];
         });
         return refactoring;
     }
@@ -149,6 +149,26 @@ class UsabilityRefactoring {
     getDemoResources() {
         return null;
     }
+
+    imports() {
+        return []
+    }
+
+    functions(elementWord, randomInt) {
+        return []
+    }
+
+    styles(elementWord, randomInt) {
+        return []
+    }
+
+    hasInside() {
+        return false
+    }
+
+    affectsInput() {
+        return false
+    }
 }
 
 export default UsabilityRefactoring;
@@ -166,7 +186,7 @@ export default UsabilityRefactoring;
 
 
 
-    
+
 
 
 

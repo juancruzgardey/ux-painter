@@ -91,6 +91,10 @@ class AddTooltipRefactoring extends UsabilityRefactoringOnElement {
     getDemoResources() {
         return ["AddTooltipRefactoringBefore.gif","AddTooltipRefactoringAfter.gif"];
     }
+
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default AddTooltipRefactoring;

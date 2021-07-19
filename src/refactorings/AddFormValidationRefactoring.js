@@ -86,7 +86,21 @@ class AddFormValidationRefactoring extends UsabilityRefactoringOnElement {
         return "Provide client validation to a form when the user submits it. Mandatory fields must be indicated";
     }
 
-    
+    /* preFunctions(text, randomInt) {
+        return "if (" + text + randomInt.toString() + " === '') {\ninvalidInputs = true;\n}\n";
+    }
+
+    functions(text, randomInt, preFunctions) {
+        return ["const onSubmit = (event) => {\nlet invalidInputs = false;\n" + preFunctions + "if (invalidInputs) {\nevent.preventDefault();\n}\n}\n"]
+    } */
+
+    codeAvaiable() {
+        return true;
+    }
+
+    hasInside() {
+        return true;
+    }
 }
 
 export default AddFormValidationRefactoring;

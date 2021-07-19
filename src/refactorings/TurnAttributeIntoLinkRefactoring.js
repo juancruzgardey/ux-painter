@@ -85,6 +85,10 @@ class TurnAttributeIntoLinkRefactoring extends UsabilityRefactoringOnElement {
     getDemoResources() {
         return ["TurnAttributeIntoLinkBefore.gif", "TurnAttributeIntoLinkAfter.gif"];
     }
+
+    codeAvaiable() {
+        return false
+    }
 }
 
 export default TurnAttributeIntoLinkRefactoring;

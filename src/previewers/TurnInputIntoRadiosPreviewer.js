@@ -61,7 +61,6 @@ class TurnInputIntoRadiosPreviewer extends RefactoringOnElementPreviewer {
 
         let nextElement = position == "left" ? inputRadio.previousSibling:inputRadio.nextSibling;
         let radioLabel;
-        console.log(inputRadio);
         while (nextElement && !radioLabel) {
             //check that text content contains not only spaces
             if (nextElement.textContent && nextElement.textContent.replace(/\s/g, '').length != 0) {
